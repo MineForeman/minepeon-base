@@ -1,0 +1,59 @@
+#!/usr/bin/php
+<?php
+
+
+include('miner.inc.php');
+include('settings.inc.php');
+include('functions.inc.php');
+
+require_once "Mail.php"; 
+
+$stats = cgminer("devs", "");
+$devs = $stats['DEVS'];
+
+$devcount = deviceCount($devs);
+
+if ($settings['devicesWarn'] == 0 and $settings['miningExpDev'] <> $devcount and $settings['donateActive'] == 0) {
+
+
+		// Send an email if the devices dont match and set the deviceWarn falt
+
+		$message = "MinePeon Fault: " . $settings['alertDevice'] . ": Unexpected device count " . $devcount . " (Expected " . $settings['miningExpDev'] . ")";
+
+		sendEmail($settings, $message, $message);
+
+		//  Set the warning flag
+
+		$settings['devicesWarn'] = 1;
+		writeSettings($settings);
+
+
+} 
+
+if($settings['devicesWarn'] == 1 and $settings['miningExpDev'] == $devcount) {
+
+	$message = "MinePeon Fault: " . $settings['alertDevice'] . ": Unexpected device count recovered";
+
+	sendEmail($settings, $message, $message);
+
+	// Clear the warning flag
+	$settings['devicesWarn'] = 0;
+	writeSettings($settings);
+
+}
+
+
+
+function deviceCount($devs) {
+
+	$devices = 0;
+
+	foreach ($devs as $dev) {
+		if ($dev['MHS5s'] > 0) {
+			$devices++;
+		}
+	}
+
+	return $devices;
+
+}

@@ -1,0 +1,44 @@
+#!/usr/bin/php
+<?php
+
+
+include('miner.inc.php');
+include('settings.inc.php');
+include('functions.inc.php');
+
+
+
+$return = cgminer("summary", "");
+
+$hashrate = $return['SUMMARY'][0]['MHSav'];
+
+if ($settings['hashWarn'] == 0 and $settings['miningExpHash'] > $hashrate and $settings['donateActive'] == 0) {
+
+		// Send an email if the devices dont match and set the deviceWarn falt
+
+
+		$warning = "MinePeon Fault: " . $settings['alertDevice'] . ": Unexpected hashrate " . $hashrate . " MH/s (Expected " . $settings['miningExpHash'] . " MH/s)";
+
+		sendEmail($settings, $warning, $warning);
+
+
+		//  Set the warning flag
+
+		$settings['hashWarn'] = 1;
+		writeSettings($settings);
+		echo " fault";
+
+} 
+
+if($settings['hashWarn'] == 1 and $settings['miningExpHash'] < $hashrate) {
+
+	$warning = "MinePeon Fault: " . $settings['alertDevice'] . ": Unexpected hashrate recovered";
+
+	sendEmail($settings, $warning, $warning);
+
+	// Clear the warning flag
+	$settings['hashWarn'] = 0;
+	writeSettings($settings);
+	echo " nofault";
+
+}
