@@ -18,7 +18,7 @@ angular.module('Peon.controllers', [])
   $scope.title="Init interface";
   // Refresh
   $scope.intervalAuto = true; // Automatically adjust interval
-  $scope.intervalMax = 20; // Default refresh rate
+  $scope.intervalMax = 30; // Default refresh rate
   // Live graph
   $scope.live=[];
   $scope.settings.liveMax=50;
