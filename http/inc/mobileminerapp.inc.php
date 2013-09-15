@@ -20,7 +20,7 @@ class mobileMinerApp{
     if(@$config->mma_enabled === true){
       $this->moduleEnabled = true;
       /* check for email and appKey - exit if not found */
-      if(@$config->userEmail && @$config->appKey){
+      if(@$config->mma_userEmail && @$config->mma_appKey){
         $this->userEmail  = $config->mma_userEmail;
         $this->appKey     = $config->mma_appKey;
         
