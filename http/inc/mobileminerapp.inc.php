@@ -1,7 +1,7 @@
 <?php
 /* MobileMinerApp Integration for MinePeon
  * @author tk1337 (me@tk1337.com)
- * @version 0.8a
+ * @version 0.9a
  */
 
 class mobileMinerApp{
@@ -15,15 +15,69 @@ class mobileMinerApp{
     /* Load options from minepeon.conf */
     $config           = json_decode(file_get_contents('/opt/minepeon/etc/minepeon.conf',false));
     date_default_timezone_set($config->userTimezone);
-    $this->coinName   = $config->mma_coinName;
-    $this->coinSymbol = $config->mma_coinSymbol;
-    $this->alogrithm  = $config->mma_algorithm;
-    $this->machineName= $config->mma_machineName;
-    $this->userEmail  = $config->mma_userEmail;
-    $this->appKey     = $config->mma_appKey;
-    $this->cronLog    = $config->mma_cronLog;
-    $this->interval   = $config->mma_checkInterval; //default is 20
-    $this->kind       = "PGA";
+    
+    /* check to see if MobileMinerApp module is enabled */
+    if(@$config->mma_enabled === true){
+      $this->moduleEnabled = true;
+      /* check for email and appKey - exit if not found */
+      if(@$config->userEmail && @$config->appKey){
+        $this->userEmail  = $config->mma_userEmail;
+        $this->appKey     = $config->mma_appKey;
+        
+        /* look for coinName setting, set default if not found */
+        if(@$config->mma_coinName){
+          $this->coinName = $config->mma_coinName;
+        }else{
+          $this->coinName = "Bitcoin"; 
+        }
+        
+        /* look for coinSymbol setting, set default if not found */
+        if(@$config->mma_coinSymbol){
+          $this->coinSymbol = $config->mma_coinSymbol;
+        }else{
+          $this->coinSymbol = "BTC";
+        }
+        
+        /* look for algorithm setting, set default if not found */
+        if(@$config->mma_algorithm){
+          $this->alogrithm  = $config->mma_algorithm;
+        }else{
+          $this->algorithm  = "SHA-256";
+        }
+        
+        /* look for machineName setting, set default if not found */
+        if(@$config->mma_machineName){
+          $this->machineName= $config->mma_machineName;
+        }else{
+          $this->machineNAme = "MinePeon";
+        }
+        
+        /* look for log setting, set default if not found */
+        if(@$config->mma_cronLog){
+          $this->cronLog    = $config->mma_cronLog;
+        }else{
+          $this->cronLog    = false;
+        }
+        
+        /* look for interval setting, set default if not found */
+        if(@$config->mma_checkInterval){
+          $this->interval   = $config->mma_checkInterval;
+        }else{
+          $this->interval   = 20;
+        }
+        
+        /* look for deviceType/kind setting, set default if not found */
+        if(@$config->mma_deviceType){
+          $this->kind   = $config->mma_deviceType;
+        }else{
+          $this->kind   = "PGA";
+        }
+      }else{
+        exit;
+      }
+    }else{
+      exit;
+    }
   }
   
   
@@ -31,37 +85,40 @@ class mobileMinerApp{
    * Gather information about the current statistics of MinePeon, then send format & send them to MMA's API.
    */
   public function updateStatus(){
-    include_once '/opt/minepeon/http/inc/miner.inc.php';
-    $mp = cgminer('devs',1);
-    if(is_array($mp)){
-      foreach($mp['DEVS'] as $device){
-        $app[] = array(
-          "MinerName"       => $this->minerName,
-          "MachineName"     => $this->machineName,
-          "Kind"            => $this->kind,
-          "CoinSymbol"      => $this->coinSymbol,
-          "CoinName"        => $this->coinName,
-          "Algorithm"       => $this->alogrithm,
-          "Index"           => $device['ID'], 
-          "Enabled"         => true,
-          "Status"          => $device['Status'],
-          "Temperature"     => $device['Temperature'],
-          "AverageHashrate" => $device['MHSav']*1000,
-          "CurrentHashrate" => $device['MHS5s']*1000,
-          "AcceptedShares"  => $device['Accepted'],
-          "RejectedShares"  => $device['Rejected'],
-          "HardwareErrors"  => $device['HardwareErrors'],
-          "Utility"         => $device['Utility'],
-          "Intensity"       => null,
-        );
+    if($this->moduleEnabled === true){
+      include_once '/opt/minepeon/http/inc/miner.inc.php';
+      $mp = cgminer('devs',1);
+      if(is_array($mp)){
+        foreach($mp['DEVS'] as $device){
+          $app[] = array(
+            "MinerName"       => $this->minerName,
+            "MachineName"     => $this->machineName,
+            "Kind"            => $this->kind,
+            "CoinSymbol"      => $this->coinSymbol,
+            "CoinName"        => $this->coinName,
+            "Algorithm"       => $this->alogrithm,
+            "Index"           => $device['ID'], 
+            "Enabled"         => true,
+            "Status"          => $device['Status'],
+            "Temperature"     => $device['Temperature'],
+            "AverageHashrate" => $device['MHSav']*1000,
+            "CurrentHashrate" => $device['MHS5s']*1000,
+            "AcceptedShares"  => $device['Accepted'],
+            "RejectedShares"  => $device['Rejected'],
+            "HardwareErrors"  => $device['HardwareErrors'],
+            "Utility"         => $device['Utility'],
+            "Intensity"       => null,
+          );
+        }
+        
+        $statURL  ="/MiningStatisticsInput?emailAddress=".$this->userEmail."&applicationKey=".$this->appKey."&machineName=".$this->machineName."&apiKey=".$this->apiKey;
+        $fullURL  = $this->rootURL.$statURL;
+        $this->httpCall($fullURL,$app);
+        return true;
       }
-
-      $statURL  ="/MiningStatisticsInput?emailAddress=".$this->userEmail."&applicationKey=".$this->appKey."&machineName=".$this->machineName."&apiKey=".$this->apiKey;
-      $fullURL  = $this->rootURL.$statURL;
-      $this->httpCall($fullURL,$app);
-      return true;
+      return false;
     }
-    return false;
+    return true;
   }
   
   
@@ -69,9 +126,12 @@ class mobileMinerApp{
    * Build the URL to send to MMA's server, checking for any pending commands in queue.
    */
   public function checkRemoteCommand(){
-    $cmdURL   = "/RemoteCommands?emailAddress=".$this->userEmail."&applicationKey=".$this->appKey."&machineName=".$this->machineName."&apiKey=".$this->apiKey;
-    $fullURL  = $this->rootURL.$cmdURL;
-    $this->httpCall($fullURL,NULL,"GET");
+    if($this->moduleEnabled === true){
+      $cmdURL   = "/RemoteCommands?emailAddress=".$this->userEmail."&applicationKey=".$this->appKey."&machineName=".$this->machineName."&apiKey=".$this->apiKey;
+      $fullURL  = $this->rootURL.$cmdURL;
+      $this->httpCall($fullURL,NULL,"GET");
+      return true;
+    }
     return true;
   }
   
@@ -80,29 +140,96 @@ class mobileMinerApp{
    * If there was a command found pending from the MMA, process said command, then remove it from the queue on MMA's server.
    */
   public function processCommand(){
-    $command_data = $this->commandFound;
-    $command_data = $command_data['0'];
-    
-    /* process command to CGMiner */
-    if(in_array(strtoupper($command_data['CommandText']),array('STOP','START','RESTART'))){
-      switch($command_data['CommandText']){
-        case "STOP":
-          exec('sudo systemctl disable cgminer'); //This currently doesn't have permissions to run under minepeon user, however the next release of MinePeon will give the user permissions.
-          break;
-        case "START":
-          exec('sudo systemctl enable cgminer'); //This currently doesn't have permissions to run under minepeon user, however the next release of MinePeon will give the user permissions.
-          break;
-        case "RESTART":
-          exec('sudo systemctl restart cgminer'); //This currently doesn't have permissions to run under minepeon user, however the next release of MinePeon will give the user permissions
-          //include_once '/opt/minepeon/http/inc/cgminer.inc.php';
-          //cgminer('restart',true);
-          break;
+    if($this->moduleEnabled === true){
+      $command_data = $this->commandFound;
+      $command_data = $command_data['0'];
+      
+      /* process command to CGMiner */
+      if(in_array(strtoupper($command_data['CommandText']),array('STOP','START','RESTART'))){
+        switch($command_data['CommandText']){
+          case "STOP":
+            exec('sudo systemctl disable cgminer');
+            break;
+          case "START":
+            exec('sudo systemctl enable cgminer');
+            break;
+          case "RESTART":
+            exec('sudo systemctl restart cgminer');
+            //include_once '/opt/minepeon/http/inc/cgminer.inc.php';
+            //cgminer('restart',true);
+            break;
+        }
       }
+      
+      $delURL   = "/RemoteCommands?emailAddress=".$this->userEmail."&applicationKey=".$this->appKey."&machineName=".$this->machineName."&commandId=".$command_data['Id']."&apiKey=".$this->apiKey;
+      $fullURL  = $this->rootURL.$delURL;
+      $this->__deleteCommand($fullURL);
     }
-    
-    $delURL   = "/RemoteCommands?emailAddress=".$this->userEmail."&applicationKey=".$this->appKey."&machineName=".$this->machineName."&commandId=".$command_data['Id']."&apiKey=".$this->apiKey;
-    $fullURL  = $this->rootURL.$delURL;
-    $this->__deleteCommand($fullURL);
+    return true;
+  }
+  
+  
+  /*
+   * Execute an update to MMA servers.
+   */
+  public function cronUpdate(){
+    if($this->moduleEnabled === true){
+      if(!$this->interval){
+        $this->interval = 20; // default 20sec
+      }
+      if($this->interval < 20){ //requests going too fast will hit throttle control.
+        $this->interval  = 20;
+      }elseif($this->interval > 60){ //requests going too slow will allow MobileMinerApp to think the machine is down.
+        $this->interval = 60;
+      }
+      
+      if($this->updateStatus()){
+        if($this->cronLog){echo date('Y-m-d h:i:s')." - update statistics sent to server successfully.\r\n";}
+        if($this->interval*2 < 60){ //the cron runs every minute so if the default check is slower than a minute, just ignore otherwise run again after sleep.
+          sleep($this->interval);
+          if($this->updateStatus()){
+            if($this->cronLog){echo date('Y-m-d h:i:s')." - update statistics sent to server successfully.\r\n";}
+            return true;
+          }
+        }else{
+          return true;
+        }
+      }
+      return false;
+    }
+    return true;
+  }
+  
+  
+  /*
+   * Check MMA servers for incoming command.
+   */
+  public function cronCheck(){
+    if($this->moduleEnabled === true){
+      if(!$this->interval){
+        $this->interval = 20; // default 20sec
+      }
+      if($this->interval < 20){ //requests going too fast will hit throttle control.
+        $this->interval  = 20;
+      }elseif($this->interval > 60){ //requests going too slow will allow MobileMinerApp to think the machine is down.
+        $this->interval = 60;
+      }
+      
+      if($this->checkRemoteCommand()){
+        if($this->cronLog){echo date('Y-m-d h:i:s')." - checked server for incoming commands.\r\n";}
+        if($this->interval*2 < 60){ //the cron runs every minute so if the default check is slower than a minute, just ignore otherwise run again after sleep.
+          sleep($this->interval);
+          if($this->checkRemoteCommand()){
+            if($this->cronLog){echo date('Y-m-d h:i:s')." - checked server for incoming commands.\r\n";}
+            return true;
+          }
+        }else{
+          return true;
+        }
+      }
+      return false;
+    }
+    return true;
   }
   
   
@@ -111,7 +238,7 @@ class mobileMinerApp{
    *
    * @return    null / object
    */
-  public function httpCall($url,$data,$type="POST"){
+  private function httpCall($url,$data,$type="POST"){
     if($data){
       $data = json_encode($data);
     }
@@ -139,64 +266,6 @@ class mobileMinerApp{
     }else{
       curl_close($ch);
     }
-  }
-  
-  
-  /*
-   * Execute an update to MMA servers.
-   */
-  public function cronUpdate(){
-    if(!$this->interval){
-      $this->interval = 20; // default 20sec
-    }
-    if($this->interval < 20){ //requests going too fast will hit throttle control.
-      $this->interval  = 20;
-    }elseif($this->interval > 60){ //requests going too slow will allow MobileMinerApp to think the machine is down.
-      $this->interval = 60;
-    }
-    
-    if($this->updateStatus()){
-      if($this->cronLog){echo date('Y-m-d h:i:s')." - update statistics sent to server successfully.\r\n";}
-      if($this->interval*2 < 60){ //the cron runs every minute so if the default check is slower than a minute, just ignore otherwise run again after sleep.
-        sleep($this->interval);
-        if($this->updateStatus()){
-          if($this->cronLog){echo date('Y-m-d h:i:s')." - update statistics sent to server successfully.\r\n";}
-          return true;
-        }
-      }else{
-        return true;
-      }
-    }
-    return false;
-  }
-  
-  
-  /*
-   * Check MMA servers for incoming command.
-   */
-  public function cronCheck(){
-    if(!$this->interval){
-      $this->interval = 20; // default 20sec
-    }
-    if($this->interval < 20){ //requests going too fast will hit throttle control.
-      $this->interval  = 20;
-    }elseif($this->interval > 60){ //requests going too slow will allow MobileMinerApp to think the machine is down.
-      $this->interval = 60;
-    }
-    
-    if($this->checkRemoteCommand()){
-      if($this->cronLog){echo date('Y-m-d h:i:s')." - checked server for incoming commands.\r\n";}
-      if($this->interval*2 < 60){ //the cron runs every minute so if the default check is slower than a minute, just ignore otherwise run again after sleep.
-        sleep($this->interval);
-        if($this->checkRemoteCommand()){
-          if($this->cronLog){echo date('Y-m-d h:i:s')." - checked server for incoming commands.\r\n";}
-          return true;
-        }
-      }else{
-        return true;
-      }
-    }
-    return false;
   }
   
   
