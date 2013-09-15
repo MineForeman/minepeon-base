@@ -63,7 +63,7 @@ class mobileMinerApp{
         if(@$config->mma_checkInterval){
           $this->interval   = $config->mma_checkInterval;
         }else{
-          $this->interval   = 20;
+          $this->interval   = 60;
         }
         
         /* look for deviceType/kind setting, set default if not found */
