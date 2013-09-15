@@ -42,7 +42,7 @@ class mobileMinerApp{
         if(@$config->mma_algorithm){
           $this->alogrithm  = $config->mma_algorithm;
         }else{
-          $this->algorithm  = "SHA-256";
+          $this->alogrithm  = "SHA-256";
         }
         
         /* look for machineName setting, set default if not found */
