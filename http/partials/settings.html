@@ -14,7 +14,7 @@
     </div>
     <div class="form-group">
       <label class="control-label col-sm-3 col-md-2">Graph interval</label>
-      <div class="col-sm-3 col-md-4">
+      <div class="col-sm-9 col-md-4">
         <div class="btn-group">
           <button type="button" class="btn btn-{{intervalAuto?'primary':'default'}}" ng-click="intervalSet(0)">Auto<span ng-show="intervalAuto">: {{interval}}</span></button>
           <button type="button" class="btn btn-{{intervalMax==3?'primary':'default'}}" ng-click="intervalSet(3)">3</button>
@@ -24,7 +24,7 @@
         </div>
       </div>
       <label for="liveMax" class="control-label col-sm-3 col-md-2">Graph points</label>
-      <div class="col-sm-3 col-md-4">
+      <div class="col-sm-9 col-md-4">
         <input type="number" id="liveMax" ng-model="settings.liveMax" placeholder="Default: 50" class="form-control" required>
       </div>
       <div class="col-sm-9 col-md-10 col-sm-offset-3 col-md-offset-2">
@@ -79,14 +79,17 @@
     <div class="form-group">
       <label for="remoteEnable" class="control-label col-sm-3 col-md-2">Modules</label>
       <div class="col-sm-9 col-md-10">
-        <label class="checkbox-inline">
-          <input type="checkbox" id="remoteEnable" ng-model="settings.remoteEnable"> Enable Remote control
+        <label class="checkbox-inline text-muted">
+          <input type="checkbox" id="remoteEnable" ng-model="settings.remoteEnable" disabled> Enable Remote control
         </label>
         <label class="checkbox-inline">
           <input type="checkbox" id="recoverEnable" ng-model="settings.recoverEnable"> Enable Automatic recovery
         </label>
         <label class="checkbox-inline">
           <input type="checkbox" id="alertEnable" ng-model="settings.alertEnable"> Enable E-mail alerts
+        </label>
+        <label class="checkbox-inline">
+          <input type="checkbox" id="mmaEnable" ng-model="settings.mmaEnable"> Enable MobileMinerApp
         </label>
         <label class="checkbox-inline">
           <input type="checkbox" id="donateEnable" ng-model="settings.donateEnable"> Enable Donation
@@ -157,6 +160,55 @@
       <div class="col-sm-9 col-md-10">
         <input type="text" id="alertSmtp" ng-model="settings.alertSmtp" ng-required="settings.alertEnable" class="form-control">
         <p class="help-block" ng-show="settings.userHelp">Please choose your own SMTP server.</p>
+      </div>
+    </div>
+  </fieldset>
+  <fieldset ng-show="settings.mmaEnable">
+    <h3>MobileMinerApp</h3>
+    <div class="form-group">
+      <label for="mmaEmail" class="control-label col-sm-3 col-md-2">User E-mail</label>
+      <div class="col-sm-9 col-md-10">
+        <input type="email" id="mmaEmail" ng-model="settings.mma.emailAddress" class="form-control" required>
+        <p class="help-block" ng-show="settings.userHelp">E-mail used to receive appKey on MobileMinerApp.com</p>
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="mmaAppKey" class="control-label col-sm-3 col-md-2">App Key</label>
+      <div class="col-sm-9 col-md-10">
+        <input type="text" id="mmaAppKey" ng-model="settings.mma.applicationKey" class="form-control" required>
+        <p class="help-block" ng-show="settings.userHelp">App Key from MobileMinerApp.com</p>
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="mmaMachineName" class="control-label col-sm-3 col-md-2">Machine Name</label>
+      <div class="col-sm-3 col-md-4">
+        <input type="text" placeholder="Default: MinePeon" id="mmaMachineName" ng-model="settings.mma.machineName" class="form-control">
+      </div>
+      <label for="mmaKind" class="control-label col-sm-3 col-md-2">Kind</label>
+      <div class="col-sm-3 col-md-4">
+        <input type="text" placeholder="Default: PGA, could be ASC" id="mmaKind" ng-model="settings.mma.Kind" class="form-control">
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="mmaCoinName" class="control-label col-sm-3 col-md-2">Coin Name</label>
+      <div class="col-sm-3 col-md-4">
+        <input type="text" placeholder="Default: Bitcoin" id="mmaCoinName" ng-model="mma.CoinName" class="form-control">
+      </div>
+      <label for="mmaCoinSymbol" class="control-label col-sm-3 col-md-2">Coin Symbol</label>
+      <div class="col-sm-3 col-md-4">
+        <input type="text" placeholder="Default: BTC" id="mmaCoinSymbol" ng-model="mma.CoinSymbol" class="form-control">
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="mmaAlgorithm" class="control-label col-sm-3 col-md-2">Algorithm</label>
+      <div class="col-sm-3 col-md-4">
+        <input type="text" placeholder="Default: SHA-256" id="mmaAlgorithm" ng-model="mma.Algorithm" class="form-control">
+      </div>
+      <label for="mmaLogEnable" class="control-label col-sm-3 col-md-2">&nbsp;</label>
+      <div class="col-sm-3 col-md-4">
+        <label class="checkbox-inline">
+          <input type="checkbox" id="mmaLogEnable" ng-model="settings.mma.LogEnable"> Enable cron log
+        </label>
       </div>
     </div>
   </fieldset>
