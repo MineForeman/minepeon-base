@@ -4,49 +4,44 @@
 include('miner.inc.php');
 include('settings.inc.php');
 
-if(!$settings['donateEnable']){
-	echo "Donation disabled \n";
+if(empty($settings['donateEnable']) || !$settings['donateEnable']){
 	exit;
-}
-if(empty($settings['donateAmount'])){
-	echo "Error: Wrong settings \n";
-	exit;
-}
-if(!empty($settings['donation'])){
-	echo "Warning: Old settings \n";
 }
 
 $donateAddress = '1donate';
 
-if ($settings['donateAmount'] > 0 and date('H') == 12) {
-
-	// Let everyone know donation is initiated
-	$settings['donateActive'] = 1;
-	writeSettings($settings);
-
-	// Append donatepool
-  cgminer('addpool','tcp://stratum.mining.eligius.st:3334,'.$donateAddress.',x');
-
-	// Sleep for 5 secconds to avoid monitor scripts
-	// Also give miner time to connect to eligius
-	sleep(5);
-
-	// Look for the donatePool and give it priority
-  $pool = findDonatePool($donateAddress);
-  cgminer('switchpool',$pool);
-
-	// Donate time!
-	sleep($settings['donateAmount'] * 60);
-
-	// Look for the donatePool and disable it before removing it
-  $pool = findDonatePool($donateAddress);
-  cgminer('disablepool',$pool);
-  cgminer('removepool',$pool);
-
-  // Let everyone know donation ended
-	$settings['donateActive'] = 0;
-	writeSettings($settings);
+// Load donateAmount or keep default of 15
+$donateAmount = 15;
+if(empty($settings['donateAmount'])){
+	$donateAmount = $settings['donateAmount'];
 }
+
+// Let everyone know donation is initiated
+$settings['donateActive'] = 1;
+writeSettings($settings);
+
+// Append donatepool
+cgminer('addpool','tcp://stratum.mining.eligius.st:3334,'.$donateAddress.',x');
+
+// Sleep for 5 secconds to avoid monitor scripts
+// Also give miner time to connect to eligius
+sleep(5);
+
+// Look for the donatePool and give it priority
+$pool = findDonatePool($donateAddress);
+cgminer('switchpool',$pool);
+
+// Donate time!
+sleep($settings['donateAmount'] * 60);
+
+// Look for the donatePool and disable it before removing it
+$pool = findDonatePool($donateAddress);
+cgminer('disablepool',$pool);
+cgminer('removepool',$pool);
+
+// Let everyone know donation ended
+$settings['donateActive'] = 0;
+writeSettings($settings);
 
 
 function findDonatePool($addr){
