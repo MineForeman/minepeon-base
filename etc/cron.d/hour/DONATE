@@ -8,7 +8,7 @@ if(empty($settings['donateEnable']) || !$settings['donateEnable']){
 	exit;
 }
 
-$donateAddress = '1donate';
+$donateAddress = '1MPeon1oBB7Lu6Vx7aoYs491UHLuLNTYRv';
 
 // Load donateAmount or keep default of 15
 $donateAmount = 15;
