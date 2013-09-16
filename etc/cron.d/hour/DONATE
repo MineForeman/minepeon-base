@@ -16,35 +16,48 @@ if(!empty($settings['donation'])){
 	echo "Warning: Old settings \n";
 }
 
-echo time()."\n";
+$donateAddress = '1donate';
 
 if ($settings['donateAmount'] > 0 and date('H') == 12) {
-	$miner = "/opt/minepeon/etc/miner.conf";
-	$donate = "/opt/minepeon/etc/miner.conf.donate";
-	$original = "/opt/minepeon/etc/miner.conf.orig";
 
-	// Sleep for 60 secconds to avoid monitor scripts
-	sleep(30); 
-
-	echo "Start   Amount: ".$settings['donateAmount']."\n";
-
-	// Take your miner info and backup
-	copy($miner, $original);
-
+	// Let everyone know donation is initiated
 	$settings['donateActive'] = 1;
 	writeSettings($settings);
 
-	// Restart using donation pools
-	copy($donate, $miner);
-	cgminer("quit", "");
+	// Append donatepool
+  cgminer('addpool','tcp://stratum.mining.eligius.st:3334,'.$donateAddress.',x');
 
-	// Switch back to your pools after x minutes
+	// Sleep for 5 secconds to avoid monitor scripts
+	// Also give miner time to connect to eligius
+	sleep(5);
+
+	// Look for the donatePool and give it priority
+  $pool = findDonatePool($donateAddress);
+  cgminer('switchpool',$pool);
+
+	// Donate time!
 	sleep($settings['donateAmount'] * 60);
 
+	// Look for the donatePool and disable it before removing it
+  $pool = findDonatePool($donateAddress);
+  cgminer('disablepool',$pool);
+  cgminer('removepool',$pool);
+
+  // Let everyone know donation ended
 	$settings['donateActive'] = 0;
 	writeSettings($settings);
-
-	copy($original, $miner);
-	cgminer("quit", "");
-	echo "Finish !";
 }
+
+
+function findDonatePool($addr){
+  $pools = cgminer('pools')['POOLS'];
+  $donatePool = -1;
+  foreach ($pools as $k => $v) {
+    if(isset($v['User']) && $v['User']==$addr){
+      $donatePool = $k;
+    }
+  }
+  return $donatePool;
+}
+
+?>
