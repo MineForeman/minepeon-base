@@ -1,1 +1,2 @@
-/usr/bin/screen -S cgminer -X quit
+#!/bin/bash
+/usr/bin/screen -S miner -X quit
