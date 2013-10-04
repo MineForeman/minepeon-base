@@ -30,7 +30,10 @@ function create_graph($output, $start, $title) {
 }
 
 //MinePeon temperature
-$mpTemp = substr(substr(exec('/opt/vc/bin/vcgencmd measure_temp'), 5), 0, -2);
+$mpTemp = round(exec('cat /sys/class/thermal/thermal_zone0/temp') / 1000, 2);
+
+//MinePeon Version
+$version = exec('cat /opt/minepeon/etc/version');
 
 //MinePeon CPU load
 $mpCPULoad = sys_getloadavg();
