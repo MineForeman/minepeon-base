@@ -122,9 +122,15 @@ include('menu.php');
 
   <h3>Devices</h3>
   <?php echo statsTable($devs); ?>
-  <pre>
-  <?php echo print_r($devs); ?>
-  </pre>
+  <?php
+  if ($debug == true) {
+	
+	echo "<pre>";
+	print_r($devs);
+	echo "<pre>";
+	
+  }
+  ?>
 </div>
 <?php
 include('foot.php');
