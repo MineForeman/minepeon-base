@@ -16,10 +16,9 @@ if (isset($_POST['userTimezone'])) {
 if (isset($_POST['userPassword'])) {
 
 	if ($_POST['userPassword'] <> '') {
-		$file = '/opt/minepeon/etc/uipassword';
-		$content = 'minepeon:' . crypt($_POST['newpassword']);
+	
+		exec("/usr/bin/htpasswd -b /opt/minepeon/etc/uipassword minepeon " . $_POST['userPassword']);
 
-		file_put_contents($file, $content);
 	}
 }
 
