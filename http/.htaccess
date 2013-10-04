@@ -1,4 +1,0 @@
-AuthUserFile /opt/minepeon/etc/uipassword
-AuthType Basic
-AuthName "MinePeon"
-Require valid-user
