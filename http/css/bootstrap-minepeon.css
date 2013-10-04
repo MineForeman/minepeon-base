@@ -1,0 +1,198 @@
+
+/* Structure */
+body{
+  padding-bottom: 50px;
+}
+
+/* Navbar */
+.navbar-nav > li > a:hover, .navbar-nav > li > a:focus{
+  background: #fff;
+}
+
+/* About / Nicer quote */
+blockquote {
+  font-family: Georgia, serif;
+  font-size: 14px;
+  font-style: italic;
+  width: 500px;
+  margin: 0.25em 0;
+  padding: 0.25em 40px;
+  line-height: 1.45;
+  position: relative;
+  color: #383838;
+}
+
+blockquote:before {
+  display: block;
+  content: "\201C";
+  font-size: 80px;
+  position: absolute;
+  left: -20px;
+  top: -20px;
+  color: #7a7a7a;
+}
+
+blockquote cite {
+  color: #999999;
+  font-size: 14px;
+  display: block;
+  margin-top: 5px;
+}
+
+blockquote cite:before {
+  content: "\2014 \2009";
+}
+
+/* Status tables */
+td,th{
+  white-space: nowrap;
+}
+#stats td,#stats th,#pools td,#pools th{
+  text-align: center
+}
+.table-right td,.table-right tfoot th{
+  text-align: right
+}
+.table-right td.text-left,.table-right tfoot th.text-left{
+  text-align: left
+}
+.table>tbody>tr>td {
+  border: 1px solid #ddd;
+}
+
+/* Advanced / Mute unselected filenames */
+.muted {
+    color: rgb(153, 153, 153);
+}
+
+/* Advanced / Statusbar */
+.statusbar{
+  margin-top: -20px;
+  background: #d5d5d5;
+  padding: 5px;
+  position: relative;
+  z-index: 9
+}
+.statusbar span.btn {
+  cursor: text;
+  min-width: 100px;
+  display: inline-block;
+  -webkit-transition:background 2s,width 20s;
+  transition:background 2s,width 20s;
+}
+.statusbar span.btn small {
+  font-size: 75%;
+}
+.statusbar span.btn span {
+  display: inline-block;
+  font-weight: bold;
+}
+.statusbar form{
+  margin-top: 20px;
+}
+
+/* Advanced / Miner (is part of next bootstrap) */
+.form-control-static {
+  padding-top: 8px;
+  margin-bottom: 0;
+} 
+.minerform .form-group{
+  margin-bottom: 5px;
+}
+
+/* Advanced / Settings */
+input:required:invalid{
+  border-color: rgb(233, 50, 45);
+  box-shadow: 0px 0px 6px rgb(248, 185, 183);
+  color: rgb(185, 74, 72);
+  border-color: rgb(238, 95, 91);
+}
+
+/* Advanced / Settings component */
+.peon-settings{
+  float:right;
+  white-space: nowrap;
+}
+.peon-less,.peon-more{
+  display: inline-block;
+}
+.peon-more{
+  visibility: hidden;
+}
+.peon-trigger:hover .peon-more{
+  visibility: visible;
+}
+
+/* Advanced / Settings component / buttons */
+.btn-peon {
+  background: none;
+}
+.btn-peon:hover,.btn-peon:focus{
+  background: #bbb;
+  color: inherit;
+}
+
+/* Advanced / Alerts */
+.peon-alerts {
+  position: relative;
+  z-index: 2;
+  background: #d5d5d5;
+  border-radius: 0 0 4px 4px;
+  padding-left: 50%;
+  height:0;
+  max-height:0;
+  padding-top: 1px;
+  margin-top: -1px;
+}
+.peon-alerts > div{
+  padding: 0 1em;
+  line-height: 3em
+}
+.peon-alerts > div:last-child {
+  border-radius: 0 0 4px 4px;
+}
+.peon-alerts .alert-top {
+  position: relative;
+  top:0;
+  -webkit-transition: margin 1s,top 1s;
+     -moz-transition: margin 1s,top 1s;
+      -ms-transition: margin 1s,top 1s;
+       -o-transition: margin 1s,top 1s;
+          transition: margin 1s,top 1s;
+}
+.peon-alerts .alert-dismiss {
+  top:-3em;
+  margin-bottom: -3em!important
+}
+
+/* Index / Shorten wide values in tables and show them on hover */
+.ellipsis{
+  overflow: hidden;
+  text-overflow: ellipsis;
+  -o-text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 80px;
+}
+.ellipsis:hover{
+  overflow: visible;
+  max-width:none;
+  width:auto;
+  background-color: #fff!important;
+}
+
+/* Tablesorter */
+table.tablesorter thead th{
+  padding-right: 16px
+}
+table.tablesorter thead tr .header {
+  background-image: url(bg.gif);
+  background-repeat: no-repeat;
+  background-position: center right;
+  cursor: pointer;
+}
+table.tablesorter thead tr .headerSortUp {
+  background-image: url(asc.gif);
+}
+table.tablesorter thead tr .headerSortDown {
+  background-image: url(desc.gif);
+}
