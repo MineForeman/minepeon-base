@@ -1,0 +1,15 @@
+DEBUG
+etc/init.d/miner-start.sh
+etc/init.d/miner-start.sh.a
+etc/minepeon.conf
+etc/miner.conf
+etc/miner.conf.orig
+etc/miner.user.conf
+etc/uipassword
+http/rrd/mhsav-day.png
+http/rrd/mhsav-hour.png
+http/rrd/mhsav-month.png
+http/rrd/mhsav-week.png
+http/rrd/mhsav-year.png
+var/rrd/hashrate.rrd
+var/rrd/temp.rrd
