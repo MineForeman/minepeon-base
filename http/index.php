@@ -94,7 +94,10 @@ include('menu.php');
       </dl>
     </div>
   </div>
-
+  <center>
+    <a href='/reboot.php'>Reboot</a> ||
+    <a href='/halt.php'>Halt</a>
+  </center>
   <h3>Pools</h3>
   <table id="pools" class="tablesorter table table-striped table-hover">
     <thead> 
@@ -131,6 +134,7 @@ include('menu.php');
 	
   }
   ?>
+
 </div>
 <?php
 include('foot.php');
