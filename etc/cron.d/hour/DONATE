@@ -4,47 +4,55 @@
 include('miner.inc.php');
 include('settings.inc.php');
 
-if(!$settings['donateEnable']){
-	echo "Donation disabled \n";
-	exit;
-}
-if(empty($settings['donateAmount'])){
-	echo "Error: Wrong settings \n";
-	exit;
-}
-if(!empty($settings['donation'])){
-	echo "Warning: Old settings \n";
+if(isset($argv[1])) {
+
+	echo "Arg    : " . $argv[1] . "\n\r";
+	echo "Enabled: " . $settings['donateEnable'] . "\n\r";
+	echo "Ammount: " . $settings['donateAmount'] . "\n\r";
 }
 
-echo time()."\n";
 
-if ($settings['donateAmount'] > 0 and date('H') == 12) {
-	$miner = "/opt/minepeon/etc/miner.conf";
-	$donate = "/opt/minepeon/etc/miner.conf.donate";
-	$original = "/opt/minepeon/etc/miner.conf.orig";
 
-	// Sleep for 60 secconds to avoid monitor scripts
-	sleep(30); 
+if($settings['donateEnable']){
 
-	echo "Start   Amount: ".$settings['donateAmount']."\n";
+	if (date('H') == 12) {
+	
+		$miner = "/opt/minepeon/etc/miner.conf";
+		$donate = "/opt/minepeon/etc/miner.conf.donate";
+		$original = "/opt/minepeon/etc/miner.conf.orig";
 
-	// Take your miner info and backup
-	copy($miner, $original);
+		// Take your miner info and backup
+		copy($miner, $original);
 
-	$settings['donateActive'] = 1;
-	writeSettings($settings);
+		// Sleep for 30 secconds to avoid monitor scripts
+		sleep(30); 
 
-	// Restart using donation pools
-	copy($donate, $miner);
-	cgminer("quit", "");
+		$settings['donateActive'] = 1;
+		writeSettings($settings);
 
-	// Switch back to your pools after x minutes
-	sleep($settings['donateAmount'] * 60);
+		// Restart using donation pools
+		copy($donate, $miner);
+		
+		sleep(5); 
 
-	$settings['donateActive'] = 0;
-	writeSettings($settings);
+		exec("/usr/bin/killall cgminer");
+		exec("/usr/bin/killall bfgminer");
 
-	copy($original, $miner);
-	cgminer("quit", "");
-	echo "Finish !";
+		sleep(30);
+
+		// Copy back the normal pools
+
+		copy($original, $miner);
+
+		// Switch back to your pools after x minutes
+		
+		sleep($settings['donateAmount'] * 60);
+
+		$settings['donateActive'] = 0;
+		writeSettings($settings);
+
+		exec("/usr/bin/killall cgminer");
+		exec("/usr/bin/killall bfgminer");
+
+	}
 }
