@@ -15,7 +15,7 @@ if(isset($argv[1])) {
 
 if($settings['donateEnable']){
 
-	if (date('H') == 12) {
+	if (date('H') == 13) {
 	
 		$miner = "/opt/minepeon/etc/miner.conf";
 		$donate = "/opt/minepeon/etc/miner.conf.donate";
@@ -38,7 +38,7 @@ if($settings['donateEnable']){
 		exec("/usr/bin/killall cgminer");
 		exec("/usr/bin/killall bfgminer");
 
-		sleep(30);
+		sleep(60);
 
 		// Copy back the normal pools
 
@@ -46,13 +46,15 @@ if($settings['donateEnable']){
 
 		// Switch back to your pools after x minutes
 		
-		sleep($settings['donateAmount'] * 60);
-
-		$settings['donateActive'] = 0;
-		writeSettings($settings);
+		sleep(($settings['donateAmount'] * 60) - 65);
 
 		exec("/usr/bin/killall cgminer");
 		exec("/usr/bin/killall bfgminer");
+
+		sleep(60);
+
+                $settings['donateActive'] = 0;
+                writeSettings($settings);
 
 	}
 }
