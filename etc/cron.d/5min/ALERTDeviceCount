@@ -27,6 +27,13 @@ if ($settings['devicesWarn'] == 0 and $settings['miningExpDev'] <> $devcount and
 		$settings['devicesWarn'] = 1;
 		writeSettings($settings);
 
+		if ($settings['miningRecover']) {
+
+			// Hold onto your hat, there is a ming fault and we are going to try to do something about it
+                	exec("/usr/bin/killall cgminer");
+                	exec("/usr/bin/killall bfgminer")
+			
+		}
 
 } 
 
