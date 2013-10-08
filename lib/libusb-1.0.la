@@ -5,10 +5,10 @@
 # It is necessary for linking the library.
 
 # The name that we can dlopen(3).
-dlname='libusb-1.0.so.0'
+dlname='libusb-1.0.so.2'
 
 # Names of this library.
-library_names='libusb-1.0.so.0.1.0 libusb-1.0.so.0 libusb-1.0.so'
+library_names='libusb-1.0.so.2.0.0 libusb-1.0.so.2 libusb-1.0.so'
 
 # The name of the static archive.
 old_library='libusb-1.0.a'
@@ -23,8 +23,8 @@ dependency_libs=' -ludev'
 weak_library_names=''
 
 # Version information for libusb-1.0.
-current=1
-age=1
+current=2
+age=0
 revision=0
 
 # Is this an already installed library?
