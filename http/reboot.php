@@ -6,7 +6,7 @@
 <script type="text/javascript">
 var start = new Date();
 start = Date.parse(start)/1000;
-var seconds = 30;
+var seconds = 60;
 function CountDown(){
     var now = new Date();
     now = Date.parse(now)/1000;
@@ -25,7 +25,7 @@ window.setTimeout('CountDown()',100);
   <center>
   <p><h1>Rebooting MinePeon</h1></p>
   <p>You will be redirected in</p> 
-  <p><h1 id="countdown">30</h1></p>  
+  <p><h1 id="countdown">60</h1></p>  
   <p>seconds.</p> 
   </center>
   </body>
@@ -33,4 +33,4 @@ window.setTimeout('CountDown()',100);
 
 <?php
 
-exec('/usr/bin/sudo /usr/bin/reboot');
+exec('/usr/bin/sudo /usr/bin/reboot > /dev/null 2>&1 &');

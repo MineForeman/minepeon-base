@@ -96,7 +96,7 @@ include('menu.php');
   </div>
   <center>
     <a href='/reboot.php'>Reboot</a> ||
-    <a href='/halt.php'>Halt</a>
+    <a href='/halt.php'>Shut Down</a>
   </center>
   <h3>Pools</h3>
   <table id="pools" class="tablesorter table table-striped table-hover">
