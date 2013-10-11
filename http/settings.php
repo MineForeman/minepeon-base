@@ -23,12 +23,7 @@ if (isset($_POST['userPassword'])) {
 }
 
 // Mining settings
-if (isset($_POST['miningRecover'])) {
 
-  $settings['miningRecover'] = $_POST['miningRecover']=="true";
-  $writeSettings=true;
-
-}
 if (isset($_POST['miningExpDev'])) {
 
   $settings['miningExpDev'] = $_POST['miningExpDev'];
@@ -149,17 +144,6 @@ include('menu.php');
     <fieldset>
       <legend>Mining</legend>
       <div class="form-group">
-        <label for="miningRecover" class="control-label col-lg-3">Miner process</label>
-        <div class="col-lg-9">
-          <div class="checkbox">
-            <input type='hidden' value='false' name='miningRecover'>
-            <label>
-              <input type="checkbox" <?php echo $settings['miningRecover']?"checked":""; ?> value="true" id="miningRecover" name="miningRecover"> Automatically attempt recovery
-            </label>
-          </div>
-        </div>
-      </div>
-      <div class="form-group">
         <label for="miningExpDev" class="control-label col-lg-3">Expected Devices</label>
         <div class="col-lg-9">
           <input type="number" value="<?php echo $settings['miningExpDev'] ?>" id="miningExpDev" name="miningExpDev" class="form-control">
@@ -179,23 +163,6 @@ include('menu.php');
             If the hashrate falls below half this value for more than a minute, an alert will be sent.<br/>
             After 3 minutes cgminer will be restarted.
           </p>
-        </div>
-      </div>
-      <div class="form-group">
-        <label for="donateAmount" class="control-label col-lg-3">Donation</label>
-        <div class="col-lg-9">
-          <div class="checkbox">
-            <input type='hidden' value='false' name='donateEnable'>
-            <label>
-              <input type="checkbox" <?php echo $settings['donateEnable']?"checked":""; ?> value="true" id="donateEnable" name="donateEnable"> Enable donation
-            </label>
-          </div>
-          <div class="donate-enabled <?php echo $settings['donateEnable']?"":"collapse"; ?>">
-            <div class="input-group">
-              <input type="number" value="<?php echo $settings['donateAmount'] ?>" placeholder="Donation minutes" id="donateAmount" name="donateAmount" class="form-control">
-              <span class="input-group-addon">minutes per day</span>
-            </div>
-          </div>
         </div>
       </div>
       <div class="form-group">
@@ -245,6 +212,35 @@ include('menu.php');
       </div>
     </fieldset>
   </form>
+  
+  <form name="donation" action="/settings.php" method="post" class="form-horizontal">
+    <fieldset>
+      <legend>Donation</legend>
+      <div class="form-group">
+        <label for="donateAmount" class="control-label col-lg-3">Donation</label>
+        <div class="col-lg-9">
+          <div class="checkbox">
+            <input type='hidden' value='false' name='donateEnable'>
+            <label>
+              <input type="checkbox" <?php echo $settings['donateEnable']?"checked":""; ?> value="true" id="donateEnable" name="donateEnable"> Enable donation
+            </label>
+          </div>
+          <div class="donate-enabled <?php echo $settings['donateEnable']?"":"collapse"; ?>">
+            <div class="input-group">
+              <input type="number" value="<?php echo $settings['donateAmount'] ?>" placeholder="Donation minutes" id="donateAmount" name="donateAmount" class="form-control">
+              <span class="input-group-addon">minutes per day</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="col-lg-9 col-offset-3">
+          <button type="submit" class="btn btn-default">Submit</button>
+        </div>
+      </div>
+    </fieldset>
+  </form>
+  
 </div>
 <?php
 include('foot.php');
