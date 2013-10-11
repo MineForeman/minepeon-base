@@ -4,57 +4,59 @@
 include('miner.inc.php');
 include('settings.inc.php');
 
-if (isset($argv[1])) {
-    
-    echo "Arg    : " . $argv[1] . "\n\r";
-    echo "Enabled: " . $settings['donateEnable'] . "\n\r";
-    echo "Ammount: " . $settings['donateAmount'] . "\n\r";
+
+if(empty($settings['donateEnable']) || !$settings['donateEnable']){
+	exit;
 }
 
+$poolAddress = 'stratum+tcp://stratum.btcguild.com:3333';
+$poolUser = 'MinePeon_Donate';
+$poolPass = 'MinePeon_Donate';
 
 
-if ($settings['donateEnable']) {
-    
-    if (date('H') == 12) {
-        
-        $miner    = "/opt/minepeon/etc/miner.conf";
-        $donate   = "/opt/minepeon/etc/miner.conf.donate";
-        $original = "/opt/minepeon/etc/miner.conf.orig";
-        
-        // Take your miner info and backup
-        copy($miner, $original);
-        
-        // Sleep for 30 secconds to avoid monitor scripts
-        sleep(30);
-        
-        $settings['donateActive'] = true;
-        writeSettings($settings);
-        
-        // Restart using donation pools
-        copy($donate, $miner);
-        
-        sleep(5);
-        
-        exec("/usr/bin/killall cgminer");
-        exec("/usr/bin/killall bfgminer");
-        
-        sleep(60);
-        
-        // Copy back the normal pools
-        
-        copy($original, $miner);
-        
-        // Switch back to your pools after x minutes
-        
-        sleep(($settings['donateAmount'] * 60) - 65);
-        
-        exec("/usr/bin/killall cgminer");
-        exec("/usr/bin/killall bfgminer");
-        
-        sleep(60);
-        
-        $settings['donateActive'] = false;
-        writeSettings($settings);
-        
+// Load donateAmount or keep default of 15
+$donateAmount = 15;
+if(empty($settings['donateAmount'])){
+	$donateAmount = $settings['donateAmount'];
+}
+
+// Let everyone know donation is initiated
+$settings['donateActive'] = true;
+writeSettings($settings);
+
+// Append donatepool
+cgminer("addpool",$poolAddress . "," . $poolUser . "," . $poolPass);
+
+// Sleep for 5 secconds to avoid monitor scripts
+// Also give miner time to connect to eligius
+sleep(5);
+
+// Look for the donatePool and give it priority
+$pool = findDonatePool($poolUser);
+cgminer('switchpool',$pool);
+
+// Donate time!
+sleep($settings['donateAmount'] * 60);
+
+// Look for the donatePool and disable it before removing it
+$pool = findDonatePool($poolUser);
+cgminer('disablepool',$pool);
+cgminer('removepool',$pool);
+
+// Let everyone know donation ended
+$settings['donateActive'] = false;
+writeSettings($settings);
+
+
+function findDonatePool($addr){
+  $pools = cgminer('pools','')['POOLS'];
+  $donatePool = -1;
+  foreach ($pools as $k => $v) {
+    if(isset($v['User']) && $v['User']==$addr){
+      $donatePool = $k;
     }
+  }
+  return $donatePool;
 }
+
+?>
