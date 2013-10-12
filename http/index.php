@@ -95,8 +95,9 @@ include('menu.php');
     </div>
   </div>
   <center>
-    <a href='/reboot.php'>Reboot</a> ||
-    <a href='/halt.php'>Shut Down</a>
+    <a href='/restart.php'>Restart Miner</a> ||  
+    <a href='/reboot.php'>Reboot MinePeon</a> ||
+    <a href='/halt.php'>Shut Down MinePeon</a>
   </center>
   <h3>Pools</h3>
   <table id="pools" class="tablesorter table table-striped table-hover">
