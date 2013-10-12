@@ -25,7 +25,7 @@ function create_graph($output, $start, $title) {
 
   $ret = rrd_graph("/opt/minepeon/http/rrd/" . $output, $options);
   if (! $ret) {
-    echo "<b>Graph error: </b>".rrd_error()."\n";
+    //echo "<b>Graph error: </b>".rrd_error()."\n";
   }
 }
 
