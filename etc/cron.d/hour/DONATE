@@ -9,10 +9,17 @@ if(empty($settings['donateEnable']) || !$settings['donateEnable']){
 	exit;
 }
 
-$poolAddress = 'stratum+tcp://stratum.btcguild.com:3333';
-$poolUser = 'MinePeon_Donate';
-$poolPass = 'MinePeon_Donate';
+if (date('H') <> 12) {
+	exit;
+}
 
+//$poolAddress = 'stratum+tcp://stratum.btcguild.com:3333';
+//$poolUser = 'MinePeon_Donate';
+//$poolPass = 'MinePeon_Donate';
+
+$poolAddress = 'stratum+tcp://us.ozco.in:3333';
+$poolUser = 'minepeon.donate';
+$poolPass = 'donate';
 
 // Load donateAmount or keep default of 15
 $donateAmount = 15;
