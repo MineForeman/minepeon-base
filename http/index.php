@@ -50,6 +50,9 @@ include('menu.php');
 ?>
 <div class="container">
   <h2>Status</h2>
+  <?php
+  if (file_exists('/opt/minepeon/http/rrd/mhsav-hour.png')) {
+  ?>
   <p class="text-center">
     <img src="rrd/mhsav-hour.png" alt="mhsav.png" />
     <img src="rrd/mhsav-day.png" alt="mhsav.png" /><br/>
@@ -62,6 +65,14 @@ include('menu.php');
   <p class="text-center collapse chartMore">
     <img src="rrd/mhsav-year.png" alt="mhsav.png" />
   </p>
+  <?php
+  } else {
+  ?>
+  <center><h1>Graphs not ready yet</h1></center>
+  <center><h2>Please wait upto 5 minutes</h2></center>
+  <?php
+  }
+  ?>
   <div class="row">
     <div class="col-lg-4">
       <dl class="dl-horizontal">
