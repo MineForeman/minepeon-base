@@ -187,6 +187,7 @@ function statsTable($devs) {
 
       $devices++;
       $MHSav = $MHSav + $dev['MHSav'];
+      $MHSav = $MHSav + $dev['MHSav'];
       $Accepted = $Accepted + $dev['Accepted'];
       $Rejected = $Rejected + $dev['Rejected'];
       $HardwareErrors = $HardwareErrors + $dev['HardwareErrors'];
@@ -284,8 +285,8 @@ function poolsTable($pools) {
     <td>" . $pool['Discarded'] . "</td>
     <td>" . date('H:i:s', $pool['LastShareTime']) . "</td>        
     <td>" . $pool['Diff1Shares'] . "</td>       
-    <td>" . $pool['DifficultyAccepted'] . "&nbsp;["  . (!$pool['Diff1Shares'] == 0 ? round(($pool['DifficultyAccepted'] / $pool['Diff1Shares']) * 100, 2) : 0) .  "%]</td>
-    <td>" . $pool['DifficultyRejected'] . "&nbsp;["  . (!$pool['Diff1Shares'] == 0 ? round(($pool['DifficultyRejected'] / $pool['Diff1Shares']) * 100, 2) : 0) .  "%]</td>
+    <td>" . round($pool['DifficultyAccepted']) . "&nbsp;["  . (!$pool['Diff1Shares'] == 0 ? round(($pool['DifficultyAccepted'] / $pool['Diff1Shares']) * 100) : 0) .  "%]</td>
+    <td>" . round($pool['DifficultyRejected']) . "&nbsp;["  . (!$pool['Diff1Shares'] == 0 ? round(($pool['DifficultyRejected'] / $pool['Diff1Shares']) * 100) : 0) .  "%]</td>
     <td>" . $pool['LastShareDifficulty'] . "</td>
     <td>" . $pool['BestShare'] . "</td>     
     </tr>";
