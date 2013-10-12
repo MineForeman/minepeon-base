@@ -173,11 +173,16 @@ function statsTable($devs) {
     $rejectedErrorPercent = round(($dev['Rejected'] / $devShareTotal) * 100, 2);
     $hwErrorPercent = round(($dev['HardwareErrors'] / $devShareTotal) * 100, 2);
     if ($dev['MHS5s'] > 0) {
+	  if (isset($dev['Temperature'])) {
+		$temperature = $dev['Temperature'];
+	  } else {
+	    $temperature = "N/A";
+	  }
       $tableRow = $tableRow .
       ($hwErrorPercent >= 10 || $rejectedErrorPercent > 5 ? "<tr class=\"error\">" : "<tr>")
       ."<td class='text-left'>" . $dev['Name'] . "</td>
       <td>" . $dev['ID'] . "</td>
-      <td>" . $dev['Temperature'] . "</td>
+      <td>" . $temperature . "</td>
       <td><a href='http://mineforeman.com/bitcoin-mining-calculator/?hash=" . $dev['MHSav'] . "' target='_blank'>" . $dev['MHSav'] . "</a></td>
       <td>" . $dev['Accepted'] . "</td>
       <td>" . $dev['Rejected'] . " [" . $rejectedErrorPercent . "%]</td>
