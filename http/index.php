@@ -204,7 +204,6 @@ function statsTable($devs) {
 
       $devices++;
       $MHSav = $MHSav + $dev['MHSav'];
-      $MHSav = $MHSav + $dev['MHSav'];
       $Accepted = $Accepted + $dev['Accepted'];
       $Rejected = $Rejected + $dev['Rejected'];
       $HardwareErrors = $HardwareErrors + $dev['HardwareErrors'];
