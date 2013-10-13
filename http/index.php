@@ -141,6 +141,7 @@ include('menu.php');
   if ($debug == true) {
 	
 	echo "<pre>";
+	print_r($pools['POOLS']);
 	print_r($devs);
 	echo "<pre>";
 	
