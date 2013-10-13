@@ -160,8 +160,7 @@ include('menu.php');
             <span class="input-group-addon">MH/s</span>
           </div>
           <p class="help-block">
-            If the hashrate falls below half this value for more than a minute, an alert will be sent.<br/>
-            After 3 minutes cgminer will be restarted.
+            If the hashrate falls below this value an alert will be sent.
           </p>
         </div>
       </div>
