@@ -181,9 +181,6 @@ function statsTable($devs) {
     <tbody>';
 
   foreach ($devs as $dev) {
-    $devShareTotal = $dev['Accepted'] + $dev['Rejected'] + $dev['HardwareErrors'];
-    $rejectedErrorPercent = round(($dev['Rejected'] / $devShareTotal) * 100, 2);
-    $hwErrorPercent = round(($dev['HardwareErrors'] / $devShareTotal) * 100, 2);
     if ($dev['MHS5s'] > 0) {
 	  if (isset($dev['Temperature'])) {
 		$temperature = $dev['Temperature'];
@@ -197,8 +194,8 @@ function statsTable($devs) {
       <td>" . $temperature . "</td>
       <td><a href='http://mineforeman.com/bitcoin-mining-calculator/?hash=" . $dev['MHSav'] . "' target='_blank'>" . $dev['MHSav'] . "</a></td>
       <td>" . $dev['Accepted'] . "</td>
-      <td>" . $dev['Rejected'] . " [" . $rejectedErrorPercent . "%]</td>
-      <td>" . $dev['HardwareErrors'] . " [" . $hwErrorPercent . "%]</td>
+      <td>" . $dev['Rejected'] . " [" . round($dev['DeviceRejected%'], 2) . "%]</td>
+      <td>" . $dev['HardwareErrors'] . " [" . round($dev['DeviceHardware%'], 2) . "%]</td>
       <td>" . $dev['Utility'] . "</td>
       <td>" . date('H:i:s', $dev['LastShareTime']) . "</td>
       </tr>";
@@ -208,6 +205,8 @@ function statsTable($devs) {
       $Accepted = $Accepted + $dev['Accepted'];
       $Rejected = $Rejected + $dev['Rejected'];
       $HardwareErrors = $HardwareErrors + $dev['HardwareErrors'];
+	  $DeviceRejected = $DeviceRejected + $dev['DeviceRejected%'];
+	  $hwErrorPercent = $hwErrorPercent + $dev['DeviceHardware%'];
       $Utility = $Utility + $dev['Utility'];
 
     }
@@ -224,8 +223,8 @@ function statsTable($devs) {
   <th></th>
   <th><a href='http://mineforeman.com/bitcoin-mining-calculator/?hash=" . $MHSav . "' target='_blank'>" . $MHSav . "</a></th>
   <th>" . $Accepted . "</th>
-  <th>" . $Rejected . " [" . round(($Rejected / $totalShares) * 100, 2) . "%]</th>
-  <th>" . $HardwareErrors . " [" . round(($HardwareErrors / $totalShares) * 100, 2) . "%]</th>
+  <th>" . $Rejected . " [" . round(($DeviceRejected / $devices), 2) . "%]</th>
+  <th>" . $HardwareErrors . " [" . round(($hwErrorPercent / $devices), 2) . "%]</th>
   <th>" . $Utility . "</th>
   <th></th>
   </tr>
