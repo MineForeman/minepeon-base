@@ -21,6 +21,19 @@ if (isset($_POST['userPassword'])) {
 
 	}
 }
+// Miner startup file
+
+if (isset($_POST['minerSettings'])) {
+
+	if ($_POST['minerSettings'] <> '') {
+	
+		file_put_contents('/opt/minepeon/etc/init.d/miner-start.sh', preg_replace('/\x0d/', '', $_POST['minerSettings']));
+		//exec('/usr/bin/cat "'. $_POST['minerSettings'] . '" > /opt/minepeon/etc/init.d/miner-start.sh');
+	}
+}
+
+$minerStartup = file_get_contents('/opt/minepeon/etc/init.d/miner-start.sh');
+
 
 // Mining settings
 
@@ -134,7 +147,7 @@ include('menu.php');
         <div class="col-lg-9">
           <input type="password" placeholder="New password" id="userPassword" name="userPassword" class="form-control">
           <p class="help-block">An empty password will not be saved.</p>
-          <button type="submit" class="btn btn-default">Submit</button>
+          <button type="submit" class="btn btn-default">Save</button>
         </div>
       </div>
     </fieldset>
@@ -166,7 +179,7 @@ include('menu.php');
       </div>
       <div class="form-group">
         <div class="col-lg-9 col-offset-3">
-          <button type="submit" class="btn btn-default">Submit</button>
+          <button type="submit" class="btn btn-default">Save</button>
         </div>
       </div>
     </fieldset>
@@ -206,7 +219,41 @@ include('menu.php');
       </div>
       <div class="form-group">
         <div class="col-lg-9 col-offset-3">
-          <button type="submit" class="btn btn-default">Submit</button>
+          <button type="submit" class="btn btn-default">Save</button>
+        </div>
+      </div>
+    </fieldset>
+  </form>
+  
+  <form name="minerStartup" action="/settings.php" method="post" class="form-horizontal">
+    <fieldset>
+      <legend>Miner Startup Settings</legend>
+      <div class="form-group">
+        <label for="minerSettings" class="control-label col-lg-3">Settings</label>
+        <div class="col-lg-9">
+          <div>
+			<textarea rows="4" cols="120" id="minerSettings" name="minerSettings"><?php echo $minerStartup ?></textarea>
+          </div>
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="col-lg-9 col-offset-3">
+          <button type="submit" class="btn btn-default">Save</button>
+		  <button type="button" type="bfgminer" onclick="myFunction('bfgminer')" class="btn btn-default">Default bfgminer</button>
+		  <button type="button" type="cgminer" onclick="myFunction('cgminer')" class="btn btn-default">Default cgminer</button>
+		  <script language="javascript" type="text/javascript">
+			function myFunction(miner) {
+			  if (miner == "cgminer") {
+				document.getElementById('minerSettings').value = "#!/bin/bash\n/usr/bin/screen -dmS miner /opt/minepeon/bin/cgminer -c /opt/minepeon/etc/miner.conf\n";
+			  } 
+			  if (miner == "bfgminer") {
+				document.getElementById('minerSettings').value = "#!/bin/bash\n/usr/bin/screen -dmS miner /opt/minepeon/bin/bfgminer -S all -c /opt/minepeon/etc/miner.conf\n";
+			  }
+			}
+		  </script>
+		  <p class="help-block">
+            Enter you own miner parameters or select a default bfgminer or cgminer configuration.  You will need to press Save and then reboot MinePeon when you finish.
+          </p>
         </div>
       </div>
     </fieldset>
@@ -234,7 +281,7 @@ include('menu.php');
       </div>
       <div class="form-group">
         <div class="col-lg-9 col-offset-3">
-          <button type="submit" class="btn btn-default">Submit</button>
+          <button type="submit" class="btn btn-default">Save</button>
         </div>
       </div>
     </fieldset>
