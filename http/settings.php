@@ -2,9 +2,19 @@
 
 require_once('settings.inc.php');
 require_once('miner.inc.php');
-
+ 
 // Check for settings to write and do it after all checks
 $writeSettings=false;
+
+// Restore 
+
+if (isset($_FILES["file"]["tmp_name"])) {
+	exec("tar -xzf " . $_FILES["file"]["tmp_name"] . " -C / ");
+	header('Location: /reboot.php');
+	exit;
+}
+
+
 
 // User settings
 if (isset($_POST['userTimezone'])) {
@@ -132,6 +142,9 @@ include('menu.php');
 ?>
 <div class="container">
   <h2>Settings</h2>
+  
+<!-- ######################## -->
+
   <form name="user" action="/settings.php" method="post" class="form-horizontal">
     <fieldset>
       <legend>User</legend>
@@ -152,6 +165,8 @@ include('menu.php');
       </div>
     </fieldset>
   </form>
+  
+<!-- ######################## -->
 
   <form name="mining" action="/settings.php" method="post" class="form-horizontal">
     <fieldset>
@@ -183,7 +198,8 @@ include('menu.php');
         </div>
       </div>
     </fieldset>
-  </form>
+  
+<!-- ######################## -->
 
   <form name="alerts" action="/settings.php" method="post" class="form-horizontal">
     <fieldset>
@@ -225,6 +241,8 @@ include('menu.php');
     </fieldset>
   </form>
   
+<!-- ######################## -->
+
   <form name="minerStartup" action="/settings.php" method="post" class="form-horizontal">
     <fieldset>
       <legend>Miner Startup Settings</legend>
@@ -259,6 +277,8 @@ include('menu.php');
     </fieldset>
   </form>
   
+<!-- ######################## -->
+
   <form name="donation" action="/settings.php" method="post" class="form-horizontal">
     <fieldset>
       <legend>Donation</legend>
@@ -287,7 +307,30 @@ include('menu.php');
     </fieldset>
   </form>
   
-</div>
+<!-- ######################## -->
+
+  <form name="backup" action="/settings.php" method="post" enctype="multipart/form-data" class="form-horizontal">
+    <fieldset>
+      <legend>Backup</legend>
+     <div class="form-group">
+        <div class="col-lg-9 col-offset-3">
+		  <a class="btn btn-default" href="/backup.php">Backup</a>
+		  <p class="help-block">The backup will contain all of your settings and statistics.  Plugins will have to be restored separately.</p>
+        </div>
+      </div>
+      <div class="form-group">
+		<div class="col-lg-9 col-offset-3">
+		  <input type="file" name="file" id="file" class="btn btn-default" data-input="false">
+		</div>
+	  </div>
+	  <div class="form-group">
+		<div class="col-lg-9 col-offset-3">
+		  <button type="submit" name="submit" class="btn btn-default">Restore</button>
+		  <p class="help-block">Restoring a configuration will cause your MinePeon to reboot.</p>
+		</div>
+      </div>
+    </fieldset>
+  </form>
 <?php
 include('foot.php');
 ?>
