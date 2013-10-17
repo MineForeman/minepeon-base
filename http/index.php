@@ -303,7 +303,7 @@ function poolsTable($pools) {
     <td>" . $pool['Diff1Shares'] . "</td>       
     <td>" . round($pool['DifficultyAccepted']) . "&nbsp;["  . (!$pool['Diff1Shares'] == 0 ? round(($pool['DifficultyAccepted'] / $pool['Diff1Shares']) * 100) : 0) .  "%]</td>
     <td>" . round($pool['DifficultyRejected']) . "&nbsp;["  . (!$pool['Diff1Shares'] == 0 ? round(($pool['DifficultyRejected'] / $pool['Diff1Shares']) * 100) : 0) .  "%]</td>
-    <td>" . $pool['LastShareDifficulty'] . "</td>
+    <td>" . round($pool['LastShareDifficulty'], 0) . "</td>
     <td>" . $pool['BestShare'] . "</td>     
     </tr>";
 
