@@ -38,7 +38,7 @@ if (isset($_POST['minerSettings'])) {
 	if ($_POST['minerSettings'] <> '') {
 	
 		file_put_contents('/opt/minepeon/etc/init.d/miner-start.sh', preg_replace('/\x0d/', '', $_POST['minerSettings']));
-		//exec('/usr/bin/cat "'. $_POST['minerSettings'] . '" > /opt/minepeon/etc/init.d/miner-start.sh');
+		exec('/usr/bin/chmod +x /opt/minepeon/etc/init.d/miner-start.sh');
 	}
 }
 
