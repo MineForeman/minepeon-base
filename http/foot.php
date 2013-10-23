@@ -26,6 +26,9 @@
     $('#donateEnable').click(function() {
       $(".donate-enabled").toggle(this.checked);
     });
+    $('#alertSMTPAuth').click(function() {
+      $(".smtpauth-enabled").toggle(this.checked);
+    });
   });
 </script>
 

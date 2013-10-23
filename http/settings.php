@@ -20,14 +20,19 @@ if (isset($_FILES["file"]["tmp_name"])) {
 if (isset($_POST['userTimezone'])) {
 
   $settings['userTimezone'] = $_POST['userTimezone'];
-  $writeSettings=true;
+  ksort($settings);
+  writeSettings($settings);
+  header('Location: /settings.php');
+  exit;
 
 }
-if (isset($_POST['userPassword'])) {
+if (isset($_POST['userPassword1'])) {
 
-	if ($_POST['userPassword'] <> '') {
+	if ($_POST['userPassword1'] <> '') {
 	
-		exec("/usr/bin/htpasswd -b /opt/minepeon/etc/uipassword minepeon " . $_POST['userPassword']);
+		exec("/usr/bin/htpasswd -b /opt/minepeon/etc/uipassword minepeon " . $_POST['userPassword1']);
+		header('Location: /settings.php');
+		exit;
 
 	}
 }
@@ -145,24 +150,35 @@ include('menu.php');
   
 <!-- ######################## -->
 
-  <form name="user" action="/settings.php" method="post" class="form-horizontal">
+  <form name="timezone" action="/settings.php" method="post" class="form-horizontal">
     <fieldset>
-      <legend>User</legend>
+      <legend>TimeZone</legend>
       <div class="form-group">
         <label for="userTimezone" class="control-label col-lg-3">Timezone</label>
         <div class="col-lg-9">
           <?php echo $tzselect ?>
           <p class="help-block">MinePeon thinks it is now <?php echo date('D, d M Y H:i:s T') ?></p>
+		  <button type="submit" class="btn btn-default">Save</button>
         </div>
       </div>
+    </fieldset>
+  </form>
+  
+    <form name="password" action="/settings.php" method="post" class="form-horizontal">
+    <fieldset>
+      <legend>Password</legend>
       <div class="form-group">
         <label for="userPassword" class="control-label col-lg-3">New Password</label>
         <div class="col-lg-9">
-          <input type="password" placeholder="New password" id="userPassword" name="userPassword" class="form-control">
-          <p class="help-block">An empty password will not be saved.</p>
-          <button type="submit" class="btn btn-default">Save</button>
+          <input type="password" placeholder="New password" id="userPassword1" name="userPassword1" class="form-control" onkeyup="checkPass(); return false;">
+		  <br />
+		  <input type="password" placeholder="Repeat Password" id="userPassword2" name="userPassword2" class="form-control" onkeyup="checkPass(); return false;">
+		  <br />
+          <button type="submit" id="submitPassword" class="btn btn-default">Save</button>
         </div>
+		
       </div>
+	  
     </fieldset>
   </form>
   
@@ -233,6 +249,39 @@ include('menu.php');
           <p class="help-block">Please choose your own SMTP server.</p>
         </div>
       </div>
+	  
+	  <div class="form-group">
+        <div class="col-lg-9 col-offset-3">
+          <div class="checkbox">
+            <input type='hidden' value='false' name='alertSMTPAuth'>
+            <label>
+              <input type="checkbox" <?php echo $settings['alertSMTPAuth']?"checked":""; ?> value="true" id="alertSMTPAuth" name="alertSMTPAuth"> Use SMTP Auth
+            </label>
+          </div>
+        </div>
+      </div>
+	  
+	  <div class="form-group smtpauth-enabled <?php echo $settings['alertSMTPAuth']?"":"collapse"; ?>">
+        <label for="alertSmtp" class="control-label col-lg-3">SMTP Auth Username</label>
+        <div class="col-lg-9">
+          <input type="text" value="<?php echo $settings['alertSmtpAuthUser'] ?>" id="alertSmtpAuthUser" name="alertSmtpAuthUser" class="form-control">
+        </div>
+      </div>
+	  
+	  <div class="form-group smtpauth-enabled <?php echo $settings['alertSMTPAuth']?"":"collapse"; ?>">
+        <label for="alertSmtp" class="control-label col-lg-3">SMTP Auth Password</label>
+        <div class="col-lg-9">
+          <input type="text" value="<?php echo $settings['alertSmtpAuthPass'] ?>" id="alertSmtpAuthPass" name="alertSmtpAuthPass" class="form-control">
+        </div>
+      </div>
+
+	  <div class="form-group smtpauth-enabled <?php echo $settings['alertSMTPAuth']?"":"collapse"; ?>">
+        <label for="alertSmtp" class="control-label col-lg-3">SMTP Auth Port</label>
+        <div class="col-lg-9">
+          <input type="text" value="<?php echo $settings['alertSmtpAuthPort'] ?>" id="alertSmtpAuthPort" name="alertSmtpAuthPort" class="form-control">
+        </div>
+      </div>
+	  
       <div class="form-group">
         <div class="col-lg-9 col-offset-3">
           <button type="submit" class="btn btn-default">Save</button>
@@ -331,6 +380,38 @@ include('menu.php');
       </div>
     </fieldset>
   </form>
+<script type="text/javascript" id="js">
+  function checkPass()
+{
+    //Store the password field objects into variables ...
+    var pass1 = document.getElementById('userPassword1');
+    var pass2 = document.getElementById('userPassword2');
+    //Store the Confimation Message Object ...
+    var message = document.getElementById('confirmMessage');
+	var submit = document.getElementById('submitPassword');
+    //Set the colors we will be using ...
+    var goodColor = "#66cc66";
+    var badColor = "#ff6666";
+    //Compare the values in the password field 
+    //and the confirmation field
+    if(pass1.value == pass2.value){
+        //The passwords match. 
+        //Set the color to the good color and inform
+        //the user that they have entered the correct password 
+		document.getElementById("submitPassword").disabled = false;
+        pass2.style.backgroundColor = goodColor;
+        message.style.color = goodColor;
+        message.innerHTML = "Passwords Match!"
+    }else{
+        //The passwords do not match.
+        //Set the color to the bad color and
+        //notify the user.
+		document.getElementById("submitPassword").disabled = true;
+        pass2.style.backgroundColor = badColor;
+        message.style.color = badColor;
+        message.innerHTML = "Passwords Do Not Match!"
+    }
+} </script>
 <?php
 include('foot.php');
 ?>
