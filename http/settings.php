@@ -108,7 +108,7 @@ if (isset($_POST['alertSmtp'])) {
 
 if (isset($_POST['alertSMTPAuth'])) {
 
-  $settings['alertSMTPAuth'] = $_POST['alertSMTPAuth'];
+  $settings['alertSMTPAuth'] = $_POST['alertSMTPAuth']=="true";
   $writeSettings=true;
 
 }
