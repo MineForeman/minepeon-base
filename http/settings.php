@@ -106,6 +106,34 @@ if (isset($_POST['alertSmtp'])) {
 
 }
 
+if (isset($_POST['alertSMTPAuth'])) {
+
+  $settings['alertSMTPAuth'] = $_POST['alertSMTPAuth'];
+  $writeSettings=true;
+
+}
+
+if (isset($_POST['alertSmtpAuthUser'])) {
+
+  $settings['alertSmtpAuthUser'] = $_POST['alertSmtpAuthUser'];
+  $writeSettings=true;
+
+}
+
+if (isset($_POST['alertSmtpAuthPass'])) {
+
+  $settings['alertSmtpAuthPass'] = $_POST['alertSmtpAuthPass'];
+  $writeSettings=true;
+
+}
+
+if (isset($_POST['alertSmtpAuthPort'])) {
+
+  $settings['alertSmtpAuthPort'] = $_POST['alertSmtpAuthPort'];
+  $writeSettings=true;
+
+}
+
 // Write settings
 if ($writeSettings) {
   ksort($settings);
@@ -215,7 +243,7 @@ include('menu.php');
       </div>
     </fieldset>
   
-<!-- ######################## -->
+<!-- ######################## Alerts -->
 
   <form name="alerts" action="/settings.php" method="post" class="form-horizontal">
     <fieldset>
@@ -252,30 +280,30 @@ include('menu.php');
 	  
 	  <div class="form-group">
         <div class="col-lg-9 col-offset-3">
-          <div class="checkbox">
+          <div class="checkbox" >
             <input type='hidden' value='false' name='alertSMTPAuth'>
-            <label>
-              <input type="checkbox" <?php echo $settings['alertSMTPAuth']?"checked":""; ?> value="true" id="alertSMTPAuth" name="alertSMTPAuth"> Use SMTP Auth
+            <label class="form-group alert-enabled ">
+              <input type="checkbox"  class="form-group alert-enabled " <?php echo $settings['alertSMTPAuth']?"checked":""; ?> value="true" id="alertSMTPAuth" name="alertSMTPAuth"> Use SMTP Auth
             </label>
           </div>
         </div>
       </div>
 	  
-	  <div class="form-group smtpauth-enabled <?php echo $settings['alertSMTPAuth']?"":"collapse"; ?>">
+	  <div class="form-group smtpauth-enabled alert-enabled <?php echo $settings['alertSMTPAuth']?"":"collapse"; ?>">
         <label for="alertSmtp" class="control-label col-lg-3">SMTP Auth Username</label>
         <div class="col-lg-9">
           <input type="text" value="<?php echo $settings['alertSmtpAuthUser'] ?>" id="alertSmtpAuthUser" name="alertSmtpAuthUser" class="form-control">
         </div>
       </div>
 	  
-	  <div class="form-group smtpauth-enabled <?php echo $settings['alertSMTPAuth']?"":"collapse"; ?>">
+	  <div class="form-group smtpauth-enabled alert-enabled <?php echo $settings['alertSMTPAuth']?"":"collapse"; ?>">
         <label for="alertSmtp" class="control-label col-lg-3">SMTP Auth Password</label>
         <div class="col-lg-9">
           <input type="text" value="<?php echo $settings['alertSmtpAuthPass'] ?>" id="alertSmtpAuthPass" name="alertSmtpAuthPass" class="form-control">
         </div>
       </div>
 
-	  <div class="form-group smtpauth-enabled <?php echo $settings['alertSMTPAuth']?"":"collapse"; ?>">
+	  <div class="form-group smtpauth-enabled alert-enabled <?php echo $settings['alertSMTPAuth']?"":"collapse"; ?>">
         <label for="alertSmtp" class="control-label col-lg-3">SMTP Auth Port</label>
         <div class="col-lg-9">
           <input type="text" value="<?php echo $settings['alertSmtpAuthPort'] ?>" id="alertSmtpAuthPort" name="alertSmtpAuthPort" class="form-control">
@@ -311,10 +339,10 @@ include('menu.php');
 		  <script language="javascript" type="text/javascript">
 			function myFunction(miner) {
 			  if (miner == "cgminer") {
-				document.getElementById('minerSettings').value = "#!/bin/bash\n/usr/bin/screen -dmS miner /opt/minepeon/bin/cgminer -c /opt/minepeon/etc/miner.conf\n";
+				document.getElementById('minerSettings').value = "#!/bin/bash\nsleep 10\n/usr/bin/screen -dmS miner /opt/minepeon/bin/cgminer -c /opt/minepeon/etc/miner.conf\n";
 			  } 
 			  if (miner == "bfgminer") {
-				document.getElementById('minerSettings').value = "#!/bin/bash\n/usr/bin/screen -dmS miner /opt/minepeon/bin/bfgminer -S all -c /opt/minepeon/etc/miner.conf\n";
+				document.getElementById('minerSettings').value = "#!/bin/bash\nsleep 10\n/usr/bin/screen -dmS miner /opt/minepeon/bin/bfgminer -S all -c /opt/minepeon/etc/miner.conf\n";
 			  }
 			}
 		  </script>

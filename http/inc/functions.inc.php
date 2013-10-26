@@ -12,14 +12,14 @@ function sendEmail($settings, $subject, $body) {
 
 		$mailSettings = array(
 				'host' => $settings['alertSmtp']
-			
-				/* ,
-				'auth' => true,
-				'username' => $username,
-				'password' => $password,
-				'port' => '25'
-				*/
 			);
+			
+		if ($settings['alertSMTPAuth']) {
+			$mailSettings['auth'] = true;
+			$mailSettings['username'] = $settings['alertSmtpAuthUser'];
+			$mailSettings['password'] = $settings['alertSmtpAuthPass'];
+			$mailSettings['port'] = $settings['alertSmtpAuthPort'];
+		}
 	
 		//$settings['alertDevice']
 
