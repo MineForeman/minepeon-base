@@ -1,7 +1,7 @@
 <?php
 
 
-function cgminer($command, $parameter) {
+function miner($command, $parameter) {
 
         $command = array (
                 "command"  => $command,

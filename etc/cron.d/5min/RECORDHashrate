@@ -28,7 +28,7 @@ if (!file_exists($RRD)) {
 
 require('miner.inc.php');
 
-$return = cgminer("summary", "");
+$return = miner("summary", "");
 
 $hashrate = $return['SUMMARY'][0]['MHSav'] * 1000;
 

@@ -8,7 +8,7 @@ include('functions.inc.php');
 
 
 
-$return = cgminer("summary", "");
+$return = miner("summary", "");
 
 $hashrate = $return['SUMMARY'][0]['MHSav'];
 

@@ -39,11 +39,11 @@ $version = exec('cat /opt/minepeon/etc/version');
 $mpCPULoad = sys_getloadavg();
 
 
-$stats = cgminer("devs", "");
+$stats = miner("devs", "");
 $status = $stats['STATUS'];
 $devs = $stats['DEVS'];
-$summary = cgminer("summary", "");
-$pools = cgminer("pools", "");
+$summary = miner("summary", "");
+$pools = miner("pools", "");
 
 include('head.php');
 include('menu.php');
