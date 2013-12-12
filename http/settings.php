@@ -299,7 +299,7 @@ include('menu.php');
 	  <div class="form-group smtpauth-enabled alert-enabled <?php echo $settings['alertSMTPAuth']?"":"collapse"; ?>">
         <label for="alertSmtp" class="control-label col-lg-3">SMTP Auth Password</label>
         <div class="col-lg-9">
-          <input type="text" value="<?php echo $settings['alertSmtpAuthPass'] ?>" id="alertSmtpAuthPass" name="alertSmtpAuthPass" class="form-control">
+          <input type="password" value="<?php echo $settings['alertSmtpAuthPass'] ?>" id="alertSmtpAuthPass" name="alertSmtpAuthPass" class="form-control">
         </div>
       </div>
 
