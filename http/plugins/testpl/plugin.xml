@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<plugin>
+<name>Test Plugin</name>
+<maker>mariogrip</maker>
+<description>This is just a test plugin</description>
+<settings>plugins/testpl/settings.php</settings>
+</plugin>
