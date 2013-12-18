@@ -9,7 +9,12 @@ if (isset($_FILES["file"]["tmp_name"])) {
 }
 
 if (isset($_POST['delpl'])) {
+$delpl = $_POST['delpl'];
 rrmdir($_POST['delpl']);
+
+list($delpl1,$delpl2) = explode('/', $delpl, 2);
+
+unlink('plugins/api_menu/' . $delpl2 . '_apimenu.xml');
 }
 
 
