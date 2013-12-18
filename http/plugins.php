@@ -5,6 +5,7 @@ require_once('miner.inc.php');
 
 if (isset($_FILES["file"]["tmp_name"])) {
 	exec("tar -xzf " . $_FILES["file"]["tmp_name"] . " -C /opt/minepeon/http/plugins/ ");
+
 }
 
 if (isset($_POST['delpl'])) {
@@ -68,7 +69,8 @@ foreach($files as $file)
 {
 $plugin=simplexml_load_file($file . "/plugin.xml");
  if(is_dir($file)){
- 
+ if($file != "plugins/api_menu"){
+
 ?>
   <tr>
     <td class='text-left'><?php echo $plugin->name; ?></td>
@@ -88,7 +90,7 @@ $plugin=simplexml_load_file($file . "/plugin.xml");
   
 <?php
 }
-
+}
 }
 ?>   
 
