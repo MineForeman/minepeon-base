@@ -3,7 +3,6 @@
 require('miner.inc.php');
 include('settings.inc.php');
 
-
 create_graph("mhsav-hour.png", "-1h", "Last Hour");
 create_graph("mhsav-day.png", "-1d", "Last Day");
 create_graph("mhsav-week.png", "-1w", "Last Week");
@@ -111,9 +110,10 @@ include('menu.php');
     <a class="btn btn-default" href='/halt.php'>ShutDown</a>
   </center>
   <h3>Pools</h3>
-  <table id="pools" class="tablesorter table table-striped table-hover">
+  <table id="pools" class="table table-striped table-hover">
     <thead> 
       <tr>
+	    <th></th>
         <th>URL</th>
         <th>User</th>
         <th>Status</th>
@@ -127,7 +127,7 @@ include('menu.php');
         <th title="Difficulty Accepted">DAcc</th>
         <th title="Difficulty Rejected">DRej</th>
         <th title="Last Share Difficulty">DLast</th>
-        <th title="Best Share">Best</th>      
+        <th title="Best Share">Best</th>	
       </tr>
     </thead>
     <tbody>
@@ -274,6 +274,8 @@ function poolsTable($pools) {
 
 // class="success" error warning info
 
+  $poolID = 0;
+
   $table = "";
   foreach ($pools as $pool) {
 
@@ -291,6 +293,11 @@ function poolsTable($pools) {
 
     $table = $table . "
     <tr class='" . $rowclass . "'>
+	<td>";
+	if($poolID != 0) {
+		$table = $table . "<a href='/?url=" . $pool['URL'] . "&user=" . $pool['User'] . "'><img src='/img/up.png'></td>";
+	}
+	$table = $table . "
     <td class='text-left'>" . $poolURL[1] . "</td>
     <td class='text-left ellipsis'>" . $pool['User'] . "</td>
     <td class='text-left'>" . $pool['Status'] . "</td>
@@ -304,9 +311,9 @@ function poolsTable($pools) {
     <td>" . round($pool['DifficultyAccepted']) . "&nbsp;["  . (!$pool['Diff1Shares'] == 0 ? round(($pool['DifficultyAccepted'] / $pool['Diff1Shares']) * 100) : 0) .  "%]</td>
     <td>" . round($pool['DifficultyRejected']) . "&nbsp;["  . (!$pool['Diff1Shares'] == 0 ? round(($pool['DifficultyRejected'] / $pool['Diff1Shares']) * 100) : 0) .  "%]</td>
     <td>" . round($pool['LastShareDifficulty'], 0) . "</td>
-    <td>" . $pool['BestShare'] . "</td>     
+    <td>" . $pool['BestShare'] . "</td>
     </tr>";
-
+	$poolID++;
   }
 
   return $table;
