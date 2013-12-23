@@ -2,7 +2,7 @@
     "http://www.w3.org/TR/html4/strict.dtd">
 <html>
   <head>
-    <title>Page title</title>
+    <title>Halting MinePeon</title>
 <script type="text/javascript">
 var start = new Date();
 start = Date.parse(start)/1000;
