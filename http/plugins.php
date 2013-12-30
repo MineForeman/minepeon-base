@@ -8,6 +8,13 @@ if (isset($_FILES["file"]["tmp_name"])) {
 
 }
 
+if (isset($_POST["wget"])) {
+       exec("wget -P /opt/minepeon/http/ -O Tmpfile.tar.gz " . $_POST["wget"]);
+	exec("tar -xzf /opt/minepeon/http/Tmpfile.tar.gz -C /opt/minepeon/http/plugins/ ");
+       unlink('Tmpfile.tar.gz');
+
+}
+
 if (isset($_POST['delpl'])) {
 $delpl = $_POST['delpl'];
 rrmdir($_POST['delpl']);
@@ -109,6 +116,25 @@ $plugin=simplexml_load_file($file . "/plugin.xml");
       <div class="form-group">
 		<div class="col-lg-9 col-offset-3">
 		  <input type="file" name="file" id="file" class="btn btn-default" data-input="false">
+		</div>
+	  </div>
+	  <div class="form-group">
+		<div class="col-lg-9 col-offset-3">
+		  <button type="submit" name="submit" class="btn btn-default">Instal</button>
+		</div>
+      </div>
+    </fieldset>
+  </form>
+
+</blockquote>
+  <form name="instal" action="/plugins.php" method="post" class="form-horizontal">
+    <fieldset>
+      <legend>Instal plugin from web</legend>
+
+      <div class="form-group">
+        <label for="downloadUrl" class="control-label col-lg-3">Download url</label>
+		<div class="col-lg-9">
+		<input type="text" name="wget" class="form-control">
 		</div>
 	  </div>
 	  <div class="form-group">
