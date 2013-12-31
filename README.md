@@ -14,3 +14,10 @@ group: minepeon (GID 500)
 minepeon-base
 
 PHP branch
+
+
+How to make a Plugin to Minepeon
+=
+
+Take a look here at the wiki:
+https://github.com/MineForeman/minepeon-base/wiki/How-to-make-a-plugin-using-the-api
