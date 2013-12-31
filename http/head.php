@@ -22,5 +22,37 @@
   <link rel="apple-touch-icon-precomposed" sizes="72x72" href="ico/apple-touch-icon-72-precomposed.png">
   <link rel="apple-touch-icon-precomposed" href="ico/apple-touch-icon-57-precomposed.png">
   <link rel="shortcut icon" href="ico/favicon.png">-->
+  
+<script type="text/javascript" src="js/jquery.min.js"></script>
+<script type="text/javascript" src="js/jquery.tablesorter.js"></script>
+<script type="text/javascript" src="js/highcharts.js"></script>
+<script type="text/javascript" src="js/themes/gray.js"></script>
+<script type="text/javascript" src="js/chart.js" ></script>
+
+<script type="text/javascript">
+  $(document).ready(function() {
+    $(".tablesorter").tablesorter();
+    
+    $('#chartToggle').click(function() {
+      $('.chartMore').slideToggle('slow', function() {
+          if ($(this).is(":visible")) {
+              $('#chartToggle').text('Hide extended charts');
+          } else {
+              $('#chartToggle').text('Display extended charts');
+          }
+      });
+    });
+    $('#alertEnable').click(function() {
+      $(".alert-enabled").toggle(this.checked);
+    });
+    $('#donateEnable').click(function() {
+      $(".donate-enabled").toggle(this.checked);
+    });
+    $('#alertSMTPAuth').click(function() {
+      $(".smtpauth-enabled").toggle(this.checked);
+    });
+  });
+</script>
+  
 </head>
 <body>
