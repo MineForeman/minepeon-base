@@ -12,25 +12,24 @@ $results = $db->query($sql);
 while ($row = $results->fetch(PDO::FETCH_ASSOC)) {
 
 	echo $row['datetime'] . "\t";
-	echo $row['MHSav'] . "\t";
-	echo $row['MHS5s'] . "\t";
-	echo $row['PiTemperature'] . "
+	if ($row['MHSav'] != '') {
+		echo $row['MHSav'] . "\t";
+	} else {
+		echo '0' . "\t";
+	}
+	if ($row['MHS5s'] != '') {
+		echo $row['MHS5s'] . "\t";
+	} else {
+		echo '0' . "\t";
+	}
+	if ($row['PiTemperature'] != '') {
+		echo $row['PiTemperature'] . "
 ";
+	} else {
+		echo '0' . "
+";
+	}
 
 }
 
 
-/*
-var_dump($results->fetchArray());
-
-print_r($results);
-
-
-while ($row = $results->fetchArray()) {
-
-	echo $row['datetime'] . "\t";
-	echo $row['MHSav'] . "\t";
-	echo $row['PiTemperature'] . "\n";
-
-}
-*/
