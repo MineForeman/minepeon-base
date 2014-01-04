@@ -159,6 +159,7 @@ BFGMiner specific configuration options:
 	--enable-scrypt         Compile support for scrypt mining (default disabled)
 	--with-system-libblkmaker  Use system libblkmaker rather than bundled one
 	                           (default disabled)
+	--with-udevrulesdir=DIR Install udev rules into this directory
 	--without-sensors       Build with libsensors monitoring (default enabled)
 	--without-curses        Compile support for curses TUI (default enabled)
 	--without-libmicrohttpd Compile support for libmicrohttpd getwork server
@@ -281,6 +282,7 @@ Options for both config file and command line:
 --url|-o <arg>      URL for bitcoin JSON-RPC server
 --user|-u <arg>     Username for bitcoin JSON-RPC server
 --verbose           Log verbose output to stderr as well as status output
+--weighed-stats     Display statistics weighed to difficulty 1
 --userpass|-O <arg> Username:Password pair for bitcoin JSON-RPC server
 Options for command line only:
 --config|-c <arg>   Load a JSON-format configuration file
