@@ -334,20 +334,26 @@ include('menu.php');
       <div class="form-group">
         <div class="col-lg-9 col-offset-3">
           <button type="submit" class="btn btn-default">Save</button>
-		  <button type="button" type="bfgminer" onclick="myFunction('bfgminer')" class="btn btn-default">Default bfgminer</button>
-		  <button type="button" type="cgminer" onclick="myFunction('cgminer')" class="btn btn-default">Default cgminer</button>
+		  <button type="button" type="bfgminer" onclick="minerSwitch('bfgminer')" class="btn btn-default">Default bfgminer</button>
+		  <button type="button" type="cgminer" onclick="minerSwitch('cgminer')" class="btn btn-default">Default cgminer</button>
+		  <button type="button" type="cgminer" onclick="minerSwitch('cgminer-HEXu')" class="btn btn-default">cgminer-HEXu</button>
 		  <script language="javascript" type="text/javascript">
-			function myFunction(miner) {
+			function minerSwitch(miner) {
 			  if (miner == "cgminer") {
 				document.getElementById('minerSettings').value = "#!/bin/bash\nsleep 10\n/usr/bin/screen -dmS miner /opt/minepeon/bin/cgminer -c /opt/minepeon/etc/miner.conf\n";
 			  } 
 			  if (miner == "bfgminer") {
 				document.getElementById('minerSettings').value = "#!/bin/bash\nsleep 10\n/usr/bin/screen -dmS miner /opt/minepeon/bin/bfgminer -S all -c /opt/minepeon/etc/miner.conf\n";
 			  }
+			  if (miner == "cgminer-HEXu") {
+				document.getElementById('minerSettings').value = "#!/bin/bash\nsleep 10\n/usr/bin/screen -dmS miner /opt/minepeon/bin/cgminer-HEXu -c /opt/minepeon/etc/miner.conf\n";
+			  } 
 			}
 		  </script>
 		  <p class="help-block">
-            Enter you own miner parameters or select a default bfgminer or cgminer configuration.  You will need to press Save and then reboot MinePeon when you finish.
+            Enter you own miner parameters or select a default bfgminer or cgminer configuration.  
+			You will need to press Save and then reboot MinePeon when you finish.<br />
+			If you intend to enable the cgminer-HEXu option <a href="http://minepeon.com/index.php/Cgminer-HEXu">please read this page for instructions.</a>
           </p>
         </div>
       </div>
