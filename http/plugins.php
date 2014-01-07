@@ -3,16 +3,22 @@
 require_once('settings.inc.php');
 require_once('miner.inc.php');
 
-if (isset($_FILES["file"]["tmp_name"])) {
-	exec("tar -xzf " . $_FILES["file"]["tmp_name"] . " -C /opt/minepeon/http/plugins/ ");
+// This need some testing now...
 
+if (isset($_FILES["file"]["tmp_name"])) {
+	exec("tar -xzf " . $_FILES["file"]["tmp_name"] . " -C /opt/minepeon/ ");
+       if (is_dir(instal_temp)) {
+	exec("./opt/minepeon/http/instal_temp/instal.sh");          
+}
 }
 
 if (isset($_POST["wget"])) {
        exec("wget -P /opt/minepeon/http/ -O Tmpfile.tar.gz " . $_POST["wget"]);
-	exec("tar -xzf /opt/minepeon/http/Tmpfile.tar.gz -C /opt/minepeon/http/plugins/ ");
+	exec("tar -xzf /opt/minepeon/http/Tmpfile.tar.gz -C /opt/minepeon/ ");
        unlink('Tmpfile.tar.gz');
-
+       if (is_dir(instal_temp)) {
+	exec("./opt/minepeon/http/instal_temp/instal.sh");          
+}
 }
 
 if (isset($_POST['delpl'])) {
@@ -82,6 +88,8 @@ foreach($files as $file)
 $plugin=simplexml_load_file($file . "/plugin.xml");
  if(is_dir($file)){
  if($file != "plugins/api_menu"){
+ if($file != "plugins/api_settings"){
+ if($file != "plugins/api_pools"){
 
 ?>
   <tr>
@@ -101,6 +109,8 @@ $plugin=simplexml_load_file($file . "/plugin.xml");
 
   
 <?php
+}
+}
 }
 }
 }
