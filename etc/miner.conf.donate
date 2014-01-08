@@ -10,7 +10,7 @@
     "scan-time": "60",
     "shares": "0",
     "kernel-path": "\/opt\/minepeon\/bin",
-    "api-allow": "W:0\/0",
+    "api-allow": "127.0.0.1",
     "pools": [
         {
             "url": "stratum.btcguild.com:3333",
