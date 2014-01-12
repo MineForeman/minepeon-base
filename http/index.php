@@ -2,32 +2,8 @@
 
 require('miner.inc.php');
 include('settings.inc.php');
-
-
-create_graph("mhsav-hour.png", "-1h", "Last Hour");
-create_graph("mhsav-day.png", "-1d", "Last Day");
-create_graph("mhsav-week.png", "-1w", "Last Week");
-create_graph("mhsav-month.png", "-1m", "Last Month");
-create_graph("mhsav-year.png", "-1y", "Last Year");
-
-function create_graph($output, $start, $title) {
-  $RRDPATH = '/opt/minepeon/var/rrd/';
-  $options = array(
-    "--slope-mode",
-    "--start", $start,
-    "--title=$title",
-    "--vertical-label=Hash per second",
-    "--lower=0",
-    "DEF:hashrate=" . $RRDPATH . "hashrate.rrd:hashrate:AVERAGE",
-    "CDEF:realspeed=hashrate,1000,*",
-    "LINE2:realspeed#FF0000"
-    );
-
-  $ret = rrd_graph("/opt/minepeon/http/rrd/" . $output, $options);
-  if (! $ret) {
-    //echo "<b>Graph error: </b>".rrd_error()."\n";
-  }
-}
+//The language system is Work in progress
+include("lang/en/lang.en.php");
 
 //MinePeon temperature
 $mpTemp = round(exec('cat /sys/class/thermal/thermal_zone0/temp') / 1000, 2);
@@ -49,36 +25,16 @@ include('head.php');
 include('menu.php');
 ?>
 <div class="container">
-  <h2>Status</h2>
-  <?php
-  if (file_exists('/opt/minepeon/http/rrd/mhsav-hour.png')) {
-  ?>
-  <p class="text-center">
-    <img src="rrd/mhsav-hour.png" alt="mhsav.png" />
-    <img src="rrd/mhsav-day.png" alt="mhsav.png" /><br/>
-    <a href="#" id="chartToggle">Display extended charts</a>
-  </p>
-  <p class="text-center collapse chartMore">
-    <img src="rrd/mhsav-week.png" alt="mhsav.png" />
-    <img src="rrd/mhsav-month.png" alt="mhsav.png" />
-  </p>
-  <p class="text-center collapse chartMore">
-    <img src="rrd/mhsav-year.png" alt="mhsav.png" />
-  </p>
-  <?php
-  } else {
-  ?>
-  <center><h1>Graphs not ready yet</h1></center>
-  <center><h2>Please wait upto 5 minutes</h2></center>
-  <?php
-  }
-  ?>
+<div id="statusChart" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
+
+
+
   <div class="row">
     <div class="col-lg-4">
       <dl class="dl-horizontal">
-        <dt>MinePeon Temp</dt>
+        <dt><?php echo $lang["MPtemp"]; ?></dt>
         <dd><?php echo $mpTemp; ?> <small>&deg;C</small> | <?php echo $mpTemp*9/5+32; ?> <small>&deg;F</small></dd>
-        <dt>MinePeon CPU Load</dt>
+        <dt><?php echo $lang["MPcpu"]; ?></dt>
         <dd><?php echo $mpCPULoad[0]; ?> <small>[1 min]</small></dd>
         <dd><?php echo $mpCPULoad[1]; ?> <small>[5 min]</small></dd>
         <dd><?php echo $mpCPULoad[2]; ?> <small>[15 min]</small></dd>
@@ -86,48 +42,49 @@ include('menu.php');
     </div>
     <div class="col-lg-4">
       <dl class="dl-horizontal">
-        <dt>Best Share</dt>
+        <dt><?php echo $lang["bestshare"]; ?></dt>
         <dd><?php echo $summary['SUMMARY'][0]['BestShare']; ?></dd>
-        <dt>MinePeon Uptime</dt>
+        <dt><?php echo $lang["MPuptime"]; ?></dt>
         <dd><?php echo secondsToWords(round($uptime[0])); ?></dd>
-        <dt>Miner Uptime</dt>
+        <dt><?php echo $lang["mineruptime"]; ?></dt>
         <dd><?php echo secondsToWords($summary['SUMMARY'][0]['Elapsed']); ?></dd>
       </dl>
     </div>
     <div class="col-lg-4">
       <dl class="dl-horizontal">
-        <dt>MinePeon Version</dt>
+        <dt><?php echo $lang["MPversion"]; ?></dt>
         <dd><?php echo $version; ?></dd>
-        <dt>Miner Version</dt>
+        <dt><?php echo $lang["minerversion"]; ?></dt>
         <dd><?php echo $summary['STATUS'][0]['Description']; ?></dd>
-        <dt>Donation Minutes</dt>
+        <dt><?php echo $lang["donationmin"]; ?></dt>
         <dd><?php echo $settings['donateAmount']; ?>
       </dl>
     </div>
   </div>
   <center>
-    <a class="btn btn-default" href='/restart.php'>Restart Miner</a>  
-    <a class="btn btn-default" href='/reboot.php'>Reboot</a> 
-    <a class="btn btn-default" href='/halt.php'>ShutDown</a>
+    <a class="btn btn-default" href='/restart.php'><?php echo $lang["restartminer"]; ?></a>  
+    <a class="btn btn-default" href='/reboot.php'><?php echo $lang["reboot"]; ?></a> 
+    <a class="btn btn-default" href='/halt.php'><?php echo $lang["shutdown"]; ?></a>
   </center>
-  <h3>Pools</h3>
-  <table id="pools" class="tablesorter table table-striped table-hover">
+  <h3><?php echo $lang["pools"]; ?></h3>
+  <table id="pools" class="table table-striped table-hover">
     <thead> 
       <tr>
-        <th>URL</th>
-        <th>User</th>
-        <th>Status</th>
+	    <th></th>
+        <th><?php echo $lang["url"]; ?></th>
+        <th><?php echo $lang["user"]; ?></th>
+        <th><?php echo $lang["status"]; ?></th>
         <th title="Priority">Pr</th>
         <th title="GetWorks">GW</th>
         <th title="Accept">Acc</th>
         <th title="Reject">Rej</th>
         <th title="Discard">Disc</th>
-        <th title="Last Share Time">Last</th>       
+        <th title="Last Share Time"><?php echo $lang["last"]; ?></th>       
         <th title="Difficulty 1 Shares">Diff1</th>        
         <th title="Difficulty Accepted">DAcc</th>
         <th title="Difficulty Rejected">DRej</th>
         <th title="Last Share Difficulty">DLast</th>
-        <th title="Best Share">Best</th>      
+        <th title="Best Share"><?php echo $lang["best"]; ?></th>	
       </tr>
     </thead>
     <tbody>
@@ -135,7 +92,7 @@ include('menu.php');
     </tbody>
   </table>
 
-  <h3>Devices</h3>
+  <h3><?php echo $lang["devices"]; ?></h3>
   <?php echo statsTable($devs); ?>
   <?php
   if ($debug == true) {
@@ -274,6 +231,8 @@ function poolsTable($pools) {
 
 // class="success" error warning info
 
+  $poolID = 0;
+
   $table = "";
   foreach ($pools as $pool) {
 
@@ -291,6 +250,11 @@ function poolsTable($pools) {
 
     $table = $table . "
     <tr class='" . $rowclass . "'>
+	<td>";
+	if($poolID != 0) {
+		$table = $table . "<a href='/?url=" . $pool['URL'] . "&user=" . $pool['User'] . "'><img src='/img/up.png'></td>";
+	}
+	$table = $table . "
     <td class='text-left'>" . $poolURL[1] . "</td>
     <td class='text-left ellipsis'>" . $pool['User'] . "</td>
     <td class='text-left'>" . $pool['Status'] . "</td>
@@ -304,9 +268,9 @@ function poolsTable($pools) {
     <td>" . round($pool['DifficultyAccepted']) . "&nbsp;["  . (!$pool['Diff1Shares'] == 0 ? round(($pool['DifficultyAccepted'] / $pool['Diff1Shares']) * 100) : 0) .  "%]</td>
     <td>" . round($pool['DifficultyRejected']) . "&nbsp;["  . (!$pool['Diff1Shares'] == 0 ? round(($pool['DifficultyRejected'] / $pool['Diff1Shares']) * 100) : 0) .  "%]</td>
     <td>" . round($pool['LastShareDifficulty'], 0) . "</td>
-    <td>" . $pool['BestShare'] . "</td>     
+    <td>" . $pool['BestShare'] . "</td>
     </tr>";
-
+	$poolID++;
   }
 
   return $table;
