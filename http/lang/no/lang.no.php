@@ -1,5 +1,6 @@
 <?php
-
+//Norwegian Lang file
+//work in progress
 //Index
 $lang["MPtemp"] = "MinePeon Temp";
 $lang["MPcpu"]  = "MinePeon CPU Last";
@@ -11,7 +12,7 @@ $lang["minerversion"] = "Miner Versjon";
 $lang["donationmin"] = "Donation Minutter";
 $lang["restartminer"] = "Restart Miner";
 $lang["reboot"] = "Restart";
-$lang["shutdown"] = "Slå av";
+$lang["shutdown"] = "Sla av";
 $lang["pools"] = "Pools";
 $lang["url"] = "Link";
 $lang["user"] = "Bruker";
@@ -23,6 +24,6 @@ $lang["name"] = "Navn";
 $lang["id"] = "ID";
 $lang["temp"] = "Temp";
 $lang['totals'] = "Total";
-$lang["nodevicesrunning"] = "Ingen enheter kjører";
+$lang["nodevicesrunning"] = "Ingen enheter kjorer";
 
 ?>

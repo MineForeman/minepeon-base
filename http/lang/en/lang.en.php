@@ -12,10 +12,8 @@ $lang["donationmin"] = "Donation Minutes";
 $lang["restartminer"] = "Restart Miner";
 $lang["reboot"] = "Reboot";
 $lang["shutdown"] = "ShutDown";
-$lang["pools"] = "Pools";
 $lang["url"] = "URL";
-$lang["user"] = "User";
-$lang["status"] = "Status";
+$lang["user"] = "User";;
 $lang["last"] = "Last";
 $lang["best"] = "Best";
 $lang["divices"] = "Devices";
@@ -50,9 +48,19 @@ $lang["expectedhashrate"] = "Expected Hashrate";
 $lang["infoed"] = "If the count of active devices falls below this value, an alert will be sent.";
 $lang["infoeh"] = "If the hashrate falls below this value an alert will be sent.";
 $lang["alerts"] = "Alerts";
-
+//beback
 
 //Plugins
+
+
+$lang["name"] = "Name";
+$lang["madeby"] = "Made by";
+$lang["description"] = "Description";
+$lang["delete"] = "Delete";
+$lang["instalpl"] = "Instal plugin";
+$lang["instal"] = "Instal";
+$lang["instalfromweb"] = "Instal plugin from web";
+$lang["downloadurl"] = "Download url";
 
 //About
 
@@ -63,6 +71,14 @@ $lang["alerts"] = "Alerts";
 //Foot
 
 //Menu
+
+$lang["status"] = "Status";
+$lang["pools"] = "Pools";
+$lang["settings"] = "Settings";
+$lang["plugins"] = "Plugins";
+$lang["about"] = "About";
+$lang["contact"] = "Contact";
+$lang["license"] = "License";
 
 
 ?>
