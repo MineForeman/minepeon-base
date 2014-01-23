@@ -62,7 +62,7 @@ include('menu.php');
         <th>Name</th>
         <th>Made by</th>
         <th title="Made my">Description</th>
-        <th title="Settins">Settings</th>   
+        <th title="Settings">Settings</th>   
         <th title="Delete">Delete</th>  
       </tr>
     </thead>
@@ -96,7 +96,7 @@ $plugin=simplexml_load_file($file . "/plugin.xml");
     <td class='text-left'><?php echo $plugin->name; ?></td>
     <td><?php echo $plugin->maker; ?></td>
     <td><?php echo $plugin->description; ?></td>
-    <td><?php echo '<a class="btn btn-default" href="'. $plugin->settings . '">Settins</a>'; ?></td>    
+    <td><?php echo '<a class="btn btn-default" href="'. $plugin->settings . '">Settings</a>'; ?></td>    
     <td>
   <form name="delpls" action="/plugins.php" method="post">
 <input type="hidden" name="delpl" id="delpl" value="<?php echo $file; ?>" />
@@ -121,7 +121,7 @@ $plugin=simplexml_load_file($file . "/plugin.xml");
 </blockquote>
   <form name="instal" action="/plugins.php" method="post" enctype="multipart/form-data" class="form-horizontal">
     <fieldset>
-      <legend>Instal plugin</legend>
+      <legend>Install plugin</legend>
 
       <div class="form-group">
 		<div class="col-lg-9 col-offset-3">
@@ -130,7 +130,7 @@ $plugin=simplexml_load_file($file . "/plugin.xml");
 	  </div>
 	  <div class="form-group">
 		<div class="col-lg-9 col-offset-3">
-		  <button type="submit" name="submit" class="btn btn-default">Instal</button>
+		  <button type="submit" name="submit" class="btn btn-default">Install</button>
 		</div>
       </div>
     </fieldset>
@@ -139,7 +139,7 @@ $plugin=simplexml_load_file($file . "/plugin.xml");
 </blockquote>
   <form name="instal" action="/plugins.php" method="post" class="form-horizontal">
     <fieldset>
-      <legend>Instal plugin from web</legend>
+      <legend>Install plugin from web</legend>
 
       <div class="form-group">
         <label for="downloadUrl" class="control-label col-lg-3">Download url</label>
@@ -149,7 +149,7 @@ $plugin=simplexml_load_file($file . "/plugin.xml");
 	  </div>
 	  <div class="form-group">
 		<div class="col-lg-9 col-offset-3">
-		  <button type="submit" name="submit" class="btn btn-default">Instal</button>
+		  <button type="submit" name="submit" class="btn btn-default">Install</button>
 		</div>
       </div>
     </fieldset>
