@@ -28,13 +28,13 @@ function miner($command, $parameter) {
 }
 
 function promotePool($addr, $user){
-  $pools = cgminer('pools','')['POOLS'];
+  $pools = miner('pools','')['POOLS'];
   $pool = 0;
   // echo "changeing";
   foreach ($pools as $key => $value) {
     if(isset($value['User']) && $value['URL']==$addr && $value['User']==$user){
 	  // echo "found";
-	  cgminer('switchpool',$pool);
+	  miner('switchpool',$pool);
     }
 	$pool = $pool + 1;
   }
