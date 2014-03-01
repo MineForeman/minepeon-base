@@ -2,6 +2,7 @@
 
 require('miner.inc.php');
 include('settings.inc.php');
+include('functions.inc.php');
 
 
 create_graph("mhsav-hour.png", "-1h", "Last Hour");
@@ -29,6 +30,9 @@ function create_graph($output, $start, $title) {
   }
 }
 
+// A few globals for the title of the page
+$G_MHSav = 0;
+
 //MinePeon temperature
 $mpTemp = round(exec('cat /sys/class/thermal/thermal_zone0/temp') / 1000, 2);
 
@@ -38,6 +42,15 @@ $version = exec('cat /opt/minepeon/etc/version');
 //MinePeon CPU load
 $mpCPULoad = sys_getloadavg();
 
+if (isset($_GET['url']) and isset($_GET['user'])) {
+
+	$poolMessage = "Pool  Change Requested " . $_GET['url'] . $_GET['user'];
+
+	// echo $poolMessage;
+
+	promotePool($_GET['url'], $_GET['user']);
+
+}
 
 $stats = miner("devs", "");
 $status = $stats['STATUS'];
@@ -111,9 +124,10 @@ include('menu.php');
     <a class="btn btn-default" href='/halt.php'>ShutDown</a>
   </center>
   <h3>Pools</h3>
-  <table id="pools" class="tablesorter table table-striped table-hover">
+  <table id="pools" class="table table-striped table-hover">
     <thead> 
       <tr>
+        <th></th>
         <th>URL</th>
         <th>User</th>
         <th>Status</th>
@@ -149,6 +163,21 @@ include('menu.php');
   ?>
 
 </div>
+<script language="javascript" type="text/javascript">
+ 
+document.title = '<?php echo $G_MHSav; ?>|<?php echo $version; ?>';
+ 
+<?php 
+ 
+// Change screen colour test for alerts
+ 
+if ($settings['donateAmount'] < 1) {
+	echo 'document.body.style.background = "#FFFFCF"';
+}
+
+?>
+
+</script>
 <?php
 include('foot.php');
 
@@ -180,6 +209,9 @@ function statsTable($devs) {
     </thead>
     <tbody>';
 
+ 	$hwErrorPercent = 0;
+	$DeviceRejected = 0;
+
   foreach ($devs as $dev) {
     if ($dev['MHS5s'] > 0) {
 	  if (isset($dev['Temperature'])) {
@@ -187,9 +219,12 @@ function statsTable($devs) {
 	  } else {
 	    $temperature = "N/A";
 	  }
-      $tableRow = $tableRow .
-      ($hwErrorPercent >= 10 || $rejectedErrorPercent > 5 ? "<tr class=\"error\">" : "<tr>")
-      ."<td class='text-left'>" . $dev['Name'] . "</td>
+	if ($dev['DeviceHardware%'] >= 10 || $dev['DeviceRejected%'] > 5) {
+    		$tableRow = $tableRow . "<tr class=\"error\">";
+	} else {
+		$tableRow = $tableRow . "<tr class=\"success\">";
+	}
+	$tableRow = $tableRow . "<td>" . $dev['Name'] . "</td>
       <td>" . $dev['ID'] . "</td>
       <td>" . $temperature . "</td>
       <td><a href='http://mineforeman.com/bitcoin-mining-calculator/?hash=" . $dev['MHSav'] . "' target='_blank'>" . $dev['MHSav'] . "</a></td>
@@ -208,6 +243,8 @@ function statsTable($devs) {
 	  $DeviceRejected = $DeviceRejected + $dev['DeviceRejected%'];
 	  $hwErrorPercent = $hwErrorPercent + $dev['DeviceHardware%'];
       $Utility = $Utility + $dev['Utility'];
+
+	$GLOBALS['G_MHSav'] = $MHSav . " MH/s|" . $devices . " DEV";
 
     }
   }
@@ -274,7 +311,12 @@ function poolsTable($pools) {
 
 // class="success" error warning info
 
+  $poolID = 0;
+
   $table = "";
+  
+  array_sort_by_column($pools, 'Priority');
+  
   foreach ($pools as $pool) {
 
     if ($pool['Status'] <> "Alive") {
@@ -291,6 +333,11 @@ function poolsTable($pools) {
 
     $table = $table . "
     <tr class='" . $rowclass . "'>
+	<td>";
+	if($poolID != 0) {
+		$table = $table . "<a href='/?url=" . $pool['URL'] . "&user=" . $pool['User'] . "'><img src='/img/up.png'></td>";
+	}
+	$table = $table . "
     <td class='text-left'>" . $poolURL[1] . "</td>
     <td class='text-left ellipsis'>" . $pool['User'] . "</td>
     <td class='text-left'>" . $pool['Status'] . "</td>
@@ -306,6 +353,8 @@ function poolsTable($pools) {
     <td>" . round($pool['LastShareDifficulty'], 0) . "</td>
     <td>" . $pool['BestShare'] . "</td>     
     </tr>";
+    
+    $poolID++;
 
   }
 
