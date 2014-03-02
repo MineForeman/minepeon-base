@@ -27,3 +27,13 @@ function cgminer($command, $parameter) {
 
 }
 
+function promotePool($addr, $user){
+  $pools = cgminer('pools','')['POOLS'];
+  $pool = -1;
+  foreach ($pools as $k => $v) {
+    if(isset($v['User']) && $v['User']==$addr && $v['User']==$addr){
+      $donatePool = $k;
+    }
+  }
+  return $donatePool;
+}

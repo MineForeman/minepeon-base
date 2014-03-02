@@ -27,10 +27,6 @@ if (!file_exists($RRD)) {
 
 $command = round(exec('cat /sys/class/thermal/thermal_zone0/temp') / 1000, 2);
 
-$command = substr($command, 5);
-
-$command = substr($command, 0, -2);
-
 $result = time() . ':' . $command;
 
 $update = array(
@@ -40,3 +36,4 @@ $update = array(
 
 $ret = rrd_update($RRD, $update);
 
+echo $result;
