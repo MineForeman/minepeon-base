@@ -46,7 +46,7 @@ if (isset($_GET['url']) and isset($_GET['user'])) {
 
 	$poolMessage = "Pool  Change Requested " . $_GET['url'] . $_GET['user'];
 
-	echo $poolMessage;
+	//echo $poolMessage;
 
 	promotePool($_GET['url'], $_GET['user']);
 
