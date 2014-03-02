@@ -46,7 +46,7 @@ if (isset($_GET['url']) and isset($_GET['user'])) {
 
 	$poolMessage = "Pool  Change Requested " . $_GET['url'] . $_GET['user'];
 
-	// echo $poolMessage;
+	echo $poolMessage;
 
 	promotePool($_GET['url'], $_GET['user']);
 
@@ -213,17 +213,36 @@ function statsTable($devs) {
 	$DeviceRejected = 0;
 
   foreach ($devs as $dev) {
-    if ($dev['MHS5s'] > 0) {
-	  if (isset($dev['Temperature'])) {
-		$temperature = $dev['Temperature'];
-	  } else {
-	    $temperature = "N/A";
-	  }
-	if ($dev['DeviceHardware%'] >= 10 || $dev['DeviceRejected%'] > 5) {
-    		$tableRow = $tableRow . "<tr class=\"error\">";
-	} else {
-		$tableRow = $tableRow . "<tr class=\"success\">";
+  
+	// Sort out valid deceives
+	
+	$validDevice = true;
+ 
+	
+	if ($dev['MHS5s'] < 1) {
+		// not mining, not a valid device
+		$validDevice = false;
 	}
+
+	if ((time() - $dev['LastShareTime']) > 500) {
+		// Only show devices that have returned a share in the past 5 minutes
+		$validDevice = false;
+	}
+	
+	if (isset($dev['Temperature'])) {
+		$temperature = $dev['Temperature'];
+	} else {
+		$temperature = "N/A";
+	}
+	
+	if ($validDevice) {
+
+		if ($dev['DeviceHardware%'] >= 10 || $dev['DeviceRejected%'] > 5) {
+			$tableRow = $tableRow . "<tr class=\"error\">";
+		} else {
+			$tableRow = $tableRow . "<tr class=\"success\">";
+		}
+		
 	$tableRow = $tableRow . "<td>" . $dev['Name'] . "</td>
       <td>" . $dev['ID'] . "</td>
       <td>" . $temperature . "</td>
@@ -235,18 +254,18 @@ function statsTable($devs) {
       <td>" . date('H:i:s', $dev['LastShareTime']) . "</td>
       </tr>";
 
-      $devices++;
-      $MHSav = $MHSav + $dev['MHSav'];
-      $Accepted = $Accepted + $dev['Accepted'];
-      $Rejected = $Rejected + $dev['Rejected'];
-      $HardwareErrors = $HardwareErrors + $dev['HardwareErrors'];
-	  $DeviceRejected = $DeviceRejected + $dev['DeviceRejected%'];
-	  $hwErrorPercent = $hwErrorPercent + $dev['DeviceHardware%'];
-      $Utility = $Utility + $dev['Utility'];
+		$devices++;
+		$MHSav = $MHSav + $dev['MHSav'];
+		$Accepted = $Accepted + $dev['Accepted'];
+		$Rejected = $Rejected + $dev['Rejected'];
+		$HardwareErrors = $HardwareErrors + $dev['HardwareErrors'];
+		$DeviceRejected = $DeviceRejected + $dev['DeviceRejected%'];
+		$hwErrorPercent = $hwErrorPercent + $dev['DeviceHardware%'];
+		$Utility = $Utility + $dev['Utility'];
 
-	$GLOBALS['G_MHSav'] = $MHSav . " MH/s|" . $devices . " DEV";
+		$GLOBALS['G_MHSav'] = $MHSav . " MH/s|" . $devices . " DEV";
 
-    }
+	}
   }
 
 
