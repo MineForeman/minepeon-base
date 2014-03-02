@@ -1,16 +1,23 @@
-
+<?php
+//The language system is Work in progress
+if ($settings['lang'] == "no"){
+include("lang/no/lang.no.php");
+}else{
+include("lang/en/lang.en.php");
+}
+?>
 
 <div class="navbar">
   <div class="container">
     <a class="navbar-brand" href="http://mineforeman.com/minepeon/">MinePeon</a>
     <ul class="nav navbar-nav">
-      <li><a href="/">Status</a></li>
-      <li><a href="/pools.php">Pools</a></li>
-      <li><a href="/settings.php">Settings</a></li>
-      <li><a href="/plugins.php">Plugins</a></li> 
-      <li><a href="/about.php">About</a></li>
-      <li><a href="/contact.php">Contact</a></li>
-      <li><a href="/license.php">License</a></li> 
+      <li><a href="/"><?php echo $lang["status"]; ?></a></li>
+      <li><a href="/pools.php"><?php echo $lang["pools"]; ?></a></li>
+      <li><a href="/settings.php"><?php echo $lang["settings"]; ?></a></li>
+      <li><a href="/plugins.php"><?php echo $lang["plugins"]; ?></a></li> 
+      <li><a href="/about.php"><?php echo $lang["about"]; ?></a></li>
+      <li><a href="/contact.php"><?php echo $lang["contact"]; ?></a></li>
+      <li><a href="/license.php"><?php echo $lang["license"]; ?></a></li> 
 <?php 
    if ($handle = opendir('plugins/api_menu/')) {
         while (false !== ($entry = readdir($handle))) {
