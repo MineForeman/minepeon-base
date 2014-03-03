@@ -47,6 +47,7 @@ rrmdir($_POST['delpl']);
 
 
 unlink('plugins/api_menu/' . $delpl2 . '_apimenu.xml');
+  header('Location: /plugins.php');
 }
 
 

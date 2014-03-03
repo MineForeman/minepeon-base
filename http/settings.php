@@ -26,6 +26,14 @@ if (isset($_POST['userTimezone'])) {
   exit;
 
 }
+
+if (isset($_POST['lang'])) {
+
+  $settings['lang'] = $_POST['lang'];
+  $writeSettings=true;
+
+}
+
 if (isset($_POST['userPassword1'])) {
 
 	if ($_POST['userPassword1'] <> '') {
@@ -187,6 +195,24 @@ include('menu.php');
           <?php echo $tzselect ?>
           <p class="help-block">MinePeon thinks it is now <?php echo date('D, d M Y H:i:s T') ?></p>
 		  <button type="submit" class="btn btn-default">Save</button>
+        </div>
+      </div>
+    </fieldset>
+  </form>
+
+  <form name="language" action="/settings.php" method="post" class="form-horizontal">
+    <fieldset>
+      <legend>Language</legend>
+
+      <div class="form-group">
+        <label for="userlanguage" class="control-label col-lg-3">Language</label>
+        <div class="col-lg-9">
+          <select name="lang" class="form-control">
+          <option value="en">English</option>
+          <option value="no" <?php if ($settings['lang'] == "no"){echo "selected";} ?>>Norsk (Norwegian)</option>
+          </select>
+          <br>
+          <button type="submit" id class="btn btn-default">Save</button>
         </div>
       </div>
     </fieldset>
