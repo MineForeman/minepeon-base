@@ -3,8 +3,11 @@
 require('miner.inc.php');
 include('settings.inc.php');
 //The language system is Work in progress
+if ($settings['lang'] == "no"){
+include("lang/no/lang.no.php");
+}else{
 include("lang/en/lang.en.php");
-
+}
 //MinePeon temperature
 $mpTemp = round(exec('cat /sys/class/thermal/thermal_zone0/temp') / 1000, 2);
 
