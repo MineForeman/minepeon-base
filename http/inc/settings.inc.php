@@ -2,6 +2,8 @@
 
 if (file_exists("/opt/minepeon/DEBUG")) {
     $debug = true;
+} else {
+    $debug = false;
 } 
 
 $settings = json_decode(file_get_contents("/opt/minepeon/etc/minepeon.conf", true), true);
