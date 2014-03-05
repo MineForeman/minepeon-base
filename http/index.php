@@ -2,12 +2,15 @@
 
 require('miner.inc.php');
 include('settings.inc.php');
-//The language system is Work in progress
+include('functions.inc.php');
 if ($settings['lang'] == "no"){
 include("lang/no/lang.no.php");
 }else{
 include("lang/en/lang.en.php");
 }
+// A few globals for the title of the page
+$G_MHSav = 0;
+
 //MinePeon temperature
 $mpTemp = round(exec('cat /sys/class/thermal/thermal_zone0/temp') / 1000, 2);
 
@@ -17,12 +20,21 @@ $version = exec('cat /opt/minepeon/etc/version');
 //MinePeon CPU load
 $mpCPULoad = sys_getloadavg();
 
+if (isset($_GET['url']) and isset($_GET['user'])) {
 
-$stats = cgminer("devs", "");
+	$poolMessage = "Pool  Change Requested " . $_GET['url'] . $_GET['user'];
+
+	//echo $poolMessage;
+
+	promotePool($_GET['url'], $_GET['user']);
+
+}
+
+$stats = miner("devs", "");
 $status = $stats['STATUS'];
 $devs = $stats['DEVS'];
-$summary = cgminer("summary", "");
-$pools = cgminer("pools", "");
+$summary = miner("summary", "");
+$pools = miner("pools", "");
 
 include('head.php');
 include('menu.php');
@@ -73,7 +85,7 @@ include('menu.php');
   <table id="pools" class="table table-striped table-hover">
     <thead> 
       <tr>
-	    <th></th>
+        <th></th>
         <th><?php echo $lang["url"]; ?></th>
         <th><?php echo $lang["user"]; ?></th>
         <th><?php echo $lang["status"]; ?></th>
@@ -109,6 +121,21 @@ include('menu.php');
   ?>
 
 </div>
+<script language="javascript" type="text/javascript">
+ 
+document.title = '<?php echo $G_MHSav; ?>|<?php echo $version; ?>';
+ 
+<?php 
+ 
+// Change screen colour test for alerts
+ 
+if ($settings['donateAmount'] < 1) {
+	echo 'document.body.style.background = "#FFFFCF"';
+}
+
+?>
+
+</script>
 <?php
 include('foot.php');
 
@@ -140,16 +167,41 @@ function statsTable($devs) {
     </thead>
     <tbody>';
 
+ 	$hwErrorPercent = 0;
+	$DeviceRejected = 0;
+
   foreach ($devs as $dev) {
-    if ($dev['MHS5s'] > 0) {
-	  if (isset($dev['Temperature'])) {
+  
+	// Sort out valid deceives
+	
+	$validDevice = true;
+ 
+	
+	if ($dev['MHS5s'] < 1) {
+		// not mining, not a valid device
+		$validDevice = false;
+	}
+
+	if ((time() - $dev['LastShareTime']) > 500) {
+		// Only show devices that have returned a share in the past 5 minutes
+		$validDevice = false;
+	}
+	
+	if (isset($dev['Temperature'])) {
 		$temperature = $dev['Temperature'];
-	  } else {
-	    $temperature = "N/A";
-	  }
-      $tableRow = $tableRow .
-      ($hwErrorPercent >= 10 || $rejectedErrorPercent > 5 ? "<tr class=\"error\">" : "<tr>")
-      ."<td class='text-left'>" . $dev['Name'] . "</td>
+	} else {
+		$temperature = "N/A";
+	}
+	
+	if ($validDevice) {
+
+		if ($dev['DeviceHardware%'] >= 10 || $dev['DeviceRejected%'] > 5) {
+			$tableRow = $tableRow . "<tr class=\"error\">";
+		} else {
+			$tableRow = $tableRow . "<tr class=\"success\">";
+		}
+		
+	$tableRow = $tableRow . "<td>" . $dev['Name'] . "</td>
       <td>" . $dev['ID'] . "</td>
       <td>" . $temperature . "</td>
       <td><a href='http://mineforeman.com/bitcoin-mining-calculator/?hash=" . $dev['MHSav'] . "' target='_blank'>" . $dev['MHSav'] . "</a></td>
@@ -160,16 +212,18 @@ function statsTable($devs) {
       <td>" . date('H:i:s', $dev['LastShareTime']) . "</td>
       </tr>";
 
-      $devices++;
-      $MHSav = $MHSav + $dev['MHSav'];
-      $Accepted = $Accepted + $dev['Accepted'];
-      $Rejected = $Rejected + $dev['Rejected'];
-      $HardwareErrors = $HardwareErrors + $dev['HardwareErrors'];
-	  $DeviceRejected = $DeviceRejected + $dev['DeviceRejected%'];
-	  $hwErrorPercent = $hwErrorPercent + $dev['DeviceHardware%'];
-      $Utility = $Utility + $dev['Utility'];
+		$devices++;
+		$MHSav = $MHSav + $dev['MHSav'];
+		$Accepted = $Accepted + $dev['Accepted'];
+		$Rejected = $Rejected + $dev['Rejected'];
+		$HardwareErrors = $HardwareErrors + $dev['HardwareErrors'];
+		$DeviceRejected = $DeviceRejected + $dev['DeviceRejected%'];
+		$hwErrorPercent = $hwErrorPercent + $dev['DeviceHardware%'];
+		$Utility = $Utility + $dev['Utility'];
 
-    }
+		$GLOBALS['G_MHSav'] = $MHSav . " MH/s|" . $devices . " DEV";
+
+	}
   }
 
 
@@ -237,6 +291,9 @@ function poolsTable($pools) {
   $poolID = 0;
 
   $table = "";
+  
+  array_sort_by_column($pools, 'Priority');
+  
   foreach ($pools as $pool) {
 
     if ($pool['Status'] <> "Alive") {
@@ -273,7 +330,7 @@ function poolsTable($pools) {
     <td>" . round($pool['LastShareDifficulty'], 0) . "</td>
     <td>" . $pool['BestShare'] . "</td>
     </tr>";
-	$poolID++;
+    $poolID++;
   }
 
   return $table;

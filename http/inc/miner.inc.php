@@ -1,7 +1,7 @@
 <?php
 
 
-function cgminer($command, $parameter) {
+function miner($command, $parameter) {
 
         $command = array (
                 "command"  => $command,
@@ -28,12 +28,15 @@ function cgminer($command, $parameter) {
 }
 
 function promotePool($addr, $user){
-  $pools = cgminer('pools','')['POOLS'];
-  $pool = -1;
-  foreach ($pools as $k => $v) {
-    if(isset($v['User']) && $v['User']==$addr && $v['User']==$addr){
-      $donatePool = $k;
+  $pools = miner('pools','')['POOLS'];
+  $pool = 0;
+  // echo "changeing";
+  foreach ($pools as $key => $value) {
+    if(isset($value['User']) && $value['URL']==$addr && $value['User']==$user){
+	  // echo "found";
+	  miner('switchpool',$pool);
     }
+	$pool = $pool + 1;
   }
-  return $donatePool;
+  
 }

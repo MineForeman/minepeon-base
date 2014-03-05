@@ -8,7 +8,7 @@ include('functions.inc.php');
 
 require_once "Mail.php";
 
-$stats = cgminer("devs", "");
+$stats = miner("devs", "");
 $devs  = $stats['DEVS'];
 
 $devcount = deviceCount($devs);

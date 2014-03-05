@@ -35,4 +35,4 @@ window.setTimeout('CountDown()',100);
 
 include('miner.inc.php');
 
-cgminer('restart','');
+miner('restart','');

@@ -32,7 +32,7 @@ $settings['donateActive'] = true;
 writeSettings($settings);
 
 // Append donatepool
-cgminer("addpool",$poolAddress . "," . $poolUser . "," . $poolPass);
+miner("addpool",$poolAddress . "," . $poolUser . "," . $poolPass);
 
 // Sleep for 5 secconds to avoid monitor scripts
 // Also give miner time to connect to eligius
@@ -40,15 +40,15 @@ sleep(5);
 
 // Look for the donatePool and give it priority
 $pool = findDonatePool($poolUser);
-cgminer('switchpool',$pool);
+miner('switchpool',$pool);
 
 // Donate time!
 sleep($settings['donateAmount'] * 60);
 
 // Look for the donatePool and disable it before removing it
 $pool = findDonatePool($poolUser);
-cgminer('disablepool',$pool);
-cgminer('removepool',$pool);
+miner('disablepool',$pool);
+miner('removepool',$pool);
 
 // Let everyone know donation ended
 $settings['donateActive'] = false;
@@ -56,7 +56,7 @@ writeSettings($settings);
 
 
 function findDonatePool($addr){
-  $pools = cgminer('pools','')['POOLS'];
+  $pools = miner('pools','')['POOLS'];
   $donatePool = -1;
   foreach ($pools as $k => $v) {
     if(isset($v['User']) && $v['User']==$addr){
