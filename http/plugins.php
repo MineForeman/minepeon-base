@@ -3,17 +3,17 @@
 require_once('settings.inc.php');
 require_once('miner.inc.php');
 
-// This need some testing now...
+$pluginlist = simplexml_load_file("http://mariogrip.com/minepeon/plugins.xml");
 
 if (isset($_FILES["file"]["tmp_name"])) {
 	exec("tar -xzf " . $_FILES["file"]["tmp_name"] . " -C /opt/minepeon/ ");
        if (is_dir("instal_temp")) {
-	     $plugin=simplexml_load_file("instal_temp/instal.xml");
-	     if ($plugin->run_sh_file !== "False"){
-	     exec("/opt/minepeon/http/instal_temp/" . $plugin->run_sh_file); 
-		 rrmdir('instal_temp');		 
+	   $plugin=simplexml_load_file("instal_temp/instal.xml");
+	 	if ($plugin->run_sh_file !== "False"){
+	 	exec("/opt/minepeon/http/instal_temp/" . $plugin->run_sh_file); 
+	 	rrmdir('instal_temp');		 
          if ($plugin->redirect_after != "False"){
-         header( 'Location: /plugins/' . $plugin->redirect_after ) ;
+         	header( 'Location: /plugins/' . $plugin->redirect_after ) ;
 }		 
 }
 }
@@ -87,22 +87,12 @@ include('menu.php');
       </tr>
     </thead>
     <tbody>
-         <?php
 
-//path to directory to scan
+<?php
+
 $directory = "plugins/";
-
-
-
-//get all files in specified directory
 $files = glob($directory . "*");
  
- //check to see if the file is a folder/directory
-//else{
-//echo "<center><h2>There is not any plugins is installed!</h2></center>";
-//}
-
-//print each file name
 foreach($files as $file)
 {
 $plugin=simplexml_load_file($file . "/plugin.xml");
@@ -141,7 +131,7 @@ $plugin=simplexml_load_file($file . "/plugin.xml");
 </blockquote>
   <form name="instal" action="/plugins.php" method="post" enctype="multipart/form-data" class="form-horizontal">
     <fieldset>
-      <legend>Instal plugin</legend>
+      <legend>Install plugin</legend>
 
       <div class="form-group">
 		<div class="col-lg-9 col-offset-3">
@@ -150,7 +140,7 @@ $plugin=simplexml_load_file($file . "/plugin.xml");
 	  </div>
 	  <div class="form-group">
 		<div class="col-lg-9 col-offset-3">
-		  <button type="submit" name="submit" class="btn btn-default">Instal</button>
+		  <button type="submit" name="submit" class="btn btn-default">Install</button>
 		</div>
       </div>
     </fieldset>
@@ -159,7 +149,7 @@ $plugin=simplexml_load_file($file . "/plugin.xml");
 </blockquote>
   <form name="instal" action="/plugins.php" method="post" class="form-horizontal">
     <fieldset>
-      <legend>Instal plugin from web</legend>
+      <legend>Install plugin from web</legend>
 
       <div class="form-group">
         <label for="downloadUrl" class="control-label col-lg-3">Download url</label>
@@ -169,11 +159,48 @@ $plugin=simplexml_load_file($file . "/plugin.xml");
 	  </div>
 	  <div class="form-group">
 		<div class="col-lg-9 col-offset-3">
-		  <button type="submit" name="submit" class="btn btn-default">Instal</button>
+		  <button type="submit" name="submit" class="btn btn-default">Install</button>
 		</div>
       </div>
     </fieldset>
   </form>
+
+</blockquote>
+  <legend>Click and install</legend>
+  <table id="Plugins" class="table table-striped">
+    <thead> 
+      <tr>
+        <th>Name</th>
+        <th>Made by</th>
+        <th title="Made my">Description</th>
+        <th title="Install">Install</th>    
+      </tr>
+    </thead>
+    <tbody>
+
+<?php
+
+foreach($pluginlist->pl as $pli) {     
+
+?>
+  <tr>
+    <td class='text-left'><?php echo $pli->name; ?></td>
+    <td><?php echo $pli->maker; ?></td>
+    <td><?php echo $pli->description; ?></td>  
+    <td>
+	<form name="instal" action="/plugins.php" method="post" class="form-horizontal">
+	<input type="hidden" name="wget" value="<?php echo $pli->downloadurl; ?>" />
+	<button type="submit" name="submit" class="btn btn-default">Install</button>
+  </form>
+
+</td>
+    </tr>
+
+<?php
+}
+?>
+</tbody>
+  </table>  
 
         </div>
 
