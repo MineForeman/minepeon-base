@@ -3,11 +3,38 @@
 require('miner.inc.php');
 include('settings.inc.php');
 include('functions.inc.php');
+
 if ($settings['lang'] == "no"){
-include("lang/no/lang.no.php");
-}else{
-include("lang/en/lang.en.php");
+	include("lang/no/lang.no.php");
+} else {
+	include("lang/en/lang.en.php");
 }
+
+create_graph("mhsav-hour.png", "-1h", "Last Hour");
+create_graph("mhsav-day.png", "-1d", "Last Day");
+create_graph("mhsav-week.png", "-1w", "Last Week");
+create_graph("mhsav-month.png", "-1m", "Last Month");
+create_graph("mhsav-year.png", "-1y", "Last Year");
+
+function create_graph($output, $start, $title) {
+  $RRDPATH = '/opt/minepeon/var/rrd/';
+  $options = array(
+    "--slope-mode",
+    "--start", $start,
+    "--title=$title",
+    "--vertical-label=Hash per second",
+    "--lower=0",
+    "DEF:hashrate=" . $RRDPATH . "hashrate.rrd:hashrate:AVERAGE",
+    "CDEF:realspeed=hashrate,1000,*",
+    "LINE2:realspeed#FF0000"
+    );
+
+  $ret = rrd_graph("/opt/minepeon/http/rrd/" . $output, $options);
+  if (! $ret) {
+    //echo "<b>Graph error: </b>".rrd_error()."\n";
+  }
+}
+
 // A few globals for the title of the page
 $G_MHSav = 0;
 
@@ -40,10 +67,30 @@ include('head.php');
 include('menu.php');
 ?>
 <div class="container">
-<div id="statusChart" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
-
-
-
+  <h2>Status</h2>
+  <?php
+  if (file_exists('/opt/minepeon/http/rrd/mhsav-hour.png')) {
+  ?>
+  <p class="text-center">
+    <img src="rrd/mhsav-hour.png" alt="mhsav.png" />
+    <img src="rrd/mhsav-day.png" alt="mhsav.png" /><br/>
+    <a href="#" id="chartToggle">Display extended charts</a>
+  </p>
+  <p class="text-center collapse chartMore">
+    <img src="rrd/mhsav-week.png" alt="mhsav.png" />
+    <img src="rrd/mhsav-month.png" alt="mhsav.png" />
+  </p>
+  <p class="text-center collapse chartMore">
+    <img src="rrd/mhsav-year.png" alt="mhsav.png" />
+  </p>
+  <?php
+  } else {
+  ?>
+  <center><h1>Graphs not ready yet</h1></center>
+  <center><h2>Please wait upto 5 minutes</h2></center>
+  <?php
+  }
+  ?>
   <div class="row">
     <div class="col-lg-4">
       <dl class="dl-horizontal">
