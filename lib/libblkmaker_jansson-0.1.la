@@ -17,7 +17,7 @@ old_library=''
 inherited_linker_flags=''
 
 # Libraries that this one depends upon.
-dependency_libs=' -L.libs /opt/minepeon/lib/libblkmaker-0.1.la -L/opt/minepeon/lib /opt/minepeon/lib/libjansson.la'
+dependency_libs=' -L.libs /opt/minepeon/lib/libblkmaker-0.1.la -ljansson'
 
 # Names of additional weak libraries provided by this library
 weak_library_names=''
