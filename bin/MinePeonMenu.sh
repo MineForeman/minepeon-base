@@ -28,7 +28,7 @@ b) /usr/bin/passwd ;;
 c) /usr/bin/sudo /usr/bin/systemctl stop miner ;;
 d) /usr/bin/sudo /usr/bin/systemctl start miner ;;
 e) /usr/bin/sudo /usr/bin/systemctl restart miner ;;
-f) /usr/bin/passwd ;;
+f) /opt/minepeon/bin/scripts/MinePeonUIUpdate.sh
 g) /usr/bin/passwd ;;
 h) /usr/bin/passwd ;;
 z) logout ;;
