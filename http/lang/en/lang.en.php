@@ -1,6 +1,9 @@
 <?php
+//English
 //This is Work in progress!
+
 //Index
+
 $lang["MPtemp"] = "MinePeon Temp";
 $lang["MPcpu"]  = "MinePeon CPU Load";
 $lang["bestshare"] = "Best Share";
@@ -48,7 +51,7 @@ $lang["expectedhashrate"] = "Expected Hashrate";
 $lang["infoed"] = "If the count of active devices falls below this value, an alert will be sent.";
 $lang["infoeh"] = "If the hashrate falls below this value an alert will be sent.";
 $lang["alerts"] = "Alerts";
-//beback
+
 
 //Plugins
 
