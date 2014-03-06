@@ -223,8 +223,8 @@ function statsTable($devs) {
 	
 	$validDevice = true;
  
-	
-	if ($dev['MHS5s'] < 1) {
+	//   MHS5s for CGminer    MHS20s for BFGminer
+       if (!$dev['MHS5s'] > 1 || !$dev['MHS20s'] > 1) {
 		// not mining, not a valid device
 		$validDevice = false;
 	}
