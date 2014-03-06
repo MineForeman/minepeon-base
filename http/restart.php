@@ -3,6 +3,26 @@
 <html>
   <head>
     <title>Restarting Miner</title>
+  <link href="/css/bootstrap.min.css" rel="stylesheet">
+  <link href="/css/bootstrap-minepeon.css" rel="stylesheet">
+        <style>
+   html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            width: 100%;
+        }
+
+        body {
+            display: table;
+        }
+
+        .center-page {
+            text-align: center;
+            display: table-cell;
+            vertical-align: middle;
+        }
+        </style>
 <script type="text/javascript">
 var start = new Date();
 start = Date.parse(start)/1000;
@@ -22,12 +42,12 @@ window.setTimeout('CountDown()',100);
 </script>
   </head>
   <body>
-  <center>
+  <div class="center-page">
   <p><h1>Restarting Miner</h1></p>
   <p>You will be redirected in</p> 
   <p><h1 id="countdown">15</h1></p>  
   <p>seconds.</p> 
-  </center>
+  </div>
   </body>
 </html>
 
