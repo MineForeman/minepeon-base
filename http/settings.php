@@ -366,10 +366,10 @@ include('menu.php');
 		  <script language="javascript" type="text/javascript">
 			function minerSwitch(miner) {
 			  if (miner == "cgminer") {
-				document.getElementById('minerSettings').value = "#!/bin/bash\nsleep 10\n/usr/bin/screen -dmS miner /opt/minepeon/bin/cgminer --api-listen -c /opt/minepeon/etc/miner.conf\n";
+				document.getElementById('minerSettings').value = "#!/bin/bash\nsleep 10\n/usr/bin/screen -dmS miner /opt/minepeon/bin/cgminer -c /opt/minepeon/etc/miner.conf\n";
 			  } 
 			  if (miner == "bfgminer") {
-				document.getElementById('minerSettings').value = "#!/bin/bash\nsleep 10\n/usr/bin/screen -dmS miner /opt/minepeon/bin/bfgminer --api-listen -S all -c /opt/minepeon/etc/miner.conf\n";
+				document.getElementById('minerSettings').value = "#!/bin/bash\nsleep 10\n/usr/bin/screen -dmS miner /opt/minepeon/bin/bfgminer -S all -c /opt/minepeon/etc/miner.conf\n";
 			  }
 			  if (miner == "cgminer-HEXu") {
 				document.getElementById('minerSettings').value = "#!/bin/bash\nsleep 10\n/usr/bin/screen -dmS miner /opt/minepeon/bin/cgminer-HEXu -c /opt/minepeon/etc/miner.conf\n";
@@ -377,7 +377,7 @@ include('menu.php');
 			}
 		  </script>
 		  <p class="help-block">
-            Enter you own miner parameters or select a default bfgminer or cgminer configuration. (--api-listen Does that minepeon works) 
+            Enter you own miner parameters or select a default bfgminer or cgminer configuration.  
 			You will need to press Save and then reboot MinePeon when you finish.<br />
 			If you intend to enable the cgminer-HEXu option <a href="http://minepeon.com/index.php/Cgminer-HEXu">please read this page for instructions.</a>
           </p>
