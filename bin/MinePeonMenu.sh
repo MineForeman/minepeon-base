@@ -13,7 +13,7 @@ echo "# [b] Change console password          #"
 echo "# [c] Stop Miner                       #"
 echo "# [d] Start Miner                      #"
 echo "# [e] Retart Miner                     #"
-echo "# [f] Update MinePeon Web UI           #"
+echo "# [f] Update MinePeon                  #"
 echo "# [g] Update MinePeon Configuration    #"
 echo "# [h] Update ArchLinux                 #"
 echo "# [z] LogOut                           #"
@@ -28,7 +28,7 @@ b) /usr/bin/passwd ;;
 c) /usr/bin/sudo /usr/bin/systemctl stop miner ;;
 d) /usr/bin/sudo /usr/bin/systemctl start miner ;;
 e) /usr/bin/sudo /usr/bin/systemctl restart miner ;;
-f) /opt/minepeon/bin/scripts/MinePeonUIUpdate.sh
+f) /opt/minepeon/bin/scripts/MinePeonUIUpdate.sh ;;
 g) /usr/bin/passwd ;;
 h) /usr/bin/passwd ;;
 z) logout ;;
