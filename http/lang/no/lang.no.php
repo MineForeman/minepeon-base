@@ -1,5 +1,5 @@
 <?php
-//Norwegian Lang file
+//Norwegian
 //work in progress
 //Index
 $lang["MPtemp"] = "MinePeon Temp";
@@ -25,5 +25,61 @@ $lang["id"] = "ID";
 $lang["temp"] = "Temp";
 $lang['totals'] = "Total";
 $lang["nodevicesrunning"] = "Ingen enheter kjorer";
+
+//Pools
+
+$lang["warning"] = "Advarsel:";
+$lang["warningtext"] = "Pools er veldig sentetiv til feil text, sa husk og lage den rett!";
+$lang["info"] = "Skift disse til ditt pool, eller la vere for a donere";
+$lang["username"] = "Brukernavn";
+$lang["password"] = "Passord";
+$lang["optional"] = "kreves ikke";
+$lang["info2"] = "Etter lagring, vil miner restarte. Dette tar ca 10 sekunder.";
+$lang["submit"] = "Send";
+
+
+//Settings
+
+$lang["timezone"] = "Tid";
+$lang["save"] = "Lagre";
+$lang["newpassword"] = "Nytt passord";
+$lang["repepassword"] = "Passowrd pa nytt";
+$lang["mining"] = "Mining";
+$lang["expecteddevices"] = "Expected Devices";
+$lang["expectedhashrate"] = "Expected Hashrate";
+$lang["infoed"] = "If the count of active devices falls below this value, an alert will be sent.";
+$lang["infoeh"] = "If the hashrate falls below this value an alert will be sent.";
+$lang["alerts"] = "Alerts";
+
+
+//Plugins
+
+
+$lang["name"] = "Navn";
+$lang["madeby"] = "Laget av";
+$lang["description"] = "Beskrivelse";
+$lang["delete"] = "Slett";
+$lang["instalpl"] = "Instalere plugin";
+$lang["instal"] = "Installere";
+$lang["instalfromweb"] = "Installere fra web";
+$lang["downloadurl"] = "Nedlastings url";
+
+//About
+
+//Contact
+
+//license
+
+//Foot
+
+//Menu
+
+$lang["status"] = "Status";
+$lang["pools"] = "Pools";
+$lang["settings"] = "Settings";
+$lang["plugins"] = "Plugins";
+$lang["about"] = "About";
+$lang["contact"] = "Contact";
+$lang["license"] = "License";
 
 ?>
