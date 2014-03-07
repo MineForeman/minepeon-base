@@ -1,9 +1,5 @@
 <?php
-/*
-f_pools_save saves the pools data
-returns success, bytes written and new pool data
-this file should be called f_pools.php and should be built like f_settings.php
-*/
+
 header('Content-type: application/json');
 
 // Check for POST or GET data
@@ -28,16 +24,11 @@ for($i=0;$i<$poolLimit || $e < 3;$i++) {
 			"pass" => empty($_REQUEST['PASS'.$i])?"none":$_REQUEST['PASS'.$i]
 			);
 
-		// reset empty
 		$e = 0;
 	}
 	else{
-		// increment empty count
 		$e++;
 	}
-
-	// debug output
-	// echo $_REQUEST['URL'.$i.''] . $_REQUEST['USER'.$i.''] . $_REQUEST['PASS'.$i.''];
 }
 
 $written = 0;
@@ -52,11 +43,8 @@ if (!empty($dataPools)) {
 	else{
 		$data = json_decode(file_get_contents("/opt/minepeon/etc/miner.conf", true), true);
 	}
-	// Unset currect
 	unset($data['pools']);
-	// Set new pool data
 	$data['pools']=$dataPools;
-	// Write back to file
 	$written = file_put_contents("/opt/minepeon/etc/miner.conf", json_encode($data, JSON_PRETTY_PRINT));
 	$written = file_put_contents("/opt/minepeon/etc/miner.user.conf", json_encode($data, JSON_PRETTY_PRINT));
 }
