@@ -32,8 +32,8 @@ c) /usr/bin/sudo /usr/bin/systemctl stop miner ;;
 d) /usr/bin/sudo /usr/bin/systemctl start miner ;;
 e) /usr/bin/sudo /usr/bin/systemctl restart miner ;;
 f) /opt/minepeon/bin/scripts/MinePeonUIUpdate.sh ;;
-g) /usr/bin/passwd ;;
-h) /usr/bin/passwd ;;
+g) /opt/minepeon/bin/scripts/MinePeonConfigUpdate.sh ;;
+h) /opt/minepeon/bin/scripts/ArchUpdate.sh ;;
 z) exit 0
 logout ;;
 0) exit 0;;
@@ -42,5 +42,3 @@ echo "Press Enter to continue. . ." ; read ;;
 esac
 done
 
-whoami
-read -n 1
