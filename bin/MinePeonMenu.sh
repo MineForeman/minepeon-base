@@ -16,10 +16,13 @@ echo "# [e] Retart Miner                     #"
 echo "# [f] Update MinePeon                  #"
 echo "# [g] Update MinePeon Configuration    #"
 echo "# [h] Update ArchLinux                 #"
-echo "# [z] LogOut                           #"
 echo "# [0] Exit to shell                    #"
 echo "########################################"
-echo "#(Some options require your password)  #"
+echo "# [Some options require your password] #"
+echo "# [ Exit to shell and type logout to ] #"
+echo "# [           Exit System            ] #"
+echo "########################################"
+echo ""
 echo -n "Enter your menu choice [a-0]: "
 read yourch
 case $yourch in
@@ -31,7 +34,8 @@ e) /usr/bin/sudo /usr/bin/systemctl restart miner ;;
 f) /opt/minepeon/bin/scripts/MinePeonUIUpdate.sh ;;
 g) /usr/bin/passwd ;;
 h) /usr/bin/passwd ;;
-z) logout ;;
+z) exit 0
+logout ;;
 0) exit 0;;
 *) echo "Oopps!!! Please select choice 1,2,3 or 4";
 echo "Press Enter to continue. . ." ; read ;;
