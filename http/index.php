@@ -1,8 +1,8 @@
 <?php
 
 require('miner.inc.php');
-include('settings.inc.php');
 include('functions.inc.php');
+
 
 create_graph("mhsav-hour.png", "-1h", "Last Hour");
 create_graph("mhsav-day.png", "-1d", "Last Day");
@@ -41,13 +41,20 @@ $version = exec('cat /opt/minepeon/etc/version');
 //MinePeon CPU load
 $mpCPULoad = sys_getloadavg();
 
-if (isset($_GET['url']) and isset($_GET['user'])) {
+if (isset($_POST['url'])) {
 
-	$poolMessage = "Pool  Change Requested " . $_GET['url'] . $_GET['user'];
-
-	//echo $poolMessage;
-
-	promotePool($_GET['url'], $_GET['user']);
+        echo $_POST['url'];
+        
+$pools = miner('pools','')['POOLS'];
+  $pool = 0;
+   echo "changeing";
+  foreach ($pools as $key => $value) {
+    if(isset($value['User']) && $value['URL']==$_POST['url']){
+	   echo "found";
+	  miner('switchpool',$pool);
+    }
+	$pool = $pool + 1;
+  }
 
 }
 
@@ -217,12 +224,12 @@ function statsTable($devs) {
 	
 	$validDevice = true;
  
-	//   MHS5s for CGminer    MHS20s for BFGminer
+	
        if (!$dev['MHS5s'] > 1 || !$dev['MHS20s'] > 1) {
 		// not mining, not a valid device
 		$validDevice = false;
 	}
-
+        
 	if ((time() - $dev['LastShareTime']) > 500) {
 		// Only show devices that have returned a share in the past 5 minutes
 		$validDevice = false;
@@ -353,7 +360,7 @@ function poolsTable($pools) {
     <tr class='" . $rowclass . "'>
 	<td>";
 	if($poolID != 0) {
-		$table = $table . "<a href='/?url=" . $pool['URL'] . "&user=" . $pool['User'] . "'><img src='/img/up.png'></td>";
+		$table = $table . "<form name='spool' action='/' method='post'><input type='hidden' name='url' value='" . $pool['URL'] . "' /><input type='image' src='/img/up.png' name='image'></form>";
 	}
 	$table = $table . "
     <td class='text-left'>" . $poolURL[1] . "</td>
