@@ -42,8 +42,6 @@ $version = exec('cat /opt/minepeon/etc/version');
 $mpCPULoad = sys_getloadavg();
 
 if (isset($_POST['url'])) {
-
-        echo $_POST['url'];
         
 $pools = miner('pools','')['POOLS'];
   $pool = 0;
