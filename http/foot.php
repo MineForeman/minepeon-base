@@ -5,8 +5,5 @@
   <br><?php echo $lang["version"]; ?> <?=$version?>
   <?php if(empty($settings['donateAmount'])) { echo $plea; } ?>
 </footer>
-
-
-
 </body>
 </html>

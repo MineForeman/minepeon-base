@@ -1,9 +1,6 @@
 <?php
 
 include('settings.inc.php');
-
-
-
 include('head.php');
 include('menu.php');
 

@@ -14,9 +14,9 @@ if (isset($_FILES["file"]["tmp_name"])) {
 	 	rrmdir('instal_temp');		 
          if ($plugin->redirect_after != "False"){
          	header( 'Location: /plugins/' . $plugin->redirect_after ) ;
-}		 
-}
-}
+      }		 
+    }
+  }
 }
 
 if (isset($_POST["wget"])) {
@@ -30,9 +30,9 @@ if (isset($_POST["wget"])) {
 		 rrmdir('instal_temp');
          if ($plugin->redirect_after != "False"){
          header( 'Location: /plugins/' . $plugin->redirect_after ) ;
-}		 
-}
-} 
+      }		 
+    }
+  } 
 }
 
 if (isset($_POST['delpl'])) {
@@ -81,9 +81,9 @@ include('menu.php');
       <tr>
         <th>Name</th>
         <th>Made by</th>
-        <th title="Made my">Description</th>
-        <th title="Settins">Settings</th>   
-        <th title="Delete">Delete</th>  
+        <th>Description</th>
+        <th>Settings</th>   
+        <th>Delete</th>  
       </tr>
     </thead>
     <tbody>
@@ -119,10 +119,10 @@ $plugin=simplexml_load_file($file . "/plugin.xml");
 
   
 <?php
-}
-}
-}
-}
+        }
+      }
+    }
+  }
 }
 ?>   
 

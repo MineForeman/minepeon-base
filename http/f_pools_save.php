@@ -1,9 +1,5 @@
 <?php
-/*
-f_pools_save saves the pools data
-returns success, bytes written and new pool data
-this file should be called f_pools.php and should be built like f_settings.php
-*/
+
 header('Content-type: application/json');
 
 // Check for POST or GET data
@@ -14,6 +10,9 @@ if (empty($_REQUEST['saving']) or !$_REQUEST['saving']) {
 
 //initialize a limit to the number of pools that are added to the miner config file. is there an official limit?
 $poolLimit = 20;
+
+
+
 
 // Loop through all rows, stop after 3 empty rows or if poolLimit is exceeded, process the POST or GET data
 $e = 0;
@@ -28,16 +27,15 @@ for($i=0;$i<$poolLimit || $e < 3;$i++) {
 			"pass" => empty($_REQUEST['PASS'.$i])?"none":$_REQUEST['PASS'.$i]
 			);
 
-		// reset empty
+		
 		$e = 0;
 	}
 	else{
-		// increment empty count
+		
 		$e++;
 	}
 
-	// debug output
-	// echo $_REQUEST['URL'.$i.''] . $_REQUEST['USER'.$i.''] . $_REQUEST['PASS'.$i.''];
+	
 }
 
 $written = 0;
@@ -56,9 +54,15 @@ if (!empty($dataPools)) {
 	unset($data['pools']);
 	// Set new pool data
 	$data['pools']=$dataPools;
+        //CG and BFG miner api setting
+        $data['api-allow'] = "127.0.0.1";
+        $data['api-listen'] = true;
+        $data['api-allow'] = "W:127.0.0.1";
 	// Write back to file
 	$written = file_put_contents("/opt/minepeon/etc/miner.conf", json_encode($data, JSON_PRETTY_PRINT));
 	$written = file_put_contents("/opt/minepeon/etc/miner.user.conf", json_encode($data, JSON_PRETTY_PRINT));
+
+        
 }
 
 echo json_encode(array('success' => true, 'written' => $written, 'pools' => $dataPools));

@@ -1,5 +1,6 @@
 <?php
-//The language system is Work in progress
+
+include('settings.inc.php');
 if ($settings['lang'] == "no"){
 include("lang/no/lang.no.php");
 }else{
@@ -33,4 +34,3 @@ echo "<li><a href='" . $menuadd->pl_folder . "'>" . $menuadd->Menu_text . "</a><
     </ul>
   </div>
 </div>
-
