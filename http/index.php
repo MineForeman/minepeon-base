@@ -2,7 +2,7 @@
 
 require('miner.inc.php');
 include('functions.inc.php');
-
+include('settings.inc.php');
 
 create_graph("mhsav-hour.png", "-1h", "Last Hour");
 create_graph("mhsav-day.png", "-1d", "Last Day");
