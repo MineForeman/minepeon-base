@@ -1,6 +1,5 @@
 <?php
 
-include('settings.inc.php');
 if ($settings['lang'] == "no"){
 include("lang/no/lang.no.php");
 }else{
