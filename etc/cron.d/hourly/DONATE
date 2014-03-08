@@ -21,47 +21,44 @@ $poolPass = 'MinePeon_Donate';
 //$poolUser = 'minepeon.donate';
 //$poolPass = 'donate';
 
-// Load donateAmount or keep default of 15
 $donateAmount = 15;
 if(empty($settings['donateAmount'])){
 	$donateAmount = $settings['donateAmount'];
 }
 
-// Let everyone know donation is initiated
 $settings['donateActive'] = true;
+//Log lastdonate
+$settings['lastdonate'] = date('d') . "." . date('F');
 writeSettings($settings);
 
-// Append donatepool
 miner("addpool",$poolAddress . "," . $poolUser . "," . $poolPass);
 
 // Sleep for 5 secconds to avoid monitor scripts
 // Also give miner time to connect to eligius
 sleep(5);
 
-// Look for the donatePool and give it priority
 $pool = findDonatePool($poolUser);
 miner('switchpool',$pool);
 
-// Donate time!
 sleep($settings['donateAmount'] * 60);
 
-// Look for the donatePool and disable it before removing it
 $pool = findDonatePool($poolUser);
 miner('disablepool',$pool);
 miner('removepool',$pool);
 
-// Let everyone know donation ended
 $settings['donateActive'] = false;
 writeSettings($settings);
-
 
 function findDonatePool($addr){
   $pools = miner('pools','')['POOLS'];
   $donatePool = -1;
+  $pooln = 0;
   foreach ($pools as $k => $v) {
     if(isset($v['User']) && $v['User']==$addr){
-      $donatePool = $k;
+      $donatePool = $pooln;
+
     }
+      $pooln = $pooln + 1;
   }
   return $donatePool;
 }
