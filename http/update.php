@@ -69,10 +69,14 @@ echo '<script language="javascript"
   document.getElementById("output2").innerHTML="<br><div class=\'panel panel-danger\'><div class=\'panel-heading\'><h3 class=\'panel-title\'>ERROR:</h3></div><div class=\'panel-body\'>' . $output2 . '</div></div>";
     </script>';
  }
+$settings['update'] = "false"; 
+$settings['updatebranch'] = "null";
+writeSettings($settings);
 echo '<script language="javascript">
     document.getElementById("update").innerHTML="<p>Rebooting system... (might take a while)</p>";
     document.getElementById("image").innerHTML="<img src=\'/img/ok.png\' width=\'42\' height=\'42\'>";
     </script>';
+
 }else{
 echo '<script language="javascript">
     document.getElementById("update").innerHTML="<p>Your system is up to date ;)</p>";
