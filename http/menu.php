@@ -6,7 +6,7 @@ include("lang/no/lang.no.php");
 include("lang/en/lang.en.php");
 }
 ?>
-  TEST!
+  
 <div class="navbar navbar-default">
 <div class="container">
     <a class="navbar-brand" href="http://mineforeman.com/minepeon/">MinePeon</a>
