@@ -1,0 +1,25 @@
+#!/usr/bin/php
+<?php
+
+include('miner.inc.php');
+include('settings.inc.php');
+
+$donatepool = checkdonate();
+miner('disablepool',$donatepool);
+miner('removepool',$donatepool);
+echo "test";
+
+function checkdonate() {
+  $poolUser = 'MinePeon_Donate';
+  $pools = miner('pools','')['POOLS'];
+  $checkpool = -1;
+  $pooln = 0;
+  foreach ($pools as $k => $v) {
+    if(isset($v['User']) && $v['User']==$poolUser){
+      $checkpool = $pooln;
+    }
+      $pooln = $pooln + 1;
+  }
+  return $checkpool;
+}
+?>
