@@ -203,7 +203,7 @@ function statsTable($devs) {
         <th>Name</th>
         <th>ID</th>
         <th>Temp</th>
-        <th>MH/s</th>
+        <th>Hash Rate</th>
         <th>Accept</th>
         <th>Reject</th>
         <th>Error</th>
@@ -238,6 +238,14 @@ function statsTable($devs) {
 	} else {
 		$temperature = "N/A";
 	}
+        
+        if ($dev['MHSav'] > 999){
+          $hrate = $dev['MHSav'] / 1000;
+	  $hrate = number_format((float)$hrate, 2, '.', '');
+          $hrate = $hrate . " GH/s";
+        }else{
+	  $hrate = $dev['MHSav'] . " MH/s";
+        }
 	
 	if ($validDevice) {
 
@@ -250,7 +258,7 @@ function statsTable($devs) {
 	$tableRow = $tableRow . "<td>" . $dev['Name'] . "</td>
       <td>" . $dev['ID'] . "</td>
       <td>" . $temperature . "</td>
-      <td><a href='http://mineforeman.com/bitcoin-mining-calculator/?hash=" . $dev['MHSav'] . "' target='_blank'>" . $dev['MHSav'] . "</a></td>
+      <td><a href='http://mineforeman.com/bitcoin-mining-calculator/?hash=" . $dev['MHSav'] . "' target='_blank'>" . $hrate . "</a></td>
       <td>" . $dev['Accepted'] . "</td>
       <td>" . $dev['Rejected'] . " [" . round($dev['DeviceRejected%'], 2) . "%]</td>
       <td>" . $dev['HardwareErrors'] . " [" . round($dev['DeviceHardware%'], 2) . "%]</td>
@@ -267,12 +275,19 @@ function statsTable($devs) {
 		$hwErrorPercent = $hwErrorPercent + $dev['DeviceHardware%'];
 		$Utility = $Utility + $dev['Utility'];
 
-		$GLOBALS['G_MHSav'] = $MHSav . " MH/s|" . $devices . " DEV";
+
 
 	}
   }
 
-
+        if ($MHSav > 999){
+          $hrateT = $MHSav / 1000;
+	  $hrateT = number_format((float)$hrateT, 2, '.', '');
+          $hrateT = $hrateT . " GH/s";
+        }else{
+	  $hrateT = $MHSav . " MH/s";
+        }
+  $GLOBALS['G_MHSav'] = $hrateT . "|" . $devices . " DEV";
   $totalShares = $Accepted + $Rejected + $HardwareErrors;
   $tableRow = $tableRow . "
   </tbody>
@@ -281,7 +296,7 @@ function statsTable($devs) {
   <th>Totals</th>
   <th>" . $devices . "</th>
   <th></th>
-  <th><a href='http://mineforeman.com/bitcoin-mining-calculator/?hash=" . $MHSav . "' target='_blank'>" . $MHSav . "</a></th>
+  <th><a href='http://mineforeman.com/bitcoin-mining-calculator/?hash=" . $MHSav . "' target='_blank'>" . $hrateT . "</a></th>
   <th>" . $Accepted . "</th>
   <th>" . $Rejected . " [" . round(($DeviceRejected / $devices), 2) . "%]</th>
   <th>" . $HardwareErrors . " [" . round(($hwErrorPercent / $devices), 2) . "%]</th>
