@@ -28,7 +28,7 @@
   </head>
   <body>
   <div class="center-page">
-<div id="update" style="width"></div><div id="image" style="width"></div><div id="output" style="width"></div>
+<div id="update" style="width"></div><div id="image" style="width"></div><div id="output1" style="width"></div><div id="output2" style="width"></div>
   </div>
 
   </body>
@@ -43,24 +43,35 @@ echo '<script language="javascript">
     </script>';
 echo str_repeat(' ',1024*64);
 flush();
+sleep(5);
 exec('git fetch origin ' . $settings['updatebranch'] . ' 2>&1', $outputa);
 foreach ($outputa as $outputb) {
      $output = $output . $outputb;
 }
+if(substr($output,0,3) == 'err')
+ {
+echo '<script language="javascript"
+     document.getElementById("output1").innerHTML="<br><div class=\'panel panel-danger\'><div class=\'panel-heading\'><h3 class=\'panel-title\'>ERROR:</h3></div><div class=\'panel-body\'>' . $output . '</div></div>";
+    </script>';
+ }
 echo '<script language="javascript">
     document.getElementById("update").innerHTML="<p>Installing...</p>";
-    document.getElementById("output").innerHTML="<br><div class=\'panel panel-danger\'><div class=\'panel-heading\'><h3 class=\'panel-title\'>ERROR:</h3></div><div class=\'panel-body\'>' . $output . '</div></div>";
     </script>';
 echo str_repeat(' ',1024*64);
 flush();
-exec('git merge ' . $settings['updatebranch'] . ' 2>&1', $outputa);
-foreach ($outputa as $outputb) {
-     $output = $output . $outputb;
+exec('git merge origin/' . $settings['updatebranch'] . ' 2>&1', $outputa2);
+foreach ($outputa2 as $outputb2) {
+     $output2 = $output2 . $outputb2;
 }
+if(substr($output2,0,3) == 'err')
+ {
+echo '<script language="javascript"
+  document.getElementById("output2").innerHTML="<br><div class=\'panel panel-danger\'><div class=\'panel-heading\'><h3 class=\'panel-title\'>ERROR:</h3></div><div class=\'panel-body\'>' . $output2 . '</div></div>";
+    </script>';
+ }
 echo '<script language="javascript">
     document.getElementById("update").innerHTML="<p>Rebooting system... (might take a while)</p>";
     document.getElementById("image").innerHTML="<img src=\'/img/ok.png\' width=\'42\' height=\'42\'>";
-  document.getElementById("output").innerHTML="<br><div class=\'panel panel-danger\'><div class=\'panel-heading\'><h3 class=\'panel-title\'>ERROR:</h3></div><div class=\'panel-body\'>' . $output . '</div></div>";
     </script>';
 }else{
 echo '<script language="javascript">
