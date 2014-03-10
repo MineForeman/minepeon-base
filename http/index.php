@@ -45,10 +45,10 @@ if (isset($_POST['url'])) {
         
 $pools = miner('pools','')['POOLS'];
   $pool = 0;
-   echo "changeing";
+   // echo "changeing";
   foreach ($pools as $key => $value) {
     if(isset($value['User']) && $value['URL']==$_POST['url']){
-	   echo "found";
+	   // echo "found";
 	  miner('switchpool',$pool);
     }
 	$pool = $pool + 1;
