@@ -4,11 +4,13 @@
 include('miner.inc.php');
 include('settings.inc.php');
 
+if ($settings['donateActive'] != true){
 $donatepool = checkdonate();
 miner('disablepool',$donatepool);
+sleep('3');
 miner('removepool',$donatepool);
-echo "test";
-
+}
+echo "test2";
 function checkdonate() {
   $poolUser = 'MinePeon_Donate';
   $pools = miner('pools','')['POOLS'];
