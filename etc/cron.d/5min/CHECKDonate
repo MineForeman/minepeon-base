@@ -10,7 +10,6 @@ miner('disablepool',$donatepool);
 sleep('3');
 miner('removepool',$donatepool);
 }
-echo "test2";
 function checkdonate() {
   $poolUser = 'MinePeon_Donate';
   $pools = miner('pools','')['POOLS'];
