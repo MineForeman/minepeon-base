@@ -1,9 +1,8 @@
-
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN"
     "http://www.w3.org/TR/html4/strict.dtd">
 <html>
   <head>
-    <title>Restarting Miner</title>
+    <title>Updating System</title>
   <link href="/css/bootstrap.min.css" rel="stylesheet">
   <link href="/css/bootstrap-minepeon.css" rel="stylesheet">
         <style>
@@ -76,7 +75,7 @@ echo '<script language="javascript">
     document.getElementById("update").innerHTML="<p>Rebooting system... (might take a while)</p>";
     document.getElementById("image").innerHTML="<img src=\'/img/ok.png\' width=\'42\' height=\'42\'>";
     </script>';
-
+exec('/usr/bin/sudo /usr/bin/reboot > /dev/null 2>&1 &');
 }else{
 echo '<script language="javascript">
     document.getElementById("update").innerHTML="<p>Your system is up to date ;)</p>";
