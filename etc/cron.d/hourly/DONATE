@@ -8,8 +8,8 @@ $update = simplexml_load_file("http://mariogrip.com/minepeon/update.xml");
 $bra = (string)$update->branch;
 $upd = (string)$update->version;
 $upf = str_replace("\n", '', file_get_contents('/opt/minepeon/etc/version'));
-if ($upd != $upd){
-$settings['update'] = $upd; 
+if ($upd != $upf){
+$settings['update'] = "true"; 
 $settings['updatebranch'] = $bra;
 writeSettings($settings);
 }else{
@@ -56,6 +56,7 @@ sleep($settings['donateAmount'] * 60);
 
 $pool = findDonatePool($poolUser);
 miner('disablepool',$pool);
+sleep('3');
 miner('removepool',$pool);
 
 $settings['donateActive'] = false;
