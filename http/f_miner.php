@@ -1,9 +1,7 @@
 <?php
-/*
-f_copy issues a command to the api of the miner
-returns success, command, miner response and possible errors
-*/
+
 header('Content-type: application/json');
+require('miner.inc.php');
 
 // Check for POST or GET data
 if (empty($_REQUEST['command'])) {
@@ -18,31 +16,10 @@ if (!empty($_REQUEST['parameter'])) {
 	$command['parameter']=$_REQUEST['parameter'];
 }
 
-// Prepare socket
-$host = "127.0.0.1";
-$port = 4028;
+miner($command["command"], $command['parameter']);
 
-// Setup socket
-$client = stream_socket_client("tcp://$host:$port", $errno, $errorMessage);
 
-// Socket failed
-if ($client === false) {
-	$r['error']=$errno." ".$errorMessage;
-}
-// Socket success
-else{
-	fwrite($client, json_encode($command));
-	$response = stream_get_contents($client);
-	fclose($client);
-
-	// Cleanup json
-	$response = preg_replace("/[^[:alnum:][:punct:]]/","",$response);
-
-	// Add api response
-	$r = json_decode($response, true);
-}
-
-$r['success'] = ($client === false);
+$r['success'] = "true";
 $r['command'] = $command;
 echo json_encode($r);
 ?>
