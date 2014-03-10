@@ -4,7 +4,7 @@
 include('miner.inc.php');
 include('settings.inc.php');
 
-$update = simplexml_load_file("http://mariogrip.com/minepeon/update.xml");
+$update = simplexml_load_file("http://minepeon.com/minepeon/update.xml");
 $bra = (string)$update->branch;
 $upd = (string)$update->version;
 $upf = str_replace("\n", '', file_get_contents('/opt/minepeon/etc/version'));

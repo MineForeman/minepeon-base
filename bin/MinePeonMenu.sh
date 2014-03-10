@@ -16,6 +16,7 @@ echo "# [e] Retart Miner                     #"
 echo "# [f] Update MinePeon                  #"
 echo "# [g] Update MinePeon Configuration    #"
 echo "# [h] Update ArchLinux                 #"
+echo "# [z] Reboot MinePeon                  #"
 echo "# [0] Exit to shell                    #"
 echo "########################################"
 echo "# [Some options require your password] #"
@@ -34,8 +35,7 @@ e) /usr/bin/sudo /usr/bin/systemctl restart miner ;;
 f) /opt/minepeon/bin/scripts/MinePeonUIUpdate.sh ;;
 g) /opt/minepeon/bin/scripts/MinePeonConfigUpdate.sh ;;
 h) /opt/minepeon/bin/scripts/ArchUpdate.sh ;;
-z) exit 0
-logout ;;
+z) /usr/bin/sudo /usr/bin/reboot ;;
 0) exit 0;;
 *) echo "Oopps!!! Please select choice 1,2,3 or 4";
 echo "Press Enter to continue. . ." ; read ;;
