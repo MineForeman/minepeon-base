@@ -2,4 +2,3 @@ AuthUserFile /opt/minepeon/etc/uipassword
 AuthType Basic
 AuthName "MinePeon"
 Require valid-user
-php_value allow_url_fopen On
