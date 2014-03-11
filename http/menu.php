@@ -9,15 +9,14 @@ include("lang/en/lang.en.php");
   
 <div class="navbar navbar-default">
 <div class="container">
-    <a class="navbar-brand" href="http://mineforeman.com/minepeon/">MinePeon</a>
+    <a class="navbar-brand" href="http://mineforeman.com/minepeon/"><small>Beta </small>MinePeon</a>
     <ul class="nav navbar-nav">
       <li><a href="/"><?php echo $lang["status"]; ?></a></li>
       <li><a href="/pools.php"><?php echo $lang["pools"]; ?></a></li>
       <li><a href="/settings.php"><?php echo $lang["settings"]; ?></a></li>
       <li><a href="/plugins.php"><?php echo $lang["plugins"]; ?></a></li> 
       <li><a href="/about.php"><?php echo $lang["about"]; ?></a></li>
-      <li><a href="/contact.php"><?php echo $lang["contact"]; ?></a></li>
-      <li><a href="/license.php"><?php echo $lang["license"]; ?></a></li> 
+      <li><a href="http://minepeon.com/forums/">Forum</a></li>
 <?php 
    if ($handle = opendir('plugins/api_menu/')) {
         while (false !== ($entry = readdir($handle))) {
