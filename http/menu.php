@@ -16,8 +16,6 @@ include("lang/en/lang.en.php");
       <li><a href="/settings.php"><?php echo $lang["settings"]; ?></a></li>
       <li><a href="/plugins.php"><?php echo $lang["plugins"]; ?></a></li> 
       <li><a href="/about.php"><?php echo $lang["about"]; ?></a></li>
-      <li><a href="/contact.php"><?php echo $lang["contact"]; ?></a></li>
-      <li><a href="/license.php"><?php echo $lang["license"]; ?></a></li> 
 <?php 
    if ($handle = opendir('plugins/api_menu/')) {
         while (false !== ($entry = readdir($handle))) {
