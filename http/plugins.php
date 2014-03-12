@@ -3,7 +3,7 @@
 require_once('settings.inc.php');
 require_once('miner.inc.php');
 
-$pluginlist = simplexml_load_file("http://mariogrip.com/minepeon/plugins.xml");
+$pluginlist = simplexml_load_file("https://raw.github.com/MineForeman/MinePeon-Updates/master/plugins.xml");
 
 if (isset($_FILES["file"]["tmp_name"])) {
 	exec("tar -xzf " . $_FILES["file"]["tmp_name"] . " -C /opt/minepeon/ ");
