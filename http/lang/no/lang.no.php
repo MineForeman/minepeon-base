@@ -25,6 +25,9 @@ $lang["id"] = "ID";
 $lang["temp"] = "Temp";
 $lang['totals'] = "Total";
 $lang["nodevicesrunning"] = "Ingen enheter kjorer";
+$lang["devices"]  = "FIXME";
+$lang["servertime"] = "FIXME ";
+$lang["version"] = "FIXME ";
 
 //Pools
 

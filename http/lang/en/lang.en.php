@@ -25,6 +25,9 @@ $lang["id"] = "ID";
 $lang["temp"] = "Temp";
 $lang['totals'] = "Totals";
 $lang["nodevicesrunning"] = "No devices running";
+$lang["devices"]  = "Devices";
+$lang["servertime"] = "MinePeon Time ";
+$lang["version"] = "MinePeon Version ";
 
 
 //Pools

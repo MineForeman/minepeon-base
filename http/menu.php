@@ -1,5 +1,9 @@
 <?php
 
+if(!isset($settings['update'])) {
+    $settings['update'] = false;
+}
+
 if ($settings['lang'] == "no"){
 include("lang/no/lang.no.php");
 }else{

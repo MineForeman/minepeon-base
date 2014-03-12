@@ -25,9 +25,6 @@
   
 <script type="text/javascript" src="js/jquery.min.js"></script>
 <script type="text/javascript" src="js/jquery.tablesorter.js"></script>
-<script type="text/javascript" src="js/highcharts.js"></script>
-<script type="text/javascript" src="js/themes/gray.js"></script>
-<script type="text/javascript" src="js/chart.js" ></script>
 
 <script type="text/javascript">
   $(document).ready(function() {

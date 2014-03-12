@@ -222,6 +222,14 @@ function statsTable($devs) {
 	
 	$validDevice = true;
  
+	if(!isset($dev['MHS5s'])) {
+    		$dev['MHS5s'] = 0;
+	}
+
+        if(!isset($dev['MHS20s'])) {
+                $dev['MHS20s'] = 0;
+        }
+
 	
        if (!$dev['MHS5s'] > 1 || !$dev['MHS20s'] > 1) {
 		// not mining, not a valid device
