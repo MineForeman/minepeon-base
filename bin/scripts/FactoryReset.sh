@@ -8,6 +8,8 @@ fi
 
 read -p "Press enter key to continue or CTRL-C to abort"
 
+find / -type f -iname '*.old' -exec rm -f {} \+
+find / -type f -iname '*.n' -exec rm -f {} \+
 find / -type f -iname '*.pacnew' -exec rm -f {} \+
 find /var/ -type f -iname '*.1' -exec rm -f {} \+
 find /var/ -type f -iname '*.log' -exec cp /dev/null {} \+
