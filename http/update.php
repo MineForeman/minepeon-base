@@ -35,6 +35,7 @@
 
 <?php
 include('settings.inc.php');
+$error = "no";
 if ($settings['update'] == "true"){
 echo '<script language="javascript">
     document.getElementById("update").innerHTML="<p>Downloading...</p>";
@@ -49,6 +50,7 @@ foreach ($outputa as $outputb) {
 }
 if(substr($output,0,3) == 'err')
  {
+    $error = "yes";
 echo '<script language="javascript"
      document.getElementById("output1").innerHTML="<br><div class=\'panel panel-danger\'><div class=\'panel-heading\'><h3 class=\'panel-title\'>ERROR:</h3></div><div class=\'panel-body\'>' . $output . '</div></div>";
     </script>';
@@ -64,18 +66,27 @@ foreach ($outputa2 as $outputb2) {
 }
 if(substr($output2,0,3) == 'err')
  {
+     $error = "yes";
 echo '<script language="javascript"
   document.getElementById("output2").innerHTML="<br><div class=\'panel panel-danger\'><div class=\'panel-heading\'><h3 class=\'panel-title\'>ERROR:</h3></div><div class=\'panel-body\'>' . $output2 . '</div></div>";
     </script>';
  }
-$settings['update'] = "false"; 
-$settings['updatebranch'] = "null";
-writeSettings($settings);
+
+if ($error == "yes"){
+    echo '<script language="javascript">
+    document.getElementById("update").innerHTML="<p>Error... Try agian</p>";
+    document.getElementById("image").innerHTML="<img src=\'/img/error.gif\' width=\'42\' height=\'42\'>";
+    </script>';
+}else{
 echo '<script language="javascript">
-    document.getElementById("update").innerHTML="<p>Rebooting system... (might take a while)</p>";
+    document.getElementById("update").innerHTML="<p>Success, Rebooting system... (might take a while)</p>";
     document.getElementById("image").innerHTML="<img src=\'/img/ok.png\' width=\'42\' height=\'42\'>";
     </script>';
+    $settings['update'] = "false"; 
+    $settings['updatebranch'] = "null";
+    writeSettings($settings);
 exec('/usr/bin/sudo /usr/bin/reboot > /dev/null 2>&1 &');
+}
 }else{
 echo '<script language="javascript">
     document.getElementById("update").innerHTML="<p>Your system is up to date ;)</p>";
@@ -83,5 +94,6 @@ echo '<script language="javascript">
     </script>';
 }
 ?>
+
 
 
