@@ -4,11 +4,11 @@
 include('miner.inc.php');
 include('settings.inc.php');
 
-$update = simplexml_load_file("https://github.com/MineForeman/MinePeon-Updates/blob/master/update.xml");
+$update = simplexml_load_file("https://raw.github.com/MineForeman/MinePeon-Updates/master/update.xml");
 $bra = (string)$update->branch;
 $upd = (string)$update->version;
 $upf = str_replace("\n", '', file_get_contents('/opt/minepeon/etc/version'));
-if ($upd != $upf){
+if ($upd != $upf && $upd != ""){
 $settings['update'] = "true"; 
 $settings['updatebranch'] = $bra;
 writeSettings($settings);
