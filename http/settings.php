@@ -409,6 +409,7 @@ include('menu.php');
 <div class="input-group">
   <span class="input-group-addon">Donate At</span>
 <select name="donateTime" class="form-control">
+          <option <?php if ($settings['donateTime'] == "0"){echo "selected";} ?>  value="0">0</option>
           <option <?php if ($settings['donateTime'] == "1"){echo "selected";} ?> value="1">1</option>
           <option <?php if ($settings['donateTime'] == "2"){echo "selected";} ?>  value="2">2</option>
           <option <?php if ($settings['donateTime'] == "3"){echo "selected";} ?>  value="3">3</option>
@@ -432,7 +433,6 @@ include('menu.php');
           <option <?php if ($settings['donateTime'] == "21"){echo "selected";} ?>  value="21">21</option>
           <option <?php if ($settings['donateTime'] == "22"){echo "selected";} ?>  value="22">22</option>
           <option <?php if ($settings['donateTime'] == "23"){echo "selected";} ?>  value="23">23</option>
-          <option <?php if ($settings['donateTime'] == "24"){echo "selected";} ?>  value="24">24</option>
           </select>
               <span class="input-group-addon">O'Clock</span>
             </div>
