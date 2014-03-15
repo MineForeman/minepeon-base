@@ -18,11 +18,17 @@ $settings['updatebranch'] = "null";
 writeSettings($settings);
 }
 
+if ($settings['donateTime'] != ""){
+ $dTime = $settings['donateTime'];
+}else{
+ $dTime = 12;
+}
+
 if(empty($settings['donateEnable']) || !$settings['donateEnable']){
 	exit;
 }
 
-if (date('H') <> 12) {
+if (date('G') <> $dTime) {
 	exit;
 }
 
