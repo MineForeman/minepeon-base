@@ -28,7 +28,7 @@ if(empty($settings['donateEnable']) || !$settings['donateEnable']){
 	exit;
 }
 
-if (date('H') <> $dTime) {
+if (date('G') <> $dTime) {
 	exit;
 }
 
