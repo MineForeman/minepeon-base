@@ -1,8 +1,8 @@
 <?php
 
 require('miner.inc.php');
-include('functions.inc.php');
-include('settings.inc.php');
+include_once('functions.inc.php');
+include_once('settings.inc.php');
 
 create_graph("mhsav-hour.png", "-1h", "Last Hour");
 create_graph("mhsav-day.png", "-1d", "Last Day");
@@ -45,10 +45,8 @@ if (isset($_POST['url'])) {
         
 $pools = miner('pools','')['POOLS'];
   $pool = 0;
-   // echo "changeing";
   foreach ($pools as $key => $value) {
     if(isset($value['User']) && $value['URL']==$_POST['url']){
-	   // echo "found";
 	  miner('switchpool',$pool);
     }
 	$pool = $pool + 1;
@@ -226,8 +224,8 @@ function statsTable($devs) {
     		$dev['MHS5s'] = 0;
 	}
 
-        if(!isset($dev['MHS20s'])) {
-                $dev['MHS20s'] = 0;
+       if(!isset($dev['MHS20s'])) {
+               $dev['MHS20s'] = 0;
         }
 
 	
