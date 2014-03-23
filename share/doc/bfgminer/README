@@ -135,6 +135,8 @@ Optional Dependencies:
 
 BFGMiner specific configuration options:
 	--disable-avalon        Compile support for Avalon (default enabled)
+	--disable-other-drivers Build without drivers by default unless explicitly
+	                        enabled
 	--enable-cpumining      Build with cpu mining support(default disabled)
 	--enable-opencl         Compile support for OpenCL (default disabled)
 	--disable-adl           Build without ADL monitoring (default enabled)
@@ -273,7 +275,7 @@ Options for both config file and command line:
 --set-device|--set <arg> Set default parameters on devices; eg, NFY:osc6_bits=50
 --setuid <arg>      Username of an unprivileged user to run as
 --sharelog <arg>    Append share log to file
---shares <arg>      Quit after mining N shares (default: unlimited)
+--shares <arg>      Quit after mining 2^32 * N hashes worth of shares (default: unlimited)
 --show-processors   Show per processor statistics in summary
 --skip-security-checks <arg> Skip security checks sometimes to save bandwidth; only check 1/<arg>th of the time (default: never skip)
 --socks-proxy <arg> Set socks proxy (host:port) for all pools without a proxy specified
@@ -646,6 +648,15 @@ should use that in the ld.so config file above instead.
 Q: BFGMiner segfaults when I change my shell window size.
 A: Older versions of libncurses have a bug to do with refreshing a window
 after a size change. Upgrading to a new version of curses will fix it.
+
+Q: I have multiple USB stick devices but I can't get them all to work at once?
+A: Very few USB hubs deliver the promised power required to run as many devices
+as they fit if all of them draw power from USB.
+
+Q: I've plugged my devices into my USB hub but nothing shows up?
+A: RPis and Windows have incomplete or non-standard USB3 support so they may
+never work. It may be possible to get a USB3 hub to work by plugging it into a
+USB2 hub.
 
 Q: Can I mine on servers from different networks (eg smartcoin and bitcoin) at
 the same time?
