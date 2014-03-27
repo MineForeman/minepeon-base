@@ -37,8 +37,13 @@ if (isset($_POST['lang'])) {
 if (isset($_POST['userPassword1'])) {
 
 	if ($_POST['userPassword1'] <> '') {
-	
-		exec("/usr/bin/htpasswd -b /opt/minepeon/etc/uipassword minepeon " . $_POST['userPassword1']);
+        $salt = md5(uniqid(mt_rand(1, mt_getrandmax())));
+ 	$settings['loginSalt'] = $salt;
+        $password = md5($_POST['userPassword1'].$salt); 
+ 	$settings['loginPassword'] = $password;
+        $settings['loginTry'] = 0;
+        ksort($settings);
+        writeSettings($settings);
 		header('Location: /settings.php');
 		exit;
 

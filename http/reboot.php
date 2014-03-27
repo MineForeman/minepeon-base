@@ -1,3 +1,9 @@
+<?php
+include_once('functions.inc.php');
+include_once('settings.inc.php');
+this_session_start();
+login_check("quick");
+?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN"
     "http://www.w3.org/TR/html4/strict.dtd">
 <html>

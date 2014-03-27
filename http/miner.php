@@ -1,5 +1,9 @@
 <?php
-session_start();
+include_once('functions.inc.php');
+include_once('settings.inc.php');
+this_session_start();
+login_check("quick");
+
 #
 global $title, $miner, $port, $readonly, $notify, $rigs;
 global $rigipsecurity, $rigtotals, $forcerigtotals;
