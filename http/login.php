@@ -32,7 +32,7 @@ include('head.php');
 body {
   padding-top: 40px;
   padding-bottom: 40px;
-  background-color: #eee;
+  background-color: #33B5E5;
 }
 .login
 {
@@ -48,8 +48,13 @@ body {
 .logo
 {
     position: fixed;
-
-    left: 5%;
+    left: 50%;
+    top: 30%;
+    z-index: -1;
+    height: 400px;
+    margin-top: -200px;
+    width: 600px;
+    margin-left: -300px;
 
 }
 .form-signin {
@@ -66,12 +71,9 @@ body {
   padding: 10px;
   font-size: 16px;
 }
+h1{font:80px cursive;}
 </style>
 
-<div class="logo">
-<img src="img/Logo.png" height="146" widht="239">
-
-<div>
 
 
 <div class="login">
@@ -99,6 +101,9 @@ if (isset($_GET['newuser'])) {
 <?php
 }
 ?>
+<div class="logo">
+<center><h1>MinePeon</h1></center>
+</div>
       <form action="" method="POST" class="form-signin" name="login_form" role="form">
         <h2 class="form-signin-heading">Please sign in</h2>
 <div class="input-group">
