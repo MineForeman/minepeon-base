@@ -1,6 +1,10 @@
 <?php
 
 include('settings.inc.php');
+include_once('functions.inc.php');
+include_once('settings.inc.php');
+this_session_start();
+login_check("quick");
 
 $fileDate = date("YmdHis");
 

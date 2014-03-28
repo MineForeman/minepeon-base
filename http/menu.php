@@ -1,8 +1,12 @@
 <?php
 
+include_once('functions.inc.php');
+include_once('settings.inc.php');
 if(!isset($settings['update'])) {
     $settings['update'] = false;
 }
+this_session_start();
+login_check("quick");
 
 if ($settings['lang'] == "no"){
 include("lang/no/lang.no.php");
