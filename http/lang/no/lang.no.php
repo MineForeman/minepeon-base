@@ -25,9 +25,9 @@ $lang["id"] = "ID";
 $lang["temp"] = "Temp";
 $lang['totals'] = "Total";
 $lang["nodevicesrunning"] = "Ingen enheter kjorer";
-$lang["devices"]  = "FIXME";
-$lang["servertime"] = "FIXME ";
-$lang["version"] = "FIXME ";
+$lang["devices"]  = "Enheter";
+$lang["servertime"] = "server tid";
+$lang["version"] = "versjon";
 
 //Pools
 
@@ -82,7 +82,5 @@ $lang["pools"] = "Pools";
 $lang["settings"] = "Settings";
 $lang["plugins"] = "Plugins";
 $lang["about"] = "About";
-$lang["contact"] = "Contact";
-$lang["license"] = "License";
 
 ?>
