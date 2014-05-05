@@ -135,7 +135,10 @@ Optional Dependencies:
 
 BFGMiner specific configuration options:
 	--disable-avalon        Compile support for Avalon (default enabled)
+	--disable-other-drivers Build without drivers by default unless explicitly
+	                        enabled
 	--enable-cpumining      Build with cpu mining support(default disabled)
+	--disable-dualminer     Compile support for DualMiner (default enabled)
 	--enable-opencl         Compile support for OpenCL (default disabled)
 	--disable-adl           Build without ADL monitoring (default enabled)
 	--disable-bitfury       Compile support for Bitfury (default enabled)
@@ -248,7 +251,6 @@ Options for both config file and command line:
 --no-restart        Do not attempt to restart devices that hang
 --no-stratum        Disable Stratum detection
 --no-submit-stale   Don't submit shares if they are detected as stale
---no-opencl-binaries Don't attempt to use or save OpenCL kernel binaries
 --no-unicode        Don't use Unicode characters in TUI
 --noncelog <arg>    Create log of all nonces found
 --pass|-p <arg>     Password for bitcoin JSON-RPC server
@@ -273,7 +275,7 @@ Options for both config file and command line:
 --set-device|--set <arg> Set default parameters on devices; eg, NFY:osc6_bits=50
 --setuid <arg>      Username of an unprivileged user to run as
 --sharelog <arg>    Append share log to file
---shares <arg>      Quit after mining N shares (default: unlimited)
+--shares <arg>      Quit after mining 2^32 * N hashes worth of shares (default: unlimited)
 --show-processors   Show per processor statistics in summary
 --skip-security-checks <arg> Skip security checks sometimes to save bandwidth; only check 1/<arg>th of the time (default: never skip)
 --socks-proxy <arg> Set socks proxy (host:port) for all pools without a proxy specified
@@ -647,6 +649,29 @@ Q: BFGMiner segfaults when I change my shell window size.
 A: Older versions of libncurses have a bug to do with refreshing a window
 after a size change. Upgrading to a new version of curses will fix it.
 
+Q: I have multiple USB stick devices but I can't get them all to work at once?
+A: Very few USB hubs deliver the promised power required to run as many devices
+as they fit if all of them draw power from USB. Devices may use up to 2.5 watts
+of power (or 4.5 watts for USB 3 devices), and mining USB sticks usually need it
+all. You can estimate how much power your USB hub can provide by multiplying its
+power supply's output amps by volts (so, if it says 12V 2.5A, you have 12*2.5=
+30 watts).
+
+Q: I've confirmed my USB miners are powered sufficiently, but BFGMiner still
+is having problems running more than a few at once?
+A: Some USB hosts cannot deal with polling as often as miners may need for quick
+delivery of shares. On Linux, you can request putting VCOM devices in "high
+latency" mode (or rather, disabling the default "low latency" mode) using the
+setserial command:
+    setserial /dev/ttyUSB0 '^low_latency'
+You can further tweak device latency by finding the latency_timer attribute in
+sysfs.
+
+Q: I've plugged my devices into my USB hub but nothing shows up?
+A: RPis and Windows have incomplete or non-standard USB3 support so they may
+never work. It may be possible to get a USB3 hub to work by plugging it into a
+USB2 hub.
+
 Q: Can I mine on servers from different networks (eg smartcoin and bitcoin) at
 the same time?
 A: No, BFGMiner keeps a database of the block it's working on to ensure it does
@@ -715,6 +740,15 @@ Q: I'm having an issue. What debugging information should I provide?
 A: Start BFGMiner with your regular commands and add -D -T --verbose and provide
 the full startup output and a summary of your hardware, operating system, and if
 applicable, ATI driver version and ATI stream version.
+
+Q: Why isn't BFGMiner performing well or working on my Raspberry Pi?
+A: Raspberry Pis have hardware defect(s) which affect USB devices to varying
+degrees. Some devices will never be able to work on them, some work fine, and
+some require hacks to workaround the problem. One common workaround is to add
+the dwc_otg.speed=1 parameter to /boot/cmdline.txt. Note that this will slow
+down the USB bus to USB 1.1 speeds, which also affects network bandwidth since
+the Raspberry Pi uses a USB network interface. You may wish to consider
+upgrading to a BeagleBone or UDOO controller.
 
 Q: Can I mine with BFGMiner on a Mac?
 A: BFGMiner will compile on OS X, but the performance of GPU mining is
@@ -793,14 +827,14 @@ To permanently give your account the 'video' group:
 Then logout and back in again.
 
 Q: Can I mine scrypt with FPGAs or ASICs?
-A: Currently no. Bitcoin ASICs are only useful for SHA256d systems and FPGAs
-generally aren't designed to handle scrypt efficiently.
+A: BFGMiner supports scrypt mining using DualMiner USB sticks, based on the
+Gridseed GC3355 ASIC.
 
-Q: Why does BFGMiner show difficulty 0 when mining scrypt?
+Q: Why does BFGMiner show a fractional difficulty when mining scrypt?
 A: BFGMiner consistently uses pdiff measurement for difficulty everywhere,
 rather than other measurements that may exist. For scrypt, pdiff 1 is very
 difficult, and higher get exponentially harder. It is unlikely you will want to
-use pdiff 1+ with scrypt until you have FPGAs and/or ASICs for it.
+use pdiff 1+ with scrypt any time soon.
 
 Q: What is stratum and how do I use it?
 A: Stratum is a protocol designed to reduce resources for mining pools at the

@@ -1,49 +1,55 @@
 #!/usr/bin/php
 <?php
+include ('miner.inc.php');
 
-include('miner.inc.php');
-include('settings.inc.php');
+include ('settings.inc.php');
 
-if ($settings['donateActive'] != true){
-$donatepool = checkdonate();
-miner('disablepool',$donatepool);
-sleep('3');
-miner('removepool',$donatepool);
-}else{
-if ($settings['donateAmount'] != 0){
-if ($settings['donateCheck'] > 0){
-$settings['donateCheck'] = $settings['donateCheck'] - 5;
-writeSettings($settings);
-}else{
-$settings['donateCheck'] = 0;
-$settings['donateActive'] = false;
-writeSettings($settings);
-$donatepool = checkdonate();
-miner('disablepool',$donatepool);
-sleep('3');
-miner('removepool',$donatepool);
+if ($settings['donateActive'] != true) {
+    $donatepool = checkdonate();
+    miner('disablepool', $donatepool);
+    sleep('3');
+    miner('removepool', $donatepool);
 }
-}else{
-$settings['donateActive'] = false;
-writeSettings($settings);
-$donatepool = checkdonate();
-miner('disablepool',$donatepool);
-sleep('3');
-miner('removepool',$donatepool);
-}
-}
-echo "test";
-function checkdonate() {
-  $poolUser = 'MinePeon_Donate';
-  $pools = miner('pools','')['POOLS'];
-  $checkpool = -1;
-  $pooln = 0;
-  foreach ($pools as $k => $v) {
-    if(isset($v['User']) && $v['User']==$poolUser){
-      $checkpool = $pooln;
+else {
+    if ($settings['donateAmount'] != 0) {
+        if ($settings['donateCheck'] > 0) {
+            $settings['donateCheck'] = $settings['donateCheck'] - 5;
+            writeSettings($settings);
+        }
+        else {
+            $settings['donateCheck'] = 0;
+            $settings['donateActive'] = false;
+            writeSettings($settings);
+            $donatepool = checkdonate();
+            miner('disablepool', $donatepool);
+            sleep('3');
+            miner('removepool', $donatepool);
+        }
     }
-      $pooln = $pooln + 1;
-  }
-  return $checkpool;
+    else {
+        $settings['donateActive'] = false;
+        writeSettings($settings);
+        $donatepool = checkdonate();
+        miner('disablepool', $donatepool);
+        sleep('3');
+        miner('removepool', $donatepool);
+    }
 }
-?>
+
+
+function checkdonate()
+{
+    $poolUser = 'MinePeon_Donate';
+    $pools = miner('pools', '') ['POOLS'];
+    $checkpool = - 1;
+    $pooln = 0;
+    foreach($pools as $k => $v) {
+        if (isset($v['User']) && $v['User'] == $poolUser) {
+            $checkpool = $pooln;
+        }
+
+        $pooln = $pooln + 1;
+    }
+
+    return $checkpool;
+}

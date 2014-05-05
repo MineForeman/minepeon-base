@@ -60,10 +60,10 @@ $pools = miner("pools", "");
 		$validDevice = false;
 	}
         
-	if ((time() - $dev['LastShareTime']) > 1000) {
-		// Only show devices that have returned a share in the past 5 minutes
-		$validDevice = false;
-	}
+	//if ((time() - $dev['LastShareTime']) > 1000) {
+	//	// Only show devices that have returned a share in the past 5 minutes
+	//	$validDevice = false;
+	//}
 	
 	if (isset($dev['Temperature'])) {
 		$temperature = $dev['Temperature'];
