@@ -1,0 +1,30 @@
+
+.inner {
+  padding: 30px;
+
+}
+
+.mastfoot {
+  color: #999; /* IE8 proofing */
+  vertical-align: right;
+}
+
+
+@media (min-width: 768px) {
+  .mastfoot {
+    position: fixed;
+    top: 0;
+    vertical-align: right;
+  }
+  /* Handle the widths */
+
+  .mastfoot {
+    width: 100%; /* Must be percentage or pixels for horizontal alignment */
+  }
+}
+
+@media (min-width: 992px) {
+  .mastfoot {
+    width: 700px;
+  }
+}

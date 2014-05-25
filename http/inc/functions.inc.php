@@ -35,7 +35,7 @@ return "x1";
 
 function login_setup(){
 $settings = json_decode(file_get_contents("/opt/minepeon/etc/minepeon.conf", true), true);
-   if(isset($settings['loginPassword'], $settings['loginUsername'])){
+   if(isset($settings['loginPassword'])){
    return true;
  }else{
    return false;
