@@ -46,8 +46,10 @@ $pools = miner('pools','')['POOLS'];
 
 include('head.php');
 ?>
-<script src="js/jquery.min.js"> 
-  </script>
+<script src="js/jquery.min.js"></script>
+<?php
+  if ($debug == true) {
+?>
    <script type="text/javascript">
     $(document).ready(function () {
         setInterval(function () {
@@ -58,6 +60,7 @@ include('head.php');
     });
    </script>
 <?php
+}
 include('menu.php');
 ?>
 
