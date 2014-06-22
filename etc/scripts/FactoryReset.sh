@@ -42,6 +42,7 @@ rm -rf /etc/ssh/ssh_host_rsa_key.pub
 rm -rf /etc/ssh/sshd_config.pacnew
 rm -rf /etc/ssh/ssh_host_dsa_key.pub
 
+rm -rf /var/log/httpd/*
 rm -rf /opt/minepeon/var/rrd/*.rrd
 rm -rf /opt/minepeon/http/rrd/*.png
 cp /opt/minepeon/var/sql/summary.db.clean /opt/minepeon/var/sql/summary.db

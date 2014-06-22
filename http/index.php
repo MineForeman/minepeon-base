@@ -1,6 +1,6 @@
 <?php
 
-require('miner.inc.php');
+require_once('miner.inc.php');
 include_once('functions.inc.php');
 include_once('settings.inc.php');
 
@@ -29,17 +29,7 @@ function create_graph($output, $start, $title) {
   }
 }
 
-// A few globals for the title of the page
-$G_MHSav = 0;
 
-//MinePeon temperature
-$mpTemp = round(exec('cat /sys/class/thermal/thermal_zone0/temp') / 1000, 2);
-
-//MinePeon Version
-$version = exec('cat /opt/minepeon/etc/version');
-
-//MinePeon CPU load
-$mpCPULoad = sys_getloadavg();
 
 if (isset($_POST['url'])) {
         
@@ -54,15 +44,23 @@ $pools = miner('pools','')['POOLS'];
 
 }
 
-$stats = miner("devs", "");
-$status = $stats['STATUS'];
-$devs = $stats['DEVS'];
-$summary = miner("summary", "");
-$pools = miner("pools", "");
-
 include('head.php');
+?>
+<script src="js/jquery.min.js"> 
+  </script>
+   <script type="text/javascript">
+    $(document).ready(function () {
+        setInterval(function () {
+            $("#status1").load("ajax/status.php");
+            $("#miners1").load("ajax/miners.php");
+            $("#pools1").load("ajax/pools.php");
+           }, 1000);
+    });
+   </script>
+<?php
 include('menu.php');
 ?>
+
 <div class="container">
   <h2>Status</h2>
   <?php
@@ -88,71 +86,21 @@ include('menu.php');
   <?php
   }
   ?>
-  <div class="row">
-    <div class="col-lg-4">
-      <dl class="dl-horizontal">
-        <dt><?php echo $lang["MPtemp"]; ?></dt>
-        <dd><?php echo $mpTemp; ?> <small>&deg;C</small> | <?php echo $mpTemp*9/5+32; ?> <small>&deg;F</small></dd>
-        <dt><?php echo $lang["MPcpu"]; ?></dt>
-        <dd><?php echo $mpCPULoad[0]; ?> <small>[1 min]</small></dd>
-        <dd><?php echo $mpCPULoad[1]; ?> <small>[5 min]</small></dd>
-        <dd><?php echo $mpCPULoad[2]; ?> <small>[15 min]</small></dd>
-      </dl>
-    </div>
-    <div class="col-lg-4">
-      <dl class="dl-horizontal">
-        <dt><?php echo $lang["bestshare"]; ?></dt>
-        <dd><?php echo $summary['SUMMARY'][0]['BestShare']; ?></dd>
-        <dt><?php echo $lang["MPuptime"]; ?></dt>
-        <dd><?php echo secondsToWords(round($uptime[0])); ?></dd>
-        <dt><?php echo $lang["mineruptime"]; ?></dt>
-        <dd><?php echo secondsToWords($summary['SUMMARY'][0]['Elapsed']); ?></dd>
-      </dl>
-    </div>
-    <div class="col-lg-4">
-      <dl class="dl-horizontal">
-        <dt><?php echo $lang["MPversion"]; ?></dt>
-        <dd><?php echo $version; ?></dd>
-        <dt><?php echo $lang["minerversion"]; ?></dt>
-        <dd><?php echo $summary['STATUS'][0]['Description']; ?></dd>
-        <dt><?php echo $lang["donationmin"]; ?></dt>
-        <dd><?php echo $settings['donateAmount']; ?>
-      </dl>
-    </div>
-  </div>
+
+ <div id="status1"><?php include_once("ajax/status.php"); ?></div>
+
   <center>
     <a class="btn btn-default" href='/restart.php'><?php echo $lang["restartminer"]; ?></a>  
     <a class="btn btn-default" href='/reboot.php'><?php echo $lang["reboot"]; ?></a> 
     <a class="btn btn-default" href='/halt.php'><?php echo $lang["shutdown"]; ?></a>
   </center>
   <h3><?php echo $lang["pools"]; ?></h3>
-  <table id="pools" class="table table-striped table-hover">
-    <thead> 
-      <tr>
-        <th></th>
-        <th><?php echo $lang["url"]; ?></th>
-        <th><?php echo $lang["user"]; ?></th>
-        <th><?php echo $lang["status"]; ?></th>
-        <th title="Priority">Pr</th>
-        <th title="GetWorks">GW</th>
-        <th title="Accept">Acc</th>
-        <th title="Reject">Rej</th>
-        <th title="Discard">Disc</th>
-        <th title="Last Share Time"><?php echo $lang["last"]; ?></th>       
-        <th title="Difficulty 1 Shares">Diff1</th>        
-        <th title="Difficulty Accepted">DAcc</th>
-        <th title="Difficulty Rejected">DRej</th>
-        <th title="Last Share Difficulty">DLast</th>
-        <th title="Best Share"><?php echo $lang["best"]; ?></th>	
-      </tr>
-    </thead>
-    <tbody>
-      <?php echo poolsTable($pools['POOLS']); ?>
-    </tbody>
-  </table>
+
+      <div id="pools1"><?php include_once("ajax/pools.php"); ?></div>
+
 
   <h3><?php echo $lang["devices"]; ?></h3>
-  <?php echo statsTable($devs); ?>
+ <div id="miners1"><?php include_once("ajax/miners.php"); ?></div>
   <?php
   if ($debug == true) {
 	
@@ -183,6 +131,8 @@ if ($settings['donateAmount'] < 1) {
 <?php
 include('foot.php');
 
+<<<<<<< HEAD
+=======
 function statsTable($devs) {
   if(count($devs)==0){
     return "</tbody></table><div class='alert alert-danger'>No devices running</div>";
@@ -404,3 +354,4 @@ function poolsTable($pools) {
 
 }
 
+>>>>>>> 6bdf0ebfaad64dc5b1c931c45661dde24970edf6

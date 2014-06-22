@@ -1,5 +1,4 @@
 <?php
-
 include('settings.inc.php');
 include('functions.inc.php');
 $writeSettings=false;
@@ -29,7 +28,7 @@ if($_POST['password'] == $_POST['password2']){
 }
 
 include('head.php');
-include('menu.php');
+include('menu-nologin.php');
 ?>
 
 <div class="container">
